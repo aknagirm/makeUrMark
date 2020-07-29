@@ -1,0 +1,30 @@
+/* You can add global styles to this file, and also import other style files */
+
+
+.chapter-header {
+    font-size: 38px;
+    font-weight: 700;
+    padding: 10px 0px;
+}
+
+.chapter-header::before {
+    position: absolute;
+    left: 50%;
+    content: "";
+    width: 100px;
+    height: 2px;
+    background: #666;
+    bottom: -1px;
+    margin-left: -50px;
+}
+
+.chapter-header::after {
+    position: absolute;
+    left: 50%;
+    content: "";
+    width: 100px;
+    height: 2px;
+    background: #666;
+    bottom: -6px;
+    margin-left: -63px;
+}

@@ -1,0 +1,9 @@
+<div class="container-fluid popup-base py-2" *ngIf="isVisible">
+    <div @zoomInOut class="col-12 col-md-4 mx-auto my-5 login-body-container rounded">
+        <div class="btn-close rounded">
+            <button class="rounded" (click)="loginPopUpClose()"><i class="fa fa-close"></i></button>
+        </div>
+        <app-login *ngIf="formView === 'login'" (formViewRegister)="toggleView($event)"></app-login>
+        <app-registration *ngIf="formView === 'register'" (formViewRegister)="toggleView($event)"></app-registration>
+    </div>
+</div>

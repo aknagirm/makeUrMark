@@ -1,0 +1,69 @@
+
+  .tabs {
+    font-size: 17px;
+    letter-spacing: 3px;
+    font-family: Dosis;
+    font-weight: 700;
+  }
+  
+  .tabview-nav, .content {
+      min-width: 600px;
+  }
+  
+  .content {
+      max-width: 600px;
+    display: block;
+    margin-bottom: 1em;
+    background: #32557f;
+    padding: 2em 3em;
+    border-radius: .15em;
+    border: .2em solid #fff;
+    color: #fff;
+  }
+  
+  .tabview-nav {
+      position: relative;
+      z-index: 1;
+  }
+  
+  .tabview-nav > .tab-link {
+      position: relative;
+      display: inline-block;
+      padding: 0.9em 3em 1em 1em;
+      color: #fff;
+      text-decoration: none;
+      margin: 0 -.3em;
+    }
+  
+    .tabview-nav  > .tab-link::before {
+      border: .2em solid #fff;
+    }
+  
+    .tabview-nav .tab-link::before {
+      content: '';
+      position: absolute;
+      top: 0; right: 0; bottom: 0; left: 0;
+      z-index: -1;
+      border-bottom: none;
+      border-radius: .6em .6em 0 0;
+      background: #042331;
+      transform: scale(1.2, 1.5) perspective(.5em) rotateX(5deg);
+    }
+  
+  
+  .tabview-nav .tab-link.active {
+    z-index: 2;}
+  
+    .tabview-nav .tab-link.active ::before {
+      background-color: #32557f;
+      margin-bottom: -.08em;
+    }
+  
+  
+  
+  .tab-left .tabview-nav { padding-left: .3em; }
+    
+    .tab-left .tabview-nav  .tabview-nav .tab-link::before { transform-origin: bottom left; }
+
+  
+  

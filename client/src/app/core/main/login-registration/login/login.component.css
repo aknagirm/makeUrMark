@@ -1,0 +1,46 @@
+
+.login-body {
+    background-color: white;
+    z-index: 20;
+    padding: 30px 15px 10px 15px;
+    
+}
+
+
+.btn-login {
+    color: white;
+    font-weight: 600;
+    background: #042331;
+    border-radius: 100px;
+}
+
+.input-group-addon {
+    background: #7ac7bf;
+    width: 33px;
+    font-size: 20px;
+    padding: 3px 9px;
+}
+
+.text-bottom {
+    font-size: 13px;
+    text-align: center;
+    padding-top: 25px
+}
+
+
+.password-field {
+    border-right: none
+}
+
+.fa-eye, .fa-eye-slash {
+    font-size: 16px;
+    border: 1px solid #ced4da;
+    border-left: none;
+    color: #495057;
+    padding: 10px 4px
+}
+
+a {
+    cursor: pointer;
+    color: #0277bd
+}

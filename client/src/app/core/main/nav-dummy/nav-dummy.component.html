@@ -1,0 +1,86 @@
+<nav>
+    <i (click)="openSideNav()" class="fa fa-bars pl-3 sidenav-open" aria-hidden="true" ></i>
+    <a class="navbar-brand ml-3" [routerLink]="['./home']">
+        <img src="../../assets/HPSLogo.png" alt="logo.png" style="width: 90px; height: 60px;">
+    </a>
+    <ul class="nav-dropdown1" id="SideMenuBar">
+        <li><a href="#">Tution<i class="fa fa-caret-down" aria-hidden="true"></i></a>
+            <ul class="nav-dropdown2">
+                <li><a href="#">Regular Live Tution<i class="fa fa-caret-right" aria-hidden="true"></i></a>
+                    <ul class="nav-dropdown3">
+                        <li *ngFor="let eachClass of classList">
+                            <a href="#">Regular Class {{eachClass}}</a>
+                        </li>
+                    </ul>
+                </li>
+                <li><a href="#">Premium Live Tution<i class="fa fa-caret-right" aria-hidden="true"></i></a>
+                    <ul class="nav-dropdown3">
+                        <li *ngFor="let eachClass of classList">
+                            <a href="#">Premium Class {{eachClass}}</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+        <li><a href="#">Study Material</a></li>
+        <li><a href="#">Enroll<i class="fa fa-caret-down" aria-hidden="true"></i></a>
+            <ul class="nav-dropdown2">
+                <li><a href="#">Enroll as Student</a></li>
+                <li><a href="#">Enroll as Facult</a></li>
+                <li><a href="#">Login as Parent</a></li>
+            </ul>
+        </li>
+        <li><a href="#">Explore<i class="fa fa-caret-down" aria-hidden="true"></i></a>
+            <ul class="nav-dropdown2">
+                <li><a href="#">Explore as Student<i class="fa fa-caret-right" aria-hidden="true"></i></a>
+                    <ul class="nav-dropdown3">
+                        <li><a href="#">Registration</a></li>
+                        <li><a href="#">View Recorded Sessions</a></li>
+                        <li><a href="#">Question Bank</a></li>
+                        <li><a href="#">Resister for Practice test</a></li>
+                        <li><a href="#">Refer a Fried</a></li>
+                        <li><a href="#">Pay Fees</a></li>
+                        <li><a href="#">View Results</a></li>
+                        <li><a href="#">View Branch Roaster</a></li>
+                        <li><a href="#">View Holiday Calender</a></li>
+                    </ul>
+                </li>
+                <li><a href="#">Explore as Faculty<i class="fa fa-caret-right" aria-hidden="true"></i></a>
+                    <ul class="nav-dropdown3">
+                        <li><a href="#">Registration</a></li>
+                        <li><a href="#">Refer Students</a></li>
+                        <li><a href="#">Refer Teachers</a></li>
+                        <li><a href="#">View Class Roaster</a></li>
+                        <li><a href="#">Apply Leave</a></li>
+                        <li><a href="#">Record Student Attendance</a></li>
+                        <li><a href="#">Record Student Marks</a></li>
+                        <li><a href="#">Upload Question Paper</a></li>
+                        <li><a href="#">Schedule Test</a></li>
+                    </ul>
+                </li>
+                <li><a href="#">Explore as Parent<i class="fa fa-caret-right" aria-hidden="true"></i></a>
+                    <ul class="nav-dropdown3">
+                        <li><a href="#">Enroll Students</a></li>
+                        <li><a href="#">View Student Performance</a></li>
+                        <li><a href="#">View Student Attendacne</a></li>
+                        <li><a href="#">Refer Student</a></li>
+                        <li><a href="#">Refer Teacher</a></li>
+                        <li><a href="#">Pay Fees</a></li>
+                        <li><a href="#">View Recorded Sessions Test</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+        
+        <li><a href="#">More<i class="fa fa-caret-down" aria-hidden="true"></i></a>
+           <ul class="nav-dropdown2">
+                <li><a href="#">About MakeUrMark</a></li>
+                <li><a href="#">Our Success Stories</a></li>
+                <li><a href="#">Our Blog</a></li>
+                <li><a href="#">FAQ</a></li>
+            </ul>
+        </li>
+        <li><a href="#">Doubt Clearing</a></li>
+        <li><a href="#">Contact Us</a></li>
+    </ul>
+</nav>

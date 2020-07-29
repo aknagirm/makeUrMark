@@ -1,0 +1,114 @@
+<div class="container-fluid courses px-0" style="overflow: hidden; font-family: Dosis;">
+    <div class="upper-poster">
+        <img src="../../assets/homepage-wallpaper.jpg" alt="" id="cover-pic-courses">
+        <div class="col-12 row courses-total px-4">
+            <div class="col-md-8 mx-auto" style="color:white; width: 100%;">
+                <div class="animate__animated animate__slideInLeft"
+                    style="padding: 20px;background-color: rgba(0, 0, 0, 0.603);">
+                    <h1 class="px-auto my-0">
+                        <span style="color: cyan; line-height: 20px;">MakeUrMark</span>
+                    </h1>
+                    <h2>Courses Portal for <span style="font-size:40px;font-weight:800;color: cyan">Grade 6</span></h2>
+                    <hr style="border: solid 1px cyan">
+                    <p style="font-family: Geneva;font-size: 17px; line-height: 22px;">We provide you the best teachers
+                        from the recongnised institutions from all over the India.
+                        This is the best platform for the students who enjoy to learn the new things then content
+                        content
+                        content content content content content content content content content content content </p>
+                </div>
+
+            </div>
+            <div class="col-md-4" style="float:right">
+                <div class="total-package rounded shadow animate__animated animate__slideInRight">
+                    <p style="font-weight: 700;font-size: 17px;">
+                        You can get the full courses just for
+                    </p>
+                    <p style="margin:0;">
+                        <span style="font-size: 14px;text-decoration: line-through;">₹ 20000</span>
+                        <span style="color:aqua;font-size: 17px;"> 10% off</span>
+                    </p>
+                    <h1 style="font-size: 3.3rem;font-family: Candara;margin:0;color:white">₹ 17000/- </h1>
+                    <p style="font-size: 10px;">GST included</p>
+                    <div class="col-12 mt-4">
+                        <button class="join-now-btn mx-auto">PURCHASE NOW</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container-fuild" style="background: white;position: relative; top: -145px;">
+
+    <div class="mx-auto features rounded shadow">
+        <div class="col-1 px-0" style="height: 20px">
+            <img src={{bulbUrl}} alt="" id="idea-bulb" style="transform: rotateZ(-30deg);height: 75px;width: 75px;position: relative; top: -51px;">
+        </div>
+        <div class="row">
+        <div class="col-6 col-md-3">
+            <p><i class="fa fa-check" style="font-size: 28px;color: #37c386;margin-right: 1px;"></i>Interactive Live Sessions</p>
+        </div>
+        <div class="col-6 col-md-3">
+            <p><i class="fa fa-check" style="font-size: 28px;color: #37c386;margin-right: 1px;"></i>Anytime Doubt Solving</p>
+        </div>
+        <div class="col-6 col-md-3">
+            <p><i class="fa fa-check" style="font-size: 28px;color: #37c386;margin-right: 1px;"></i>One to One PI sessions</p>
+        </div>
+        <div class="col-6 col-md-3">
+            <p><i class="fa fa-check" style="font-size: 28px;color: #37c386;margin-right: 1px;"></i>Tips and Tricks for Board Exams</p>
+        </div>
+    </div>
+    </div>
+    <div class="col-12" style="padding-top: 10px; text-align:center; margin-bottom: 40px;">
+        <h2 class="chapter-header"><span style="color:#7ac7bf">Courses</span> Details</h2>
+    </div>
+
+    <div class="col-12 tabs tab-left">
+        <nav class="col-12 col-md-6 tabview-nav">
+            <a class="tab-link" (click)="checkeCourses(regular)">Regular Courses</a>
+            <a class="tab-link" style="margin-left: -8px" (click)="checkeCourses(premium)">Premium Courses</a>
+
+        </nav>
+    </div>
+    <div class="row separate-courses mx-0 px-4" style="font-family: Dosis">
+        <div class="col-md-8 pl-0 mb-4" style="position: relative;top:6px; border: 2px solid #dee2e6">
+            <app-tab-view [subjectList]= subjectList (selectedItems)="displaySelected($event)"></app-tab-view>
+        </div>
+        <div class="col-md-4" style="position: relative;top:6px;">
+            <div class="card mx-2 border shadow">
+                <div class="card-header" style="background: #37c386;">
+                    <div class="row px-2" style="justify-content: space-between;">
+                        <h4>ORDER SUMMARY</h4>
+                        <div>
+                            <span class="fa fa-shopping-cart" style="font-size: 40px;font-weight: 700;"></span>
+                            <p class="total-items">{{itemSelected.length}}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <input type="text" placeholder="Have a promo code?" class="mb-3">
+                    <table class="table checkout-summary-table">
+                        <tr>
+                            <th>ITEM SELECTED</th>
+                            <th>COST</th>
+                        </tr>
+                        <tr *ngFor="let item of itemSelected" style="font-size: 14px">
+                            <td>
+                                {{item.batchId}}
+                            </td>
+                            <td>
+                                {{item.cost}}
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="card-footer">
+                    <div class="row px-2" style="justify-content: space-between">
+                        <h5 style="font-weight:700">Grand Total: {{totalCost}}</h5>
+                        <button class="btn btn-success" (click)="securePay()">Checkout</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

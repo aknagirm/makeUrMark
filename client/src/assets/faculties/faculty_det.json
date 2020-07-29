@@ -1,0 +1,10 @@
+{
+    "facultyDet": [
+        {"id":"1","name":"Clark Kent","subject":"Chemistry","grade":"11 to 12","fbLink":"https://facebook.com","liLink":"https://linkedin.com"},
+        {"id":"2","name":"Diana Prince","subject":"Physics","grade":"11 to 12","fbLink":"https://facebook.com","liLink":"https://linkedin.com"},
+        {"id":"3","name":"Bruce Wayne","subject":"Mathematics","grade":"6 to 12","fbLink":"https://facebook.com","liLink":"https://linkedin.com"},
+        {"id":"4","name":"Jesica Jones","subject":"Biology","grade":"6 to 10","fbLink":"https://facebook.com","liLink":"https://linkedin.com"},
+        {"id":"5","name":"Barry Alen","subject":"History","grade":"11 to 12","fbLink":"https://facebook.com","liLink":"https://linkedin.com"},
+        {"id":"6","name":"Selina kyle","subject":"Geography","grade":"6 to 10","fbLink":"https://facebook.com","liLink":"https://linkedin.com"}
+    ]
+}

@@ -1,0 +1,19 @@
+<div class="container">
+  <form (ngSubmit)="onSubmit($event)" #editCoursesForm="ngForm" ngNativeValidate>
+
+    <div class="row">
+      <ng-container class="col-md-3" *ngFor="let course of courseDet.columns;let i=index;">
+        <div class="form-group ui-fluid">
+          <label for="email"><strong>{{course.label}}:</strong></label>
+          <div class="input-group">
+
+       
+        <input type={{course.type}} pInputText [(ngModel)]="courseDet[course.name]" [ngModelOptions]="{standalone: true}" class="form-g" id={{course.name}} >
+      </div>
+      </div>
+      </ng-container>
+    </div>
+      
+      <button type="submit" class="btn btn-default">Submit</button>
+  </form>
+</div>

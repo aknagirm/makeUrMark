@@ -1,0 +1,256 @@
+<div class="login-body rounded">
+    <form (ngSubmit)="onSubmit()" [ngSwitch]="switchEx" #formcontrol="ngForm">
+        <div class="col-12" style="text-align: center;font-family: dolis;">
+            <span style="font-size: 35px; font-weight: 700;">Welcome To</span><br>
+            <span style="font-size: 35px; font-weight: 700; color:#7ac7bf">MakeUrMark</span>
+        </div>
+
+        <!------------------------------Email Id---------------------------------->
+
+        <div @slideToLeft class="form-group col-11 mx-auto mb-0" *ngSwitchCase="1" style="margin-top: 30px;">
+            <strong>You are a: <span style="color: green">{{userObj.role}}</span></strong>
+            <div class="row py-2 mt-2 shadow" style="background-color:rgba(122, 199, 191, 0.24); border:#7ac7bf solid 1px">
+                <div class="col-4">
+                    <input type="radio" id="Student" name="role" [(ngModel)]="userObj.role" value="student" >
+                    <label class="pl-2" for="Student">Student</label><br>
+                </div>
+                <div class="col-4">
+                    <input type="radio" id="Parent" name="role" [(ngModel)]="userObj.role" value="parent">
+                    <label class="pl-2" for="Parent">Parent</label><br>
+                </div>
+                <div class="col-4"> 
+                    <input type="radio" id="faculty" name="role" [(ngModel)]="userObj.role" value="faculty">
+                    <label class="pl-2" for="faculty">Faculty</label>
+                </div>
+            </div>
+        </div>
+
+        <div @slideToLeft class="form-group col-11 mt-3 mx-auto mb-0" *ngSwitchCase="1">
+            <label for="email"><strong>Email Id</strong></label>
+            <div class="input-group shadow">
+                <span class="input-group-addon rounded-left"><i class="fa fa-user"></i></span>
+                <input [(ngModel)]="userObj.email" type="text" class="form-control" name="email" placeholder="Email Id"
+                    required>
+            </div>
+        </div>
+
+         <!------------------------------Mail authenticator---------------------------------->
+
+         <div @slideToLeft class="form-group col-11 mx-auto mb-0" *ngSwitchCase="2" style="margin-top: 30px;">
+            <div class="col-12" style="text-align: center; font-size: 20px">
+                <p *ngIf="mailVerified == 'matched'"><i class="fa fa-check-square-o" style="color: green"></i> Your mail has been verified</p>
+                <p *ngIf="mailVerified == 'not matched'"><i class="fa fa-close" style="color: red"></i> otp not matched</p>
+                <p *ngIf="mailVerified == 'no mail'"><i class="fa fa-close" style="color: red"></i> Mail Id not found</p>
+                <p *ngIf="mailVerified == 'expired'"><i class="fa fa-close" style="color: red"></i> OTP Expired, Please retry</p>
+            </div>
+            
+            <div *ngIf="mailVerified !='matched'">
+                <label for="otp-mail">Please enter the <strong>OTP</strong> sent to your mail for verification</label>
+                <div class="input-group">
+                    <input id="otp-mail" type="text" class="" name="otp-mail" placeholder="000000"
+                        required>
+                </div>
+                <button type="button" (click)="verifyMail()" class="col-12 btn btn-default btn-primary mt-3">verify</button>
+                <div class="row">
+                <button type="button" class="col-12 btn btn-link mt-2" (click)="switchExpChng('dec')">Change Email Id</button>
+                <a class="col-5" (click)="mailOtpGenerate()" style="margin-top: 21px; font-size:14px">Resend OTP</a>
+                <p class="col-7" style="margin-top: 21px; font-size:14px">Remaining time: <strong>{{myMailTimer}} Min</strong></p>
+                </div>
+            </div>
+        </div>
+
+        <!------------------------------First Name & Last Name---------------------------------->
+
+        <div @slideToLeft class="form-group col-11 mx-auto  mb-0" *ngSwitchCase="3" style="margin-top: 30px;">
+            <label for="firstName"><strong>First Name</strong></label>
+            <div class="input-group shadow">
+                <span class="input-group-addon rounded-left"><i class="fa fa-user"></i></span>
+                <input type='text' [(ngModel)]="userObj.firstName" class="form-control" name="firstName"
+                    placeholder="First Name" required>
+            </div>
+        </div>
+
+        <div @slideToLeft class="form-group col-11 mx-auto  mb-0" *ngSwitchCase="3">
+            <label for="lastName"><strong>Last Name</strong></label>
+            <div class="input-group shadow">
+                <span class="input-group-addon rounded-left"><i class="fa fa-user"></i></span>
+                <input type='text' [(ngModel)]="userObj.lastName" class="form-control" name="lastName"
+                    placeholder="last Name" required>
+            </div>
+        </div>
+
+
+
+        <!------------------------------Password & confirmation---------------------------------->
+
+        <div @slideToLeft class="form-group col-11 mx-auto  mb-0" *ngSwitchCase="4" style="margin-top: 30px;">
+            <label for="pwd"><strong>Password:</strong></label>
+            <div class="input-group shadow">
+                <span class="input-group-addon rounded-left"><i class="fa fa-lock"></i></span>
+                <input type={{passwordType}} [(ngModel)]="userObj.password" class="form-control password-field"
+                    name="password" placeholder="Type your password" required>
+                <span (click)="pwTypeChange()" class="fa fa-lg"
+                    [ngClass]="passwordType=='text'?'fa-eye-slash':'fa-eye'"></span>
+            </div>
+        </div>
+
+        <div @slideToLeft class="form-group col-11 mx-auto  mb-0" *ngSwitchCase="4" style="margin-top: 30px;">
+            <label for="pwd"><strong>Confirm Password:</strong></label>
+            <div class="input-group shadow">
+                <span class="input-group-addon rounded-left"><i class="fa fa-lock"></i></span>
+                <input type={{passwordType}} [(ngModel)]="userObj.passwordCheck" class="form-control password-field"
+                    name="password" placeholder="Reconfirm the password" required>
+                <span (click)="pwTypeChange()" class="fa fa-lg"
+                    [ngClass]="passwordType=='text'?'fa-eye-slash':'fa-eye'"></span>
+            </div>
+        </div>
+
+        <!------------------------------Contact Number---------------------------------->
+
+        <div @slideToLeft class="form-group col-11 mx-auto mb-0" *ngSwitchCase="5" style="margin-top: 30px;">
+            <label for="contactNumber"><strong>Contact Number</strong></label>
+            <div class="input-group shadow">
+                <span class="input-group-addon rounded-left"><i class="fa fa-phone"></i></span>
+                <input [(ngModel)]="userObj.contactNumber"  type="text" class="form-control" name="contactNumber"
+                    placeholder="+919876543210" required>
+            </div>
+        </div>
+
+        <!------------------------------Mobile Number authenticator---------------------------------->
+
+        <div @slideToLeft class="form-group col-11 mx-auto mb-0" *ngSwitchCase="6" style="margin-top: 30px;">
+            <div class="col-12" style="text-align: center; font-size: 20px">
+                <p *ngIf="numberVerified == 'matched'"><i class="fa fa-check-square-o" style="color: green"></i> Mobile Number has been verified</p>
+                <p *ngIf="numberVerified == 'not matched'"><i class="fa fa-close" style="color: red"></i> otp not matched</p>
+                <p *ngIf="numberVerified == 'no mail'"><i class="fa fa-close" style="color: red"></i> Mobile Number not found</p>
+                <p *ngIf="numberVerified == 'expired'"><i class="fa fa-close" style="color: red"></i> OTP Expired, Please retry</p>
+            </div>
+            
+            <div *ngIf="numberVerified !='matched'">
+                <label for="otp-mob">Please enter the <strong>OTP</strong> sent to your number for verification</label>
+                <div class="input-group">
+                    <input id="otp-mob" type="text" class="" name="otp-mob" placeholder="000000"
+                        required>
+                </div>
+                <button type="button" (click)="verifyNumber()" class="col-12 btn btn-default btn-primary mt-3">verify</button>
+                <div class="row">
+                <button type="button" class="col-12 btn btn-link mt-2" (click)="switchExpChng('dec')">Change Mobile Number</button>
+                <a class="col-6" (click)="mobOtpGenerate()" style="margin-top: 21px; font-size:14px">Resend OTP</a>
+                <p class="col-6" style="margin-top: 21px; font-size:14px">Remaining time: <strong>{{myMobTimer}} Min</strong></p>
+                </div>
+            </div>
+        </div>
+
+        <!------------------------------Address---------------------------------->
+
+        <div @slideToLeft class="form-group col-11 mx-auto  mb-0" *ngSwitchCase="7" style="margin-top: 30px;">
+            <label for="address1"><strong>Address Line 1</strong></label>
+            <div class="input-group shadow">
+                <span class="input-group-addon rounded-left"><i class="fa fa-home"></i></span>
+                <input type='text' [(ngModel)]="userObj.address1" class="form-control" name="address1"
+                    placeholder="Flat no/ Street Name" required>
+            </div>
+        </div>
+
+        <div @slideToLeft class="form-group col-11 mx-auto  mb-0" *ngSwitchCase="7">
+            <label for="address2"><strong>Address Line 2</strong></label>
+            <div class="input-group shadow">
+                <span class="input-group-addon rounded-left"><i class="fa fa-map-marker"></i></span>
+                <input type='text' [(ngModel)]="userObj.address2" class="form-control" name="address2"
+                    placeholder="Locality/Landmark (optional)">
+            </div>
+        </div>
+
+
+        <div @slideToLeft class="form-group col-11 mx-auto  mb-0" *ngSwitchCase="7">
+            <label for="address3"><strong>Address Line 3</strong></label>
+            <div class="input-group shadow">
+                <span class="input-group-addon rounded-left"><i class="fa fa-map-marker"></i></span>
+                <input type='text' [(ngModel)]="userObj.address3" class="form-control" name="address3"
+                    placeholder="Region/Area Pin" required>
+            </div>
+        </div>
+
+        <!------------------------------School & Board---------------------------------->
+
+        <div @slideToLeft class="form-group col-11 mx-auto  mb-0" *ngSwitchCase="8" style="margin-top: 30px;">
+            <label for="schoolName"><strong>Current School Name</strong></label>
+            <div class="input-group shadow">
+                <span class="input-group-addon rounded-left"><i class="fa fa-university"></i></span>
+                <input type='text' [(ngModel)]="userObj.schoolName" class="form-control" name="schoolName"
+                    placeholder="School name" required>
+            </div>
+        </div>
+
+        <div @slideToLeft class="form-group col-11 mx-auto  mb-0" *ngSwitchCase="8">
+            <label for="schoolCity shadow"><strong>Current School City Name</strong></label>
+            <div class="input-group">
+                <span class="input-group-addon rounded-left"><i class="fa fa-map-marker"></i></span>
+                <input type='text' [(ngModel)]="userObj.schoolCity" class="form-control" name="schoolCity"
+                    placeholder="School City Name" required>
+            </div>
+        </div>
+
+
+        <div @slideToLeft class="form-group col-11 mx-auto  mb-0" *ngSwitchCase="8">
+            <label for="schoolboard"><strong>Current Board Studying</strong></label>
+            <div class="input-group shadow">
+                <span class="input-group-addon rounded-left"><i class="fa fa-university"></i></span>
+                <input type='text' [(ngModel)]="userObj.schoolboard" class="form-control" name="schoolboard" 
+                placeholder="board" required>
+            </div>
+        </div>
+
+        <!------------------------------Grade & subjects---------------------------------->
+
+        <div @slideToLeft class="form-group col-11 mx-auto  mb-0" *ngSwitchCase="9" style="margin-top: 30px;">
+            <label for="grade"><strong>Grade you want to enroll</strong></label>
+            <div class="input-group shadow mb-3">
+                <span class="input-group-addon rounded-left"><i class="fa fa-bookmark"></i></span>
+                <!-- <input type='text' [(ngModel)]="userObj.grade" class="form-control" name="grade" placeholder="Grade"
+                    required> -->
+                    <select name="grade" id="" class="form-control"  [(ngModel)]="userObj.grade" placeholder="Select grade" required>
+                        <!-- <option value="" disabled selected hidden>Choose your grade</option> -->
+                        <option *ngFor="let grade of gradeList" value={{grade.value}}>Grade {{grade.label}}</option>
+                    </select>
+            </div>
+            
+            <strong *ngIf="userObj.grade" class="col-12pl-0">Your Selected Grade Is: 
+                <span class="badge col-2 badge-success" style="color:black; font-size: 17px;">{{userObj.grade}}</span>
+            </strong>
+        </div>
+
+        <!-- <div @slideToLeft class="form-group col-11 mx-auto  mb-0" *ngSwitchCase="9">
+            <label for="subjects"><strong>Choose your Subjects</strong></label>
+            <div class="input-group">
+                <span class="input-group-addon rounded-left"><i class="fa fa-book"></i></span>
+                <input type='text' [(ngModel)]="userObj.grade" class="form-control" name="subjects"
+                    placeholder="subjects" required>
+            </div>
+        </div> -->
+
+        <!------------------------------ReCaptha and SignUp---------------------------------->
+
+        <div class="col-10 mt-3 px-auto" *ngSwitchCase="10">
+            <re-captcha (resolved)="resolved($event)" siteKey="6LcwNbQZAAAAAPgoFn0b-768IApYKvpIjDBD7U5i"></re-captcha>
+        </div>
+
+        <div class="button-container col-12 mt-4 mx-auto">
+            <button type="submit" class="col-12 btn btn-default btn-login" *ngSwitchCase="10" 
+            [disabled]="signUpDisable">Sign Up</button>
+
+        </div>
+
+        
+        <div class="col-12" style="text-align: center;" *ngIf="notShowList.indexOf(switchEx)==-1">
+            <button type="button" class="mx-1 btn btn-link" (click)="switchExpChng('dec')" [disabled]="switchEx==1"><i class="fa fa-angle-left"></i> Prev</button>
+            <button type="button" class="mx-1 btn btn-link" (click)="switchExpChng('inc')" 
+            [disabled]="!formcontrol.form.valid || userObj.password!=userObj.passwordCheck">Next <i class="fa fa-angle-right"></i></button>
+        </div>
+    </form>
+
+    <hr class="col-10" style="border-top: 1px solid #2f2f2f; margin-top: 32px;">
+    <div class="col-11 text-bottom mx-auto">
+        <p>Already have an acount? <a (click)="toggleForm()">Sign In</a></p>
+    </div>
+</div>

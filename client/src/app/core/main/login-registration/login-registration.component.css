@@ -1,0 +1,14 @@
+.popup-base {
+    z-index: 20;
+    position: fixed;
+    top:0px;
+    background-color: rgba(10, 10, 10, 0.548);
+    box-sizing: border-box;
+    height: 100%
+}
+
+.btn-close button{
+    float: right;
+    background: white;
+    border: 0px;
+}

@@ -1,0 +1,140 @@
+#cover-pic-courses{
+    z-index: 0;
+    width: 100%;
+    opacity: 0.4;
+    animation: zoomIn 10s infinite;
+}
+
+
+.home-img-body {
+    position: relative;
+}
+
+
+.upper-poster {
+    position: relative;
+    top: 80px;
+    background-color: black;
+}
+
+.courses-total{
+    position: absolute;
+    top:12%
+}
+
+
+.total-package {
+    color:#7ac7bf;
+    background: #063247;
+    padding: 20px 0px 20px 40px;
+    border: #7ac7bf solid 1px;
+}
+
+.join-now-btn {
+    background-color: white;
+    font-family: Dosis;
+    cursor: pointer;
+    text-align: inherit;
+    font-weight: 900;
+    font-size: 20px;
+    border-color: rgba(255, 255, 255, 0);
+    border-radius: 30px;
+    padding: 10px 30px;
+    color: rgb(8, 0, 0);
+}
+
+.features {
+    position: relative;
+    top: -35px;
+    width: 80%;
+    text-align:center;
+    background-color: #063247;
+}
+
+.features p{
+    font-size: 15px;
+    font-weight: 100;
+    margin: 5px 0px;
+    padding: 10px 0px;
+    color: white
+}
+
+i {
+    font-size: 40px;
+}
+
+.animate__animated.animate__slideInRight, .animate__animated.animate__slideInLeft
+ {
+    --animate-duration: .8s;
+    --animation-timing-function: cubic-bezier(0,.64,.36,.69)
+  }
+
+@keyframes zoomIn {
+    0% {
+        transform: scale(1)
+    }
+    100% {
+        transform: scale(1.2);
+    }
+}
+
+.tab-selection-btn {
+    width: 100%;
+    border-radius: 1.25em 1.25em 0 0;
+    padding: 15px 25px;
+    border-bottom: none;
+    background: #7ac7bf;
+    float: left;
+    font-size: 17px;
+    letter-spacing: 2px;
+    font-weight: 700;
+}
+
+.nav-tabs::after{
+    position: absolute;
+    width: 66%;
+    left: 32.5%;
+    content: "";
+    height: 2px;
+    background: #666;
+    bottom: 0px;
+}
+
+
+.tab-link {
+    padding: 8px 15px;
+    background-color: #063247;
+    color: white;
+    font-size: 17px;
+    letter-spacing: 2px;
+    border: 1px solid white;
+    border-top-right-radius: 12px;
+    border-top-left-radius: 12px;
+}
+
+.checkout-summary-table th, .checkout-summary-table td {
+    padding: 0.25rem;
+}
+
+.total-items {
+    position: absolute;
+    right: 8px;
+    font-size: 16px;
+    text-align: center;
+    width: 20px;
+    border-radius: 50%;
+    background: red;
+    margin: 0px;
+    top: 6px;
+}
+
+@media only screen and (max-width: 600px) {
+    #cover-pic-courses {
+        height:130vh;
+    }
+
+    .courses-total{
+        position: absolute;
+        top:6%
+    }
+}

@@ -1,0 +1,39 @@
+
+<div class="login-body rounded">
+        <form action="onSubmit()">
+            <div class="col-12" style="text-align: center;font-family: dolis;">
+                <span style="font-size: 35px; font-weight: 700;">Welcome To</span><br>
+                <span style="font-size: 35px; font-weight: 700; color:#7ac7bf">MakeUrMark</span>
+            </div>
+            <div class="form-group col-11 mx-auto mb-0"  style="margin-top: 30px;">
+                <label for="email"><strong>USERNAME</strong></label>
+                <div class="input-group">
+                    <span class="input-group-addon rounded-left"><i class="fa fa-user"></i></span>
+                    <input id="email" type="text" class="form-control" name="email" placeholder="Email or Phone Number">
+                  </div>
+              </div>
+              <br>
+              <div class="form-group col-11 mx-auto">
+                <label for="pwd"><strong>PASSWORD:</strong></label>
+                <div class="input-group">
+                    <span class="input-group-addon rounded-left"><i class="fa fa-lock"></i></span>
+                    <input type={{passwordType}} class="form-control password-field" name="password" placeholder="Type your password">
+                    <span (click)="pwTypeChange()" class="fa fa-lg" 
+                    [ngClass]="passwordType=='text'?'fa-eye-slash':'fa-eye'"></span>
+                  </div>
+                
+              </div>
+              <div class="checkbox col-11 pt-3 mx-auto">
+                <label><input type="checkbox">Remember me</label>
+              </div>
+              <div class="button-container col-11 mt-2 mx-auto">
+              <button type="submit" class="col-12 btn btn-default btn-login">LOGIN</button>
+              </div>
+        </form>
+        <hr class="col-10" style="border-top: 1px solid #2f2f2f; margin-top: 32px;">
+        <div class="col-11 text-bottom mx-auto">
+            <p>Dont have an acount? <a (click)="toggleForm()">Sign Up</a></p>
+        </div>
+    </div>
+   
+
