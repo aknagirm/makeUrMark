@@ -62,7 +62,12 @@
 
 /*//////////////////////////// navigation bar/////////////////////// */
 
-
+#makeUrMark-logo {
+  width: 185px;
+  height: 130px;
+  position: relative;
+  top: -37px;
+}
 
 nav{
   display: flex;

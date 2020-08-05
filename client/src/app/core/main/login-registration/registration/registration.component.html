@@ -10,18 +10,18 @@
         <div @slideToLeft class="form-group col-11 mx-auto mb-0" *ngSwitchCase="1" style="margin-top: 30px;">
             <strong>You are a: <span style="color: green">{{userObj.role}}</span></strong>
             <div class="row py-2 mt-2 shadow" style="background-color:rgba(122, 199, 191, 0.24); border:#7ac7bf solid 1px">
-                <div class="col-4">
+                <div class="col-6">
                     <input type="radio" id="Student" name="role" [(ngModel)]="userObj.role" value="student" >
                     <label class="pl-2" for="Student">Student</label><br>
                 </div>
-                <div class="col-4">
+                <div class="col-6">
                     <input type="radio" id="Parent" name="role" [(ngModel)]="userObj.role" value="parent">
                     <label class="pl-2" for="Parent">Parent</label><br>
                 </div>
-                <div class="col-4"> 
+                <!-- <div class="col-4"> 
                     <input type="radio" id="faculty" name="role" [(ngModel)]="userObj.role" value="faculty">
                     <label class="pl-2" for="faculty">Faculty</label>
-                </div>
+                </div> -->
             </div>
         </div>
 
@@ -250,7 +250,8 @@
     </form>
 
     <hr class="col-10" style="border-top: 1px solid #2f2f2f; margin-top: 32px;">
-    <div class="col-11 text-bottom mx-auto">
-        <p>Already have an acount? <a (click)="toggleForm()">Sign In</a></p>
+    <div class="col-11 text-bottom mx-auto mb-2">
+        <p>Already have an acount? <a (click)="toggleForm('login')">Sign In</a></p>
+        <a (click)="toggleForm('faculty')">Join as a Faculty</a>
     </div>
 </div>

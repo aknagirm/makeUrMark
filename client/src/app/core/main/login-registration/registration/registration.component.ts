@@ -48,8 +48,8 @@ export class RegistrationComponent implements OnInit {
     this.passwordType= this.passwordType === 'text'? 'password': this.passwordType === 'password'? 'text': ''
   }
 
-  toggleForm(){
-    this.formViewRegister.emit({"formView": "login"})
+  toggleForm(option: string){
+    this.formViewRegister.emit({"formView": option})
   }
 
   switchExpChng(str: string){

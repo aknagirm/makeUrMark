@@ -7,7 +7,7 @@ import { DummyComponent } from './core/main/dummy/dummy.component';
 import { HomeComponent } from './core/main/home/home.component';
 import { HeaderUpdatedComponent } from './core/header-updated/header-updated.component';
 import { NavDummyComponent } from './core/main/nav-dummy/nav-dummy.component';
-import { PrimeModule } from './external/prime/prime.module';
+import { PrimeModule } from './external/prime.module';
 import { ExternalFilesService } from './core/services/external-files.service';
 import { BusinessCardComponent } from './reusable/business-card/business-card.component';
 import { FooterComponent } from './core/footer/footer.component';
@@ -24,6 +24,8 @@ import { AuthService } from './core/services/auth.service';
 import { CoursesComponent } from './core/main/courses/courses.component';
 import { TabViewComponent } from './reusable/tab-view/tab-view.component';
 import { EditCoursesComponent } from './core/main/courses/edit-courses/edit-courses.component';
+import { FacultyRegistrationComponent } from './core/main/login-registration/faculty-registration/faculty-registration.component';
+import { MaterialModule } from './external/material.module';
 
 
 @NgModule({
@@ -41,7 +43,8 @@ import { EditCoursesComponent } from './core/main/courses/edit-courses/edit-cour
     RegistrationComponent,
     CoursesComponent,
     TabViewComponent,
-    EditCoursesComponent
+    EditCoursesComponent,
+    FacultyRegistrationComponent
   ],
   imports: [
     BrowserModule,
@@ -49,6 +52,7 @@ import { EditCoursesComponent } from './core/main/courses/edit-courses/edit-cour
     BrowserModule,
     BrowserAnimationsModule,
     PrimeModule,
+    MaterialModule,
     HttpClientModule,
     FormsModule,
     RecaptchaModule

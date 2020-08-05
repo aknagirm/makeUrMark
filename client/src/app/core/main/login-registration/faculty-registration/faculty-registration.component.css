@@ -1,0 +1,70 @@
+.faculty-form {
+    background-color: aliceblue;
+    padding: 0px 50px 30px 30px;
+    font-family: Dosis;
+    position: relative;
+    top: 170px;
+    margin-bottom: 90px;
+}
+
+.form-container {
+    background-color: white;
+    border: #063247 solid 1px;
+    box-sizing: border-box;
+}
+
+form {
+    overflow: hidden;
+}
+
+.fa-bookmark {
+    position: absolute;
+    top: -13px;
+    color: #063247;
+    right: 22px;
+    font-size: 64px;
+}
+
+.page-number {
+    font-size: 24px;
+    color: white;
+    position: absolute;
+    top: -4px;
+    right: 30px;
+}
+
+:host ::ng-deep .ui-multiselect-items-wrapper ul{
+    max-height: 100px;
+    width: 205px;
+}
+
+
+:host ::ng-deep .ui-multiselect {
+    z-index: 5;
+    min-width: 15em;
+}
+
+:host ::ng-deep .ui-multiselected-item-token,
+:host ::ng-deep .ui-multiselected-empty-token {
+    padding: 2px 4px;
+    margin: 0 0.286em 0 0;
+    display: inline-block;
+    vertical-align:middle;
+    height: 1.857em;
+}
+
+:host ::ng-deep .ui-multiselected-item-token {
+    background: #007ad9;
+    color: #ffffff;
+}
+
+:host ::ng-deep .ui-multiselected-empty-token {
+    background: #d95f00;
+    color: #ffffff;
+}
+
+.selected-file {
+    position: relative;
+    font-size: 17px;
+    top: -14px;
+}

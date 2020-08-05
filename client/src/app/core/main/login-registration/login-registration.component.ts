@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter, OnChanges } from '@angular/core';
 import { globalAnimation } from '../../../reusable/animation/global-animation'
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login-registration',
@@ -16,7 +17,9 @@ export class LoginRegistrationComponent implements OnInit, OnChanges {
   isVisible
   formView
 
-  constructor() { }
+  constructor(
+    private route: Router
+  ) { }
 
   ngOnChanges(){
     console.log(this.callFor)
@@ -34,6 +37,12 @@ export class LoginRegistrationComponent implements OnInit, OnChanges {
 
   toggleView(event){
     this.isVisible=true
-    this.formView=event.formView
+    if(event.formView === 'faculty') {
+      this.route.navigate(['./career'])
+      this.loginPopUpClose()
+    } else {
+      this.formView=event.formView
+    }
   }
+
 }

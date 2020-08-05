@@ -2,12 +2,23 @@ const express =require('express')
 const mongoose =require('mongoose')
 const shortId= require('shortid')
 const jwt =require('jsonwebtoken')
+const multer =require('multer')
+const storage =multer.diskStorage({
+    destination: function(req, file, cb) {
+        cb(null, './uploads/')
+    },
+    filename: function(req, file, cb) {
+        cb(null, file.originalname)
+    }
+})
+const upload =multer({storage: storage})
 require('dotenv').config()
 
 const User =require('../models/user')
 
 const router =express.Router()
 const userDb = process.env.MONGOOSE_CONNECTION
+
 
 /********************************** DB connection ***********************************/
 
@@ -38,6 +49,29 @@ router.post('/register', (req,res)=>{
         }
     })
 })
+
+
+/********************************* Register a faculty *******************************************/
+
+
+router.post('/facultyRegister', upload.single('selectedCVFile'), (req,res)=>{
+    facultyDet=JSON.parse(req.body.payload)
+    facultyDet.selectedCVFile =req.file.path
+    console.log(facultyDet,req.file)
+    let faculty =new User(facultyDet)
+     faculty.save((err, user)=>{
+        if(err){
+            console.log(err)
+            res.status(500).send({msg:"Input not valid"})
+        } else {
+            let payload={userId: user._id}
+            let secret = process.env.SECRET_KEY
+            let token =jwt.sign(payload, secret)
+            res.status(200).send({msg:"new user created", token: token, name:user.firstName, role: user.role})
+        }
+    })
+})
+
 
 
 

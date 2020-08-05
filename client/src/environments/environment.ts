@@ -13,7 +13,9 @@ export const environment = {
       captchaVerify: 'http://localhost:3010/verification/captcha'
     },
     auth: {
-      register: 'http://localhost:3010/auth/register'
+      register: 'http://localhost:3010/auth/register',
+      facultyCVUpload: 'http://localhost:3010/auth/uploadCV',
+      facultyRegister: 'http://localhost:3010/auth/facultyRegister'
     },
     subjectDet: {
       subjectDetails: 'http://localhost:3010/subjectDet/subjectDetails',

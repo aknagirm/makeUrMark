@@ -17,7 +17,8 @@ export class CoursesComponent implements OnInit {
   module_endpoint = environment.server_endpoint.subjectDet
   subjectList: any
   itemSelected=[]
-  totalCost=0
+  totalSelectedCost=0
+  totalAllCost=0
 
   constructor(
     private http: HttpClient,
@@ -59,6 +60,11 @@ export class CoursesComponent implements OnInit {
       })
       ).subscribe(data=> {
           this.subjectList =data
+          this.subjectList.forEach(subject => {
+              let cost=+subject.cost
+              this.totalAllCost=cost+this.totalAllCost
+          });
+          console.log(this.subjectList)
         })
    }
 
@@ -75,15 +81,15 @@ export class CoursesComponent implements OnInit {
   }
 
   displaySelected(event){
-    this.totalCost=0
+    this.totalSelectedCost=0
     this.itemSelected=event
     this.itemSelected.forEach(item => {
       var cost =+item.cost
-      this.totalCost =this.totalCost + cost
+      this.totalSelectedCost =this.totalSelectedCost + cost
     })
   }
 
   securePay(){
-    this.route.navigate(["securePay"],{state: {amount: this.totalCost*100, name: 'Mr.Dummy'}})
+    this.route.navigate(["securePay"],{state: {amount: this.totalSelectedCost*100, name: 'Mr.Dummy'}})
   }
 }

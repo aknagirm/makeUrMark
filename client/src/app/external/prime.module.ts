@@ -7,6 +7,9 @@ import {InputNumberModule} from 'primeng/inputnumber';
 import {CalendarModule} from 'primeng/calendar';
 import {CheckboxModule} from 'primeng/checkbox';
 import {VirtualScrollerModule} from 'primeng/virtualscroller';
+import {AccordionModule} from 'primeng/accordion';
+import {FileUploadModule} from 'primeng/fileupload';
+import {MultiSelectModule} from 'primeng/multiselect';
 
 @NgModule({
   declarations: [],
@@ -18,7 +21,10 @@ import {VirtualScrollerModule} from 'primeng/virtualscroller';
     InputNumberModule,
     CalendarModule,
     CheckboxModule,
-    VirtualScrollerModule
+    VirtualScrollerModule,
+    AccordionModule,
+    FileUploadModule,
+    MultiSelectModule
   ],
   exports: [
     CarouselModule,
@@ -27,7 +33,10 @@ import {VirtualScrollerModule} from 'primeng/virtualscroller';
     InputNumberModule,
     CalendarModule,
     CheckboxModule,
-    VirtualScrollerModule
+    VirtualScrollerModule,
+    AccordionModule,
+    FileUploadModule,
+    MultiSelectModule
   ]
 })
 export class PrimeModule { }

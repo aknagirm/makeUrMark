@@ -13,9 +13,12 @@
 
 <nav>
     <i (click)="openSideNav()" class="fa fa-bars pl-3 sidenav-open" aria-hidden="true" ></i>
-    <a class="navbar-brand ml-3" [routerLink]="['./home']">
-        <img src="../../assets/HPSLogo.png" alt="logo.png" style="width: 90px; height: 60px;">
-    </a>
+    <div>
+
+        <a class="navbar-brand ml-3" [routerLink]="['./home']" >
+            <img src="../../assets/HPSLogo.png" alt="logo.png" id="makeUrMark-logo">
+        </a>
+    </div>
     <ul class="nav-dropdown1">
         <li><a href="#">Tution<i class="fa fa-caret-down" aria-hidden="true"></i></a>
             <ul class="nav-dropdown2">

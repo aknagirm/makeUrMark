@@ -1,4 +1,4 @@
-<div class="container">
+<!-- <div class="container">
   <form (ngSubmit)="onSubmit($event)" #editCoursesForm="ngForm" ngNativeValidate>
 
     <div class="row">
@@ -16,4 +16,8 @@
       
       <button type="submit" class="btn btn-default">Submit</button>
   </form>
-</div>
+</div> -->
+
+
+<p-multiSelect [options]="cars" [(ngModel)]="selectedCars1"></p-multiSelect>
+<p>Selected Cars: {{selectedCars1}}</p>
