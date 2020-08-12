@@ -1,0 +1,42 @@
+.faculty-explore-container {
+    position: relative;
+    top:170px;
+
+}
+
+
+.faculty-chapter-header {
+    color: #063247
+}
+
+hr {
+    border: #063247 solid 2px;
+}
+
+.each-form-field {
+    display: grid;
+}
+
+.context-menu ul {
+    list-style: circle;
+    color: royalblue;
+    line-height: 30px;
+}
+
+.context-menu ul>li:hover {
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+
+@media only screen and (max-width: 768px){
+    .context-menu {
+        position: relative !important;
+    }
+    .table-caption-text{
+        text-align: center !important;
+    }
+     .table-caption-search {
+        text-align: center !important;
+    }
+}

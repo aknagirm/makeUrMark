@@ -18,7 +18,7 @@ export class LoginRegistrationComponent implements OnInit, OnChanges {
   formView
 
   constructor(
-    private route: Router
+    private router: Router
   ) { }
 
   ngOnChanges(){
@@ -38,7 +38,7 @@ export class LoginRegistrationComponent implements OnInit, OnChanges {
   toggleView(event){
     this.isVisible=true
     if(event.formView === 'faculty') {
-      this.route.navigate(['./career'])
+      this.router.navigate(['./career'])
       this.loginPopUpClose()
     } else {
       this.formView=event.formView

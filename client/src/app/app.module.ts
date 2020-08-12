@@ -26,7 +26,24 @@ import { TabViewComponent } from './reusable/tab-view/tab-view.component';
 import { EditCoursesComponent } from './core/main/courses/edit-courses/edit-courses.component';
 import { FacultyRegistrationComponent } from './core/main/login-registration/faculty-registration/faculty-registration.component';
 import { MaterialModule } from './external/material.module';
+import { FacultyOptionsComponent } from './core/main/faculty-options/faculty-options.component';
+import { StructuralService } from './core/services/structural.service';
+import {MessageService} from 'primeng/api';
+import { FullCalendarModule } from '@fullcalendar/angular'; // the main connector. must go first
+import dayGridPlugin from '@fullcalendar/daygrid'; // a plugin
+import interactionPlugin from '@fullcalendar/interaction';
+import timeGridPlugin from '@fullcalendar/timegrid';
+import listPlugin from '@fullcalendar/list';
+import { FullCalenderComponent } from './reusable/full-calender/full-calender.component';
+import { NumberOnlyDirective } from './core/directives/number-only.directive';
+import { ProductCardComponent } from './reusable/product-card/product-card.component';
 
+FullCalendarModule.registerPlugins([ // register FullCalendar plugins
+  dayGridPlugin,
+  timeGridPlugin,
+  listPlugin,
+  interactionPlugin
+]);
 
 @NgModule({
   declarations: [
@@ -44,7 +61,11 @@ import { MaterialModule } from './external/material.module';
     CoursesComponent,
     TabViewComponent,
     EditCoursesComponent,
-    FacultyRegistrationComponent
+    FacultyRegistrationComponent,
+    FacultyOptionsComponent,
+    FullCalenderComponent,
+    NumberOnlyDirective,
+    ProductCardComponent
   ],
   imports: [
     BrowserModule,
@@ -55,9 +76,11 @@ import { MaterialModule } from './external/material.module';
     MaterialModule,
     HttpClientModule,
     FormsModule,
-    RecaptchaModule
+    RecaptchaModule,
+    FullCalendarModule
   ],
-  providers: [ExternalFilesService,WindowRefService, CountdownTimerService,AuthService],
+  providers: [ExternalFilesService,WindowRefService, MessageService,
+        CountdownTimerService,AuthService,StructuralService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

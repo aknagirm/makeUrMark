@@ -19,12 +19,12 @@ export class PaymentComponent implements OnInit {
   _paymentURL = 'http://localhost:3010/payment/pay'
   
   constructor(
-    private route: Router,
+    private router: Router,
     private http: HttpClient,
     private winRef: WindowRefService
   ) {
     this._window = this.winRef.nativeWindow;
-    this.paymentDet=this.route.getCurrentNavigation().extras.state
+    this.paymentDet=this.router.getCurrentNavigation().extras.state
 
   }
 
@@ -82,6 +82,6 @@ export class PaymentComponent implements OnInit {
   }
  
   paymentPopUpClose() {
-    this.route.navigate(['./courses'])
+    this.router.navigate(['./courses'])
   }
 }

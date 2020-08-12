@@ -9,12 +9,13 @@ import { environment } from '../../../environments/environment'
 })
 export class AuthService {
 
+  userObj
   isLoggedIn: boolean
   module_endpoint= environment.server_endpoint
 
   constructor(
     private http: HttpClient,
-    private route: Router
+    private router: Router
   ) { }
 
    registerUser(userObj){
@@ -61,6 +62,10 @@ export class AuthService {
 
   userIsLoggedIn(){
     let token=localStorage.getItem("token")
+  }
+
+  getCurrentUser(){
+    this.userObj={userName: "abc", role: "faculty"}
   }
 
 }

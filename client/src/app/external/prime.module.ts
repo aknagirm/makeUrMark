@@ -10,6 +10,8 @@ import {VirtualScrollerModule} from 'primeng/virtualscroller';
 import {AccordionModule} from 'primeng/accordion';
 import {FileUploadModule} from 'primeng/fileupload';
 import {MultiSelectModule} from 'primeng/multiselect';
+import {ToastModule} from 'primeng/toast';
+import {TableModule} from 'primeng/table';
 
 @NgModule({
   declarations: [],
@@ -24,7 +26,9 @@ import {MultiSelectModule} from 'primeng/multiselect';
     VirtualScrollerModule,
     AccordionModule,
     FileUploadModule,
-    MultiSelectModule
+    MultiSelectModule,
+    ToastModule,
+    TableModule
   ],
   exports: [
     CarouselModule,
@@ -36,7 +40,9 @@ import {MultiSelectModule} from 'primeng/multiselect';
     VirtualScrollerModule,
     AccordionModule,
     FileUploadModule,
-    MultiSelectModule
+    MultiSelectModule,
+    ToastModule,
+    TableModule
   ]
 })
 export class PrimeModule { }

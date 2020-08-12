@@ -22,7 +22,7 @@ export class CoursesComponent implements OnInit {
 
   constructor(
     private http: HttpClient,
-    private route: Router
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -90,6 +90,6 @@ export class CoursesComponent implements OnInit {
   }
 
   securePay(){
-    this.route.navigate(["securePay"],{state: {amount: this.totalSelectedCost*100, name: 'Mr.Dummy'}})
+    this.router.navigate(["securePay"],{state: {amount: this.totalSelectedCost*100, name: 'Mr.Dummy'}})
   }
 }

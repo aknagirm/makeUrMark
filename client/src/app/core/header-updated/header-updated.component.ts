@@ -17,8 +17,8 @@ export class HeaderUpdatedComponent implements OnInit {
   sideNavBarOpen=false
   classList=['VI','VII','VIII','IX','X','XI','XII']
   constructor(
-    private route: Router,
-    private router: ActivatedRoute
+    private router: Router,
+    private route: ActivatedRoute
   ) { }
 
   ngOnInit() {
@@ -41,7 +41,7 @@ export class HeaderUpdatedComponent implements OnInit {
 
     console.log(option)
       if(option === 'securePay'){
-        this.route.navigate(['./securePay'])
+        this.router.navigate(['./securePay'])
       }
 
       this.sideNavBarOpen=false

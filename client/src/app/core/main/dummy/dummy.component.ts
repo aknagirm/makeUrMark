@@ -3,6 +3,7 @@ import {CountdownTimerService} from '../../services/countdown-timer.service'
 import { EditCourseForm } from '../courses/edit-courses/edit-courses';
 import { Form, NgForm } from '@angular/forms';
 import {SelectItem} from 'primeng/api';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-dummy',
@@ -10,45 +11,39 @@ import {SelectItem} from 'primeng/api';
   styleUrls: ['./dummy.component.css']
 })
 export class DummyComponent implements OnInit {
-  @ViewChild('editCoursesForm',{static:true}) editCoursesForm: NgForm
-  dummyResultHeader=[0]
-  datehalf
-  cars: SelectItem[];
-  courseDet: EditCourseForm = new EditCourseForm()
+  
+  openLoginPopUp= {open: false, form: ""}
+  isLoggedIn=false
+  sideNavBarOpen=false
+  classList=['VI','VII','VIII','IX','X','XI','XII']
   constructor(
-    private counter: CountdownTimerService
-  ) {  this.cars = [
-    {label: 'Audi', value: 'Audi'},
-    {label: 'BMW', value: 'BMW'},
-    {label: 'Fiat', value: 'Fiat'},
-    {label: 'Ford', value: 'Ford'},
-    {label: 'Honda', value: 'Honda'},
-    {label: 'Jaguar', value: 'Jaguar'},
-    {label: 'Mercedes', value: 'Mercedes'},
-    {label: 'Renault', value: 'Renault'},
-    {label: 'VW', value: 'VW'},
-    {label: 'Volvo', value: 'Volvo'},
-];}
+    private counter: CountdownTimerService,
+    private router: Router
+  ) { }
 
   ngOnInit() {
-
-
   }
 
-  add(){
-    this.dummyResultHeader.push(0)
+  openSideNav(){
+    this.sideNavBarOpen= !this.sideNavBarOpen
   }
 
+  loginPopUp() {
+    this.openLoginPopUp= {open: true, form: "login"}
+  }
 
-  clicked(){
-    this.counter.startTimer("00:00:20").subscribe(
-      data =>{
-        console.log(data)
+  loginPopUpClose($event){
+    console.log("close call")
+    this.openLoginPopUp={open: false, form: ""}
+  }
+
+  navigateTo(option: string){
+
+    console.log(option)
+      if(option === 'securePay'){
+        this.router.navigate(['./securePay'])
       }
-    )
-  }
 
-  onSubmit(facultyForm2){
-    console.log(facultyForm2.value)
+      this.sideNavBarOpen=false
   }
 }

@@ -1,0 +1,220 @@
+//mixins
+@mixin align {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translateY(-50%) translateX(-50%);
+}
+
+//presentation 
+.container {
+  position: relative;
+  .page-title, .page-sub-title  {
+    color: white;
+    text-align: center;
+  }
+  .page-title {
+    margin: 30px 0 5px;
+    font-size: 30px;
+  }
+  .page-sub-title {
+    font-weight: 100;
+    margin: 0 0 30px 0;
+    font-size: 23px;
+  }
+}
+
+//variables
+$pink: #DE6262;
+$dark: #063247;
+$peach: #FFB88C;
+$green: #7ac7bf;
+
+
+/* html {
+  background: linear-gradient(45deg, $pink 10%, $peach 90%);
+  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
+  height: 100vh;
+}
+ */
+img {
+  display: block;
+  width: 100%;
+}
+
+.card-container {
+  margin: 0px 10px;
+  // /perspective: 1000;
+  //margin: 0 auto 50px;
+  //width: 400px;
+}
+
+.front, .back {
+  backface-visibility: hidden;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+  padding: 24px;
+  text-align: left;
+  box-sizing: border-box;
+  transition-delay: 0.15s;
+  transition: 0;
+}
+
+.front {
+	transform: rotateY(0deg);
+}
+
+.back {
+	transform: rotateY(180deg);
+  opacity: 0;
+  padding-top: 30px;
+  backface-visibility: visible;
+  background: $dark;
+  color: white;
+}
+
+.info {
+  font-style: italic;
+}
+
+.card {
+  position: relative;
+  height: 400px;
+  background: white;
+  border-radius: 7px;
+ // box-shadow: 0 3px 7px rgba(0, 0, 0, 0.45);
+  overflow: hidden;
+  transition: 0.5s;
+	transform-style: preserve-3d;
+  &:hover {
+    transform: rotateY(180deg);
+    .front {
+      opacity: 0;
+    }
+    .back {
+      opacity: 1;
+    }
+  }
+}
+
+hr {
+  border: solid 1px $peach;
+}
+.sub-title {
+  color: $green;
+  animation: slide-in 0.75s;
+  animation: slide-in 0.75s cubic-bezier(0.625, 0.075, 0.110, 1.165);
+  animation-timing-function: cubic-bezier(0.625, 0.075, 0.110, 1.165);
+  font-size: 15px;
+  font-weight: 500;
+  font-style: italic;
+  margin: 0 0 5px 0;
+}
+
+.title {
+  color: $dark;
+  animation: slide-in-slow 0.75s;
+  animation: slide-in-slow 0.75s cubic-bezier(0.625, 0.075, 0.110, 1.165);
+  animation-timing-function: cubic-bezier(0.625, 0.075, 0.110, 1.165);
+  font-size: 25px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.synopsis {
+  color: $green;
+  font-size: 26px;
+  font-weight: 600;
+  margin: 0 0 15px;
+}
+
+p {
+  /* color: rgba(white, 0.85);
+  font-size: 19px;
+  line-height: 1.5;
+  margin: 0 0 35px; */
+  border: white groove 0.1px;
+    border-left: 8px solid #DE6262;
+    border-radius: 6px;
+    padding: 8px 8px;
+}
+
+.btn {
+  border: 2px solid $green;
+  border-radius: 6px;
+  background: transparent;
+  display: inline-block;
+  font-size: 17px;
+  padding: 8px 20px 9px 15px;
+  color: $green;
+  transition: 0.5s;
+  margin: 0 2px 0;
+  font-weight: 400;
+  &.secondary {
+    border-color: $green;
+    color: $green;
+      &:hover {
+        background: $green;
+      }
+  }
+  &:hover {
+    cursor: pointer;
+    background: $green;
+    color: white;
+  }
+  i {
+    margin: 0 5px 0;
+  }
+}
+
+.image {
+  animation: slide-in-right 1.25s;
+  animation: slide-in-right 1.25s cubic-bezier(0.625, 0.075, 0.110, 1.165);
+  animation-timing-function: cubic-bezier(0.625, 0.075, 0.110, 1.165);
+  font-size: 35px;
+  font-weight: 600;
+  margin: 0;
+}
+
+//animation
+@keyframes slide-in {
+  0% {
+    transform: translate3d(-300px, 0, 0);
+  }
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes slide-in-slow {
+  0% {
+    transform: translate3d(-300px, 0, 0);
+  }
+  20% {
+    transform: translate3d(-300px, 0, 0);
+  }
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes slide-in-right {
+  0% {
+    transform: translate3d(400px, 0, 0);
+  }
+  30% {
+    transform: translate3d(400px, 0, 0);
+    opacity: 0;
+  }
+  40% {
+    opacity: 0;
+  }
+  100% {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+}
+

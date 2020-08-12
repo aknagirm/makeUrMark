@@ -65,15 +65,11 @@
                 </li>
                 <li><a href="#">Explore as Faculty<i class="fa fa-caret-right" aria-hidden="true"></i></a>
                     <ul class="nav-dropdown3">
-                        <li><a href="#">Registration</a></li>
-                        <li><a href="#">Refer Students</a></li>
-                        <li><a href="#">Refer Teachers</a></li>
-                        <li><a href="#">View Class Roaster</a></li>
-                        <li><a href="#">Apply Leave</a></li>
-                        <li><a href="#">Record Student Attendance</a></li>
-                        <li><a href="#">Record Student Marks</a></li>
-                        <li><a href="#">Upload Question Paper</a></li>
-                        <li><a href="#">Schedule Test</a></li>
+                        <li><a [routerLink]="['explore/faculty']" fragment="upload-material">Materials/Question Upload</a></li>
+                        <li><a [routerLink]="['explore/faculty']" fragment="schedule-test">Schedule Test</a></li>
+                        <li><a [routerLink]="['explore/faculty']" fragment="record-marks">Record Students' Marks</a></li>
+                        <li><a [routerLink]="['explore/faculty']" fragment="refer-student">Refer Student</a></li>
+                        <li><a [routerLink]="['explore/faculty']" fragment="refer-faculty">Refer Faculty</a></li>
                     </ul>
                 </li>
                 <li><a href="#">Explore as Parent<i class="fa fa-caret-right" aria-hidden="true"></i></a>
@@ -102,6 +98,9 @@
     </ul>
     <a><button class="logout-button py-1 px-4"  (click)="loginPopUp()">Login</button></a>
 </nav>
+
+
+<!---------------------------------Side bar---------------------------------->
 
  <div @slideLeftRight class="sidebar" id="sideMenuBar" *ngIf="sideNavBarOpen">
     <ul class="dropdown1">
@@ -133,9 +132,9 @@
                 <li><a href="#">Login as Parent</a></li>
             </ul>
         </li>
-        <li><a href="#">Explore<i class="fa fa-caret-down" aria-hidden="true"></i></a>
+        <li><span class="dropdown-link">Explore<i class="fa fa-caret-down" aria-hidden="true"></i></span>
             <ul class="dropdown2">
-                <li><a href="#">Explore as Student<i class="fa fa-caret-down" aria-hidden="true"></i></a>
+                <li><span class="dropdown-link">Explore as Student<i class="fa fa-caret-down" aria-hidden="true"></i></span>
                     <ul class="dropdown3">
                         <li><a href="#">Registration</a></li>
                         <li><a href="#">View Recorded Sessions</a></li>
@@ -148,20 +147,16 @@
                         <li><a href="#">View Holiday Calender</a></li>
                     </ul>
                 </li>
-                <li><a href="#">Explore as Faculty<i class="fa fa-caret-down" aria-hidden="true"></i></a>
+                <li><span class="dropdown-link">Explore as Faculty<i class="fa fa-caret-down" aria-hidden="true"></i></span>
                     <ul class="dropdown3">
-                        <li><a href="#">Registration</a></li>
-                        <li><a href="#">Refer Students</a></li>
-                        <li><a href="#">Refer Teachers</a></li>
-                        <li><a href="#">View Class Roaster</a></li>
-                        <li><a href="#">Apply Leave</a></li>
-                        <li><a href="#">Record Student Attendance</a></li>
-                        <li><a href="#">Record Student Marks</a></li>
-                        <li><a href="#">Upload Question Paper</a></li>
-                        <li><a href="#">Schedule Test</a></li>
+                        <li><a [routerLink]="['explore/faculty']" fragment="upload-material">Materials/Question Upload</a></li>
+                        <li><a [routerLink]="['explore/faculty']" fragment="schedule-test">Schedule Test</a></li>
+                        <li><a [routerLink]="['explore/faculty']" fragment="record-marks">Record Students' Marks</a></li>
+                        <li><a [routerLink]="['explore/faculty']" fragment="refer-student">Refer Student</a></li>
+                        <li><a [routerLink]="['explore/faculty']" fragment="refer-faculty">Refer Faculty</a></li>
                     </ul>
                 </li>
-                <li><a href="#">Explore as Parent<i class="fa fa-caret-down" aria-hidden="true"></i></a>
+                <li><span class="dropdown-link">Explore as Parent<i class="fa fa-caret-down" aria-hidden="true"></i></span>
                     <ul class="dropdown3">
                         <li><a href="#">Enroll Students</a></li>
                         <li><a href="#">View Student Performance</a></li>
@@ -175,7 +170,7 @@
             </ul>
         </li>
         
-        <li><a href="#">More<i class="fa fa-caret-down" aria-hidden="true"></i></a>
+        <li><span class="dropdown-link">More<i class="fa fa-caret-down" aria-hidden="true"></i></span>
             <ul class="dropdown2">
                 <li><a href="#">About MakeUrMark</a></li>
                 <li><a href="#">Our Success Stories</a></li>

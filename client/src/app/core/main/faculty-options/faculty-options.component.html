@@ -1,0 +1,360 @@
+<div class="container faculty-explore-container">
+    <div class="row">
+        <div class="col-md-3 order-md-1 context-menu">
+            <div class="context-menu position-fixed">
+                <p># CONTENTS</p>
+                <ul>
+                    <li (click)="scrollTo('introduction')">Introduction</li>
+                    <li (click)="scrollTo('upload-material')">Upload Materials/Question Paper</li>
+                    <li (click)="scrollTo('schedule-test')">Schedule Test</li>
+                    <li (click)="scrollTo('record-marks')">Record Student Marks</li>
+                    <li (click)="scrollTo('refer-student')">Refer Student</li>
+                    <li (click)="scrollTo('refer-faculty')">Refer Faculty</li>
+                </ul>
+            </div>
+
+        </div>
+
+
+        <div class="col-md-9 order-md-0 col-md-9 main-menu-container border-right">
+
+            <div class="col-12 mb-5" id="introduction">
+                <h1 class="faculty-chapter-header">Introduction</h1>
+                <div style="font-size: 18px; line-height: 30px;">
+                    <p>
+                        Welcome to MakeUrMark Faculty Explore! Here you can do required task using below portal.
+                        You can use the context menu to skip to the specific location. You can do the below mentioned
+                        task in this portal.
+                    </p>
+                    <ul>
+                        <li>Upload Materials/Question Paper</li>
+                        <li>Schedule Test</li>
+                        <li>Record Student Marks</li>
+                        <li>Refer Student</li>
+                        <li>Refer Faculty</li>
+                    </ul>
+                    <small>* For something else, please contact admin or use Contact Us portal.</small>
+                </div>
+            </div>
+
+            <hr>
+
+<!---------------------------------------------Upload Material------------------------------------------------->
+
+            <div class="col-12 my-5" id="upload-material">
+                <h2 class="faculty-chapter-header">Upload Material/Question Paper</h2>
+                <p-toast position="center" key="uploadMaterial"></p-toast>
+                <form #uploadMaterialForm="ngForm" ngNativeValidate>
+                    <div class="row">
+                        <div class="col-6 my-4 each-form-field">
+                            <mat-label class="my-2 mr-3"><strong>*Select Grade</strong></mat-label>
+                            <p-dropdown autoWidth="false" [style]="{'width':'100%','z-index':'5'}" required
+                                [options]="allGradesSubjects?.grades" name="grade" [(ngModel)]="uploadMaterial.grade"
+                                placeholder="Select Grade" optionLabel="label" [showClear]="true">
+                            </p-dropdown>
+                        </div>
+                        <div class="col-6 my-4 each-form-field">
+                            <mat-label class="my-2 mr-3"><strong>*Select Subject</strong></mat-label>
+                            <p-dropdown autoWidth="false" [style]="{'width':'100%','z-index':'5'}" required
+                                [disabled]="!uploadMaterial.grade" [options]="uploadMaterial.grade?.subjects"
+                                name="subject" [(ngModel)]="uploadMaterial.subject" placeholder="Select Subject"
+                                optionLabel="label" [showClear]="true">
+                            </p-dropdown>
+                        </div>
+                        <div class="col-12 my-4 each-form-field">
+                            <mat-label class="my-2 mr-3"><strong>*Chapters/Topics</strong></mat-label>
+                            <textarea required pInputTextarea name="chapters"
+                                [(ngModel)]="uploadMaterial.chapters"></textarea>
+                        </div>
+                        <div class="col-12 my-4">
+                            <mat-label class="my-2 mr-3"><strong>*Select Material Type</strong></mat-label>
+                            <mat-radio-group aria-label="Select an option" required name="materialType" required
+                                [(ngModel)]="uploadMaterial.materialType">
+                                <mat-radio-button class="mt-3 col-12 mr-4" value="study">Study Material
+                                </mat-radio-button>
+                                <mat-radio-button class="mt-2 col-12 mr-4" value="question">Question Paper
+                                </mat-radio-button>
+                                <mat-radio-button class="mt-2 col-12 mr-4" value="others">Others</mat-radio-button>
+                            </mat-radio-group>
+                        </div>
+                        <div class="col-12 my-4">
+                            <mat-label class="my-2 mr-3"><strong>*Upload Material</strong></mat-label>
+                            <input style="display:none" type="file" #materialFile name="selectedMaterial"
+                                (change)="onMaterileSelected($event)">
+                            <button class="col-4 col-md-2 btn btn-success shadow border" (click)="materialFile.click()">
+                                <i style="font-weight:700;" class="fa fa-upload "> Select File</i>
+                            </button>
+                            <p class="col-12 my-1 selected-file pl-0">
+                                Selected File: {{selectedMaterial? selectedMaterial.name: 'none'}}
+                            </p>
+                        </div>
+                        <div class="col-12 mt-4">
+                            <button class="mx-auto col-4 col-md-2 btn btn-success"
+                                (click)="onMaterialSubmit(uploadMaterialForm)"
+                                [disabled]="uploadMaterialForm.invalid || !selectedMaterial">Submit</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <hr>
+
+<!---------------------------------------------Schedule Test------------------------------------------------->
+
+            <div class="col-12 my-5" id="schedule-test">
+                <h2 class="faculty-chapter-header">Schedule Test</h2>
+                <p-toast position="center" key="scheduleTest"></p-toast>
+                <form #scheduleTestForm="ngForm" ngNativeValidate>
+                    <div class="row">
+                        <div class="col-6 my-4 each-form-field">
+                            <mat-label class="my-2 mr-3"><strong>*Select Grade</strong></mat-label>
+                            <p-dropdown autoWidth="false" [style]="{'width':'100%','z-index':'5'}" required
+                                [options]="allGradesSubjects?.grades" name="grade" [(ngModel)]="scheduleTest.grade"
+                                placeholder="Select Grade" optionLabel="label" [showClear]="true">
+                            </p-dropdown>
+                        </div>
+                        <div class="col-6 my-4 each-form-field">
+                            <mat-label class="my-2 mr-3"><strong>*Select Subject</strong></mat-label>
+                            <p-dropdown autoWidth="false" [style]="{'width':'100%', 'z-index':'5'}" required
+                                [disabled]="!scheduleTest.grade" [options]="scheduleTest.grade?.subjects" name="subject"
+                                [(ngModel)]="scheduleTest.subject" placeholder="Select Subject" optionLabel="label"
+                                [showClear]="true">
+                            </p-dropdown>
+                        </div>
+                        <div class="col-12 my-4 each-form-field">
+                            <mat-label class="my-2 px-0 mr-3"><strong>*Test Syllabus</strong></mat-label>
+                            <textarea required pInputTextarea name="syllabus"
+                                [(ngModel)]="scheduleTest.syllabus"></textarea>
+                        </div>
+
+                        <div class="col-6 my-4 each-form-field">
+                            <mat-label class="my-2 px-0 mr-3"><strong>*Test Date & Time</strong></mat-label>
+                            <p-calendar required [style]="{'width':'100%'}" [inputStyle]="{'width':'100%'}"
+                                [(ngModel)]="scheduleTest.testDateTime" name="testDateTime" [showTime]="true"
+                                inputId="time"></p-calendar>
+                        </div>
+
+                        <div class="col-6 my-4 each-form-field">
+                            <mat-label class="my-2 px-0 mr-3"><strong>*Duration</strong></mat-label>
+                            <input numberOnly required style="width:100%" type="text" placeholder="in min (ex: 90)" pInputText
+                                name="duration" [(ngModel)]="scheduleTest.duration" />
+                        </div>
+
+                        <div class="col-6 my-4 each-form-field">
+                            <mat-label class="my-2 px-0 mr-3"><strong>*Full Marks</strong></mat-label>
+                            <input numberOnly required style="width:100%" type="text" name="fullMarks" pInputText
+                                [(ngModel)]="scheduleTest.fullMarks" />
+                        </div>
+
+                        <div class="col-12 mt-4">
+                            <button class="mx-auto col-4 col-md-2 btn btn-success"
+                                (click)="onScheduleTestSubmit(scheduleTestForm)"
+                                [disabled]="scheduleTestForm.invalid">Submit</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <hr>
+
+<!------------------------------------------Record Students' Marks---------------------------------------------->
+
+            <div class="col-12 my-5" id="record-marks">
+                <h2 class="faculty-chapter-header">Record Students' Marks</h2>
+                <p-toast position="center" key="recordMarks"></p-toast>
+                <form #recordMarksForm="ngForm" ngNativeValidate>
+
+                    <div class="row">
+                        <div class="col-6 my-4 each-form-field">
+                            <mat-label class="my-2 mr-3"><strong>Select Grade</strong></mat-label>
+                            <p-dropdown autoWidth="false" [style]="{'width':'100%','z-index':'5'}" name="selectGrade"
+                                [options]="allGradesSubjects?.grades" [(ngModel)]="recordMarks.grade"
+                                optionLabel="label" placeholder="Select Grade" [showClear]="true"
+                                (onChange)="getTestIdList()">
+                            </p-dropdown>
+                        </div>
+                        <div class="col-6 my-4 each-form-field">
+                            <mat-label class="my-2 mr-3"><strong>Select Subject</strong></mat-label>
+                            <p-dropdown autoWidth="false" [style]="{'width':'100%','z-index':'6'}" #subject
+                                [disabled]="!recordMarks.grade" [options]="recordMarks.grade?.subjects" name="subject"
+                                [(ngModel)]="recordMarks.subject" placeholder="Select Subject" optionLabel="label"
+                                [showClear]="true" (onChange)="getTestIdList()">
+                            </p-dropdown>
+                        </div>
+
+                        <div class="col-6 my-4 each-form-field">
+                            <mat-label class="my-2 px-0 mr-3"><strong>Test Date</strong></mat-label>
+                            <p-calendar [style]="{'width':'100%'}" [inputStyle]="{'width':'100%'}"
+                                [(ngModel)]="recordMarks.testDate" name="testDate" (onSelect)="getTestIdList()">
+                            </p-calendar>
+                        </div>
+
+                        <div class="col-6 my-4 each-form-field">
+                            <mat-label class="my-2 mr-3"><strong>Select Test Id</strong></mat-label>
+                            <p-dropdown autoWidth="false" [style]="{'width':'100%','z-index':'5'}"
+                                [options]="testSearchedObj?.details" name="selectTestIdDrop"
+                                [disabled]="!recordMarks.subject || !recordMarks.testDate"
+                                [(ngModel)]="recordMarks.testId" placeholder="Select Test Id" [showClear]="true">
+                            </p-dropdown>
+                        </div>
+
+                        <div class="col-12" style="text-align: center;">
+                            <h4 class="faculty-chapter-header">Or</h4>
+                        </div>
+
+                        <div class="col-6 my-4 each-form-field">
+                            <mat-label class="my-2 mr-3"><strong>Type Test Id</strong></mat-label>
+                            <input type="text" pInputText [(ngModel)]="recordMarks.testId" name="selectTestIdDirect" />
+                        </div>
+
+                       <div class="col-12 mt-4">
+                            <button class="mx-auto col-4 col-md-2 btn btn-success"
+                                (click)="searchStudents(recordMarks.testId)"
+                                [disabled]="!recordMarks.testId">Search</button>
+                        </div>
+                    </div>
+                </form>
+                <div class="student-marks-table mt-5" *ngIf="enrolledStudentList">
+                    <div *ngIf="enrolledStudentList.obtainedMarks.length<1">
+                        <p class="text-danger">
+                            No student was enrolled for this test
+                        </p>
+                    </div>
+                    <div *ngIf="enrolledStudentList.obtainedMarks.length>0">
+                        <p-table #marksTable [value]="enrolledStudentList?.obtainedMarks" [paginator]="true" [rows]="5"
+                            [showCurrentPageReport]="true" [globalFilterFields]="['userName','name','marks']">
+                            <ng-template pTemplate="caption">
+                                <div class="table-caption row">
+                                    <div class="table-caption-text col-md-6" style="text-align: left; font-size: 18px;">
+                                        UPDATE STUDENTS' MARKS HERE
+                                    </div>
+                                    <div class="table-caption-search col-md-6" style="text-align: right;">
+                                        <span class="p-input-icon-left" style="text-align: right">
+                                            <input pInputText type="text"
+                                                (input)="marksTable.filterGlobal($event.target.value, 'contains')"
+                                                placeholder="Global Search" />
+                                        </span>
+                                    </div>
+                                </div>
+                            </ng-template>
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th pSortableColumn="userName">User Name/Email<p-sortIcon field="userName">
+                                        </p-sortIcon>
+                                    </th>
+                                    <th pSortableColumn="name">Full Name<p-sortIcon field="name"></p-sortIcon>
+                                    </th>
+                                    <th pSortableColumn="marks">Marks Obtained<p-sortIcon field="marks"></p-sortIcon>
+                                    </th>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-student>
+                                <tr>
+                                    <td>{{student.userName}}</td>
+                                    <td>{{student.fullName}}</td>
+                                    <td pEditableColumn>
+                                        <p-cellEditor>
+                                            <ng-template pTemplate="input">
+                                                <input pInputText type="text" [(ngModel)]="student.marks">
+                                            </ng-template>
+                                            <ng-template pTemplate="output">
+                                                {{student.marks}}
+                                            </ng-template>
+                                        </p-cellEditor>
+                                    </td>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="summary">
+                                <div class="row">
+                                    <div class="table-caption-text col-md-6" style="text-align: left; font-size: 18px;">
+                                        Full Marks: {{enrolledStudentList.fullMarks}}
+                                    </div>
+                                    <div class="table-caption-search col-md-6" style="text-align: right;">
+                                        <button class="btn btn-primary" (click)=updateStudentMarks()>Upload</button>
+                                    </div>
+                                </div>
+                            </ng-template>
+                        </p-table>
+                    </div>
+                </div>
+            </div>
+
+            <hr>
+
+<!------------------------------------------Refer a Student---------------------------------------------->
+
+            <div class="col-12 my-5" id="refer-student">
+                <h2 class="faculty-chapter-header">Refer a Student</h2>
+                <p-toast position="center" key="referStudent"></p-toast>
+                <form #referStudentForm="ngForm" ngNativeValidate>
+                    <div class="row">
+                        <div class="col-6 my-4 each-form-field">
+                            <mat-label class="my-2 mr-3"><strong>*First Name of Student</strong></mat-label>
+                            <input style="width:100%" type="text" pInputText name="firstName"
+                                [(ngModel)]="refStudent.firstName" required />
+                        </div>
+                        <div class="col-6 my-4 each-form-field">
+                            <mat-label class="my-2 mr-3"><strong>*Last Name of Student</strong></mat-label>
+                            <input style="width:100%" type="text" pInputText name="lastName"
+                                [(ngModel)]="refStudent.lastName" required />
+                        </div>
+                        <div class="col-6 my-4 each-form-field">
+                            <mat-label class="my-2 mr-3"><strong>*Contact Number</strong></mat-label>
+                            <input style="width:100%" type="text" pInputText name="contactNumber"
+                                [(ngModel)]="refStudent.contactNumber" required />
+                        </div>
+                        <div class="col-12 my-4 each-form-field">
+                            <mat-label class="my-2 px-0 mr-3"><strong>*Currently Studying at</strong></mat-label>
+                            <input style="width:100%" type="text" pInputText name="currentlyStudying"
+                                [(ngModel)]="refStudent.currentlyStudying" required />
+                        </div>
+                        <div class="col-12 mt-4">
+                            <button class="mx-auto col-4 col-md-2 btn btn-success"
+                                (click)="onReferenceSubmit(referStudentForm,'student','referStudent')"
+                                [disabled]="referStudentForm.invalid">Submit</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <hr>
+
+<!------------------------------------------Refer a Faculty---------------------------------------------->
+
+            <div class="col-12 my-5" id="refer-faculty">
+                <h2 class="faculty-chapter-header">Refer a Faculty</h2>
+                <p-toast position="center" key="referFaculty"></p-toast>
+                <form #referFacultyForm="ngForm" ngNativeValidate>
+                    <div class="row">
+                        <div class="col-6 my-4 each-form-field">
+                            <mat-label class="my-2 mr-3"><strong>*First Name of Faculty</strong></mat-label>
+                            <input style="width:100%" type="text" pInputText name="firstName"
+                                [(ngModel)]="refFaculty.firstName" required />
+                        </div>
+                        <div class="col-6 my-4 each-form-field">
+                            <mat-label class="mr-3"><strong>*Last Name of Faculty</strong></mat-label>
+                            <input style="width:100%" type="text" pInputText name="lastName"
+                                [(ngModel)]="refFaculty.lastName" required />
+                        </div>
+                        <div class="col-6 my-4 each-form-field">
+                            <mat-label class="my-2 mr-3"><strong>*Contact Number</strong></mat-label>
+                            <input style="width:100%" type="text" pInputText name="contactNumber"
+                                [(ngModel)]="refFaculty.contactNumber" required />
+                        </div>
+                        <div class="col-12 my-4 each-form-field">
+                            <mat-label class="my-2 px-0 mr-3"><strong>*Subjects (comma separated)</strong></mat-label>
+                            <input style="width:100%" type="text" pInputText name="subjectsForFaculty"
+                                [(ngModel)]="refFaculty.subjectsForFaculty" required />
+                        </div>
+                        <div class="col-12 mt-4">
+                            <button class="mx-auto col-4 col-md-2 btn btn-success"
+                                (click)="onReferenceSubmit(referFacultyForm,'faculty','referFaculty')"
+                                [disabled]="referFacultyForm.invalid">Submit</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <hr>
+        </div>
+    </div>
+</div>
