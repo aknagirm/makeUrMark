@@ -41,7 +41,7 @@ export class RegistrationComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.userObj.role="student"
+    this.userObj.userRole="student"
   }
 
   pwTypeChange() {

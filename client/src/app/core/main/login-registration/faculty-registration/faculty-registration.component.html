@@ -128,16 +128,17 @@
             <mat-form-field class="col-6">
               <mat-label>Select Class List </mat-label>
               <mat-select multiple name="facultyGrade" ngModel required #facultyGrade="ngModel">
-                <mat-option (click)="toggleAllSelection()" [value]="0" #allSelected>All</mat-option>
-                <mat-option (click)="tosslePerOne(allSelected.viewValue)" *ngFor="let grade of facultyGradeList"
-                  [value]="grade">Grade {{grade}}</mat-option>
+                <mat-option (click)="toggleAllSelection()" [value]="dummyAllVal" #allSelected>All</mat-option>
+                <mat-option (click)="tosslePerOne(allSelected.viewValue)" *ngFor="let grade of allGradesSubjects?.grades"
+                  [value]="grade.value">{{grade.label}}</mat-option>
               </mat-select>
             </mat-form-field>
 
             <mat-form-field class="col-6">
               <mat-label>Select Subjects </mat-label>
               <mat-select multiple name="subjects" ngModel required #subjects="ngModel">
-                <mat-option *ngFor="let sub of subjectList" [value]="sub">{{sub}}</mat-option>
+                <mat-option *ngFor="let sub of allGradesSubjects?.subjects" [value]="sub.value">
+                  {{sub.label}}</mat-option>
               </mat-select>
             </mat-form-field>
           </div>
@@ -170,22 +171,30 @@
                   <input type="text" name="standard" [(ngModel)]="det.value" style="display: none;">
                   <mat-form-field class="col-12 mt-0 pt-0">
                     <mat-label>Institution Name</mat-label>
-                    <input matInput [required]="i !== 3" name="passingInstitute" ngModel #passingInstitute="ngModel">
+                    <input matInput [required]="i !== 3" name="passingInstitute" ngModel #passingInstitute="ngModel"
+                    maxlength=25>
                   </mat-form-field>
 
-                  <mat-form-field class="col-4">
+                  <mat-form-field class="col-6">
                     <mat-label>Year Of Passing</mat-label>
                     <input numberOnly matInput [required]="i !== 3" name="passingYear" ngModel #passingYear="ngModel">
                   </mat-form-field>
 
-                  <mat-form-field class="col-4">
+                  <mat-form-field class="col-6">
                     <mat-label>Marks (in %)</mat-label>
                     <input numberOnly matInput [required]="i !== 3" name="passingMarks" ngModel #passingMarks="ngModel">
                   </mat-form-field>
 
-                  <mat-form-field class="col-4">
-                    <mat-label>Remarks (if any)</mat-label>
-                    <input matInput name="passingRemarks" ngModel #passingRemarks="ngModel">
+                  <mat-form-field class="col-6">
+                    <mat-label>Course</mat-label>
+                    <input matInput [required]="i !== 3" name="course" ngModel #course="ngModel"
+                      placeholder="B.E./M.Tech/M.A/B.Comm" [disabled]= "i==0 || i==1" maxlength=7>
+                  </mat-form-field>
+
+                  <mat-form-field class="col-6">
+                    <mat-label>Studied Subject</mat-label>
+                    <input matInput [required]="i !== 3" name="studiedSub" ngModel [disabled]= "i==0 || i==1"
+                    #studiedSub="ngModel" maxlength=15>
                   </mat-form-field>
                 </div>
               </p-accordionTab>
@@ -320,7 +329,7 @@
           <div class="row my-2">
             <mat-form-field class="col-6">
               <mat-label>Broadband details at home</mat-label>
-              <mat-select multiple name="broadband" ngModel required #broadband="ngModel">
+              <mat-select multiple name="broadBand" ngModel required #broadBand="ngModel">
                 <mat-option value="cable">Cable</mat-option>
                 <mat-option value="dongle">Dongle</mat-option>
                 <mat-option value="fibre">Fibre Optics</mat-option>

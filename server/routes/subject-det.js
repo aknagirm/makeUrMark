@@ -9,7 +9,6 @@ const router =express.Router()
 
 router.post('/subjectDetails', (req, res) => {
     let gradeBoard = req.body
-    console.log(gradeBoard)
 
     SubjectDet.find({$and: [{grade:gradeBoard.grade},{board:gradeBoard.board}]}, (err,subjectList)=> {
         if(err){

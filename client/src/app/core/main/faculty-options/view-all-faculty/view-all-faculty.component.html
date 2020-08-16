@@ -1,0 +1,138 @@
+<div class="container-fluid main-container">
+    <div class="col-12" style="text-align: center;">
+        <h2 class="chapter-header"><span style="color:#7ac7bf">MakeUrMark</span> All Faculty Portal</h2>
+    </div>
+    <div class="row mt-4">
+        
+    <div class="col-12  my-4">
+        <div class="mr-3 col-12" >
+            <i class="fa fa-search"></i>
+            <input class="col-5 pl-2 col-md-3 search-input" style="padding:9px 0px;float:right" type="text" 
+                (keyup)="searchCalled($event)" placeholder="Search by name">
+            
+        </div>
+    </div>
+        <div class="col-md-4" *ngFor="let faculty of facultyList?.faculties">
+            <div class="card mx-3 my-4 shadow">
+            <div class="card-header">
+                <div class="row">
+                <div class="col-3 img-container">
+                    <img [src]="faculty.selectedImageFile" style="width:100%; height:100%" alt="">
+                </div>
+                <div class="col-9 header-info_container">
+                    <p class="p-name">{{faculty.firstName | uppercase}} {{faculty.lastName | uppercase}}</p>
+                    <p class="p-education">
+                        <span class="label">Education:  </span>
+                        <span>{{faculty.highestQualification.course | uppercase}}, {{faculty.highestQualification.studiedSub| titlecase}},
+                            {{faculty.highestQualification.passingInstitute | uppercase}}</span>
+                    </p>
+                </div>
+            </div>
+            </div>
+            <div class="card-body">
+                <table class="table info-table">
+                    <tr>
+                        <td class="label">Subjects: </td>
+                        <td class="info">{{faculty.subjects.join(", ") | titlecase}}</td>
+                    </tr>
+                    <tr>
+                        <td class="label">Grades: </td>
+                        <td class="info">{{faculty.facultyGrade.join(", ") | titlecase}}</td>
+                    </tr>
+                    <tr>
+                        <td class="label">Language: </td>
+                        <td class="info">{{faculty.language.join(", ") | titlecase}}</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="card-footer">
+                <a (click)="moreInfoCalled(faculty)">more info<i class="fa fa-angle-double-right"></i></a>
+            </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<p-dialog header="FACULTY DETAILS" [(visible)]="displayBasic" [style]="{width: '50vw'}" 
+[baseZIndex]="10000" [modal]="true">
+
+    <div class="row" *ngIf="clickedFaculty">
+        <div class="col-md-2">
+            <img [src]="clickedFaculty.selectedImageFile" style="width:100%; height:100%" alt="">
+        </div>
+        <div class="col-md-9">
+            <p class="diag-p-name">
+                <strong>
+                    <span class="">Full Name:  </span>
+                    <span class="info">
+                    {{clickedFaculty.firstName | uppercase}} {{clickedFaculty.middleName | uppercase}} {{clickedFaculty.lastName | uppercase}}
+                </span>
+                </strong>
+            </p>
+            <p class="p-education">
+                <span class="label"><strong>Gender:  </strong></span>
+                <span>{{clickedFaculty.gender | titlecase}}</span>
+            </p>
+            <p class="p-education">
+                <span class="label"><strong>Grades:  </strong></span>
+                <span>{{clickedFaculty.facultyGrade.join(", ")}}</span>
+            </p>
+            <p class="p-education">
+                <span class="label"><strong>Subjects:  </strong></span>
+                <span>{{clickedFaculty.subjects.join(", ") | titlecase}}</span>
+            </p>
+            <p class="p-education">
+                <span class="label"><strong>Language:  </strong></span>
+                <span>{{clickedFaculty.language.join(", ") | titlecase}}</span>
+            </p>
+        </div>
+        <table class="table mt-2 mx-3">
+            <thead>
+            <tr >
+                <th class="" colspan="2">Educational Details</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>10th</td>
+                <td>From {{clickedFaculty.educationalDet[0].passingInstitute | titlecase}}, in {{clickedFaculty.educationalDet[0].passingYear}}</td>
+            </tr>
+            <tr>
+                <td>12th</td>
+                <td>From {{clickedFaculty.educationalDet[1].passingInstitute | titlecase}}, in {{clickedFaculty.educationalDet[1].passingYear}}</td>
+            </tr>
+            <tr>
+                <td>Graduation</td>
+                <td>{{clickedFaculty.educationalDet[2].course | uppercase}} in {{clickedFaculty.educationalDet[2].studiedSub | titlecase}} From {{clickedFaculty.educationalDet[2].passingInstitute | titlecase}}, in {{clickedFaculty.educationalDet[2].passingYear}}</td>
+            </tr>
+            <tr *ngIf="clickedFaculty.educationalDet[3].course 
+                    && clickedFaculty.educationalDet[3].studiedSub 
+                    && clickedFaculty.educationalDet[3].passingInstitute
+                    && clickedFaculty.educationalDet[3].passingYear">
+                <td>Post Graduation</td>
+                <td>{{clickedFaculty.educationalDet[3].course | uppercase}} in {{clickedFaculty.educationalDet[3].studiedSub | titlecase}} From {{clickedFaculty.educationalDet[3].passingInstitute | titlecase}}, in {{clickedFaculty.educationalDet[3].passingYear}}</td>
+            </tr>
+        </tbody>
+        </table>
+
+        <table class="table mt-2 mx-3">
+            <thead>
+            <tr>
+                <th class="" colspan="2">Teaching Experience</th>
+            </tr>
+            <tr>
+                <th>From</th>
+                <th>Till</th>
+                <th>Teaching At</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let exp of clickedFaculty.teachingExp">
+                <td>{{exp.from}}</td>
+                <td>{{exp.till}}</td>
+                <td>{{exp.institute}}</td>
+            </tr>
+        </tbody>
+        </table>
+    </div>
+</p-dialog>

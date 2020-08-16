@@ -1,11 +1,15 @@
 const express =require('express')
 const mongoose =require('mongoose')
 const Reference =require('../models/faculty-student-references-model')
+const verifyRequest=require('../routes/verify-token')
+
 const router =express.Router()
 
-router.post('/newReference', (req,res) => {
+router.post('/newReference',verifyRequest, (req,res) => {
     refBody=req.body
-    console.log(req.body)
+    refBody.userName=req.userName
+    refBody.userRole=req.userRole
+    
     let reference =new Reference(refBody)
     reference.save((err, ref)=>{
         if(err){

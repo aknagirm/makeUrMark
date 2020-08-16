@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http'
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http'
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { DummyComponent } from './core/main/dummy/dummy.component';
@@ -37,6 +37,9 @@ import listPlugin from '@fullcalendar/list';
 import { FullCalenderComponent } from './reusable/full-calender/full-calender.component';
 import { NumberOnlyDirective } from './core/directives/number-only.directive';
 import { ProductCardComponent } from './reusable/product-card/product-card.component';
+import { FacultyProfileEditComponent } from './core/main/faculty-options/faculty-profile-edit/faculty-profile-edit.component';
+import { TokenInterceptorService } from './core/services/token-interceptor.service';
+import { ViewAllFacultyComponent } from './core/main/faculty-options/view-all-faculty/view-all-faculty.component';
 
 FullCalendarModule.registerPlugins([ // register FullCalendar plugins
   dayGridPlugin,
@@ -65,7 +68,9 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
     FacultyOptionsComponent,
     FullCalenderComponent,
     NumberOnlyDirective,
-    ProductCardComponent
+    ProductCardComponent,
+    FacultyProfileEditComponent,
+    ViewAllFacultyComponent
   ],
   imports: [
     BrowserModule,
@@ -80,7 +85,15 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
     FullCalendarModule
   ],
   providers: [ExternalFilesService,WindowRefService, MessageService,
-        CountdownTimerService,AuthService,StructuralService],
-  bootstrap: [AppComponent]
+        CountdownTimerService,AuthService,StructuralService,
+        {
+          provide: HTTP_INTERCEPTORS,
+          useClass: TokenInterceptorService,
+          multi: true
+        }],
+  bootstrap: [AppComponent],
+  entryComponents: [
+    FacultyProfileEditComponent
+  ]
 })
 export class AppModule { }

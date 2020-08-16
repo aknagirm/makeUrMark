@@ -12,7 +12,6 @@ router.post('/mobOtpSend', (req,res) => {
         to: `+${req.body.contactNumber}`,
         channel: req.body.channel
     }).then(data =>{
-        console.log(data)
         res.status(200).send("OTP Sent")
     }, err => {
         console.log(err)
@@ -21,19 +20,16 @@ router.post('/mobOtpSend', (req,res) => {
 })
 
 router.post('/mobOtpVerify', (req,res) => {
-    console.log(req.body)
     twilio.verify.services(process.env.TWILIO_SERVICE_ID).verificationChecks.create({
         to: req.body.contactNumber,
         code: req.body.code
     }).then(data => {
-        console.log(data.status)
         res.status(200).send({"status":data.status})
     })
 })
 
 
 router.post('/mailOtp', (req, res)=>{
-    console.log(req)
 
     var val = Math.floor(100000 + Math.random() * 900000);
         

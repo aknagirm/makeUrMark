@@ -1,0 +1,90 @@
+.main-container {
+    position: relative;
+    top:170px;
+    margin-bottom: 80px
+}
+
+.card-header {
+    background-color: #063247;
+    color: white
+}
+
+.p-name {
+    font-size: 21px;
+    margin-bottom: 7px;
+    text-decoration: underline;
+}
+
+.label {
+    font-weight: 500;
+    font-size: 17px;
+}
+
+.p-education {
+    font-style: italic;
+    font-size: 15px;
+    text-decoration: underline;
+    text-decoration-color: aqua;
+}
+
+.info {
+    margin-bottom: 5px;
+    font-style: italic;
+}
+
+.card-footer {
+    background-color: lightgrey;
+}
+
+.card-footer a {
+    float: right;
+    font-weight: 500;
+    color: #007ad9;
+    cursor: pointer;
+}
+
+.card-footer i {
+    font-size: 15px;
+    padding-left: 4px;
+}
+
+.fa-search {
+    font-size: 22px;
+    padding: 10px;
+    float: right;
+    border: 1px #e9ecef groove ;
+    border-left: none;
+}
+
+.search-input{
+    border: 1px #e9ecef groove ;
+    border-right: none;
+    
+}
+
+.diag-p-name {
+    font-size: 21px;
+    margin-bottom: 7px;
+    text-decoration: underline;
+}
+
+
+
+.diag-p-name .info {
+    color: #7ac7bf;
+}
+
+:host ::ng-deep .ui-button {
+    margin: .5em .5em .5em 0;
+    width: 120px;
+}
+
+/* :host ::ng-deep .ui-dialog-titlebar {
+    background-color: #7ac7bf !important;
+} */
+
+@media screen and (max-width: 40em) {
+    :host ::ng-deep .ui-dialog {
+        width: 75vw !important;
+    }
+}

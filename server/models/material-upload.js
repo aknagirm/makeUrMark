@@ -3,7 +3,7 @@ const mongoose=require('mongoose')
 const Schema=mongoose.Schema
 
 const materialUpload = new Schema({
-    user: String,
+    userName: String,
     userRole: String,
     docType: String,
     grade: String,

@@ -3,7 +3,7 @@
         <div class="btn-close rounded">
             <button class="rounded" (click)="loginPopUpClose()"><i class="fa fa-close"></i></button>
         </div>
-        <app-login *ngIf="formView === 'login'" (formViewRegister)="toggleView($event)"></app-login>
+        <app-login *ngIf="formView === 'login'" (popUpClosed)="loginPopUpClose()" (formViewRegister)="toggleView($event)"></app-login>
         <app-registration *ngIf="formView === 'register'" (formViewRegister)="toggleView($event)"></app-registration>
     </div>
 </div>

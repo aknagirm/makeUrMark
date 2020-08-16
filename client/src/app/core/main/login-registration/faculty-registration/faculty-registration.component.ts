@@ -6,6 +6,7 @@ import { globalAnimation } from 'src/app/reusable/animation/global-animation';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { HttpClient } from '@angular/common/http';
 import {SelectItem} from 'primeng/api';
+import { StructuralService } from 'src/app/core/services/structural.service';
 
 
 @Component({
@@ -24,7 +25,6 @@ export class FacultyRegistrationComponent implements OnInit {
                       {label:"XIIth Details",  value: "12th"},
                       {label:"Graduation Details",  value: "grads"},
                       {label:"Post Graduation Details(If any)",  value: "postgrads"}]
-  subjectList=["Bengali","Physics","Mathematics","History","English","Biology","Chemistry"]
   @ViewChild('allSelected', {static:false}) allSelected: MatOption
   @ViewChild('facultyForm1', {static:false}) facultyForm1: NgForm
   certificationList=[]
@@ -35,16 +35,17 @@ export class FacultyRegistrationComponent implements OnInit {
   selectedCVFile: File =null
   allLanguage: SelectItem[];
   language: string[] = [];
-
-  facultyGradeList=["6","7","8","9","10","11","12"]
-  
+  allGradesSubjects: any={grades:'',subjects: ''}
+  dummyAllVal="0"
 
   constructor(
     private auth: AuthService,
-    private http: HttpClient
+    private http: HttpClient,
+    private struct: StructuralService,
   ) { }
 
   ngOnInit() {
+    this.getAllGradeSubs()
     this.http.get('../assets/all-language.json')
         .subscribe(data => {
           let dummyList=[]
@@ -57,20 +58,40 @@ export class FacultyRegistrationComponent implements OnInit {
         
   }
 
+  async getAllGradeSubs(){
+    let allGradesSubsDet= await this.struct.getAllGradeSubjects()
+    //this.allGradesSubjects['grades']=allDet['gradeList'][0]['grades']
+    let allGrades=[]
+    let allSubs=[]
+    allGradesSubsDet['gradeList'][0]['grades'].forEach(element => {
+      allGrades.push({label: element.label, value: element.value})
+    });
+    allGradesSubsDet['gradeList'][0]['grades'].forEach(grades => {
+      allSubs=[...allSubs, ...grades.subjects]
+    });
+    this.allGradesSubjects['grades']=[...allGrades]
+    this.allGradesSubjects['subjects']=[...allSubs]
+    this.allGradesSubjects['subjects']= allSubs.filter((subs, index, self) =>
+    index === self.findIndex((t) => (
+    t.label === subs.label && t.value === subs.value
+      ))
+    )
+    console.log(this.allGradesSubjects)
+  }
 
   tosslePerOne(all){ 
    if (this.allSelected.selected) {  
     this.allSelected.deselect();
     return false;
       }
-   if(this.facultyForm1.controls.facultyGrade.value.length==this.facultyGradeList.length)
+   if(this.facultyForm1.controls.facultyGrade.value.length==this.allGradesSubjects.grades.length)
     this.allSelected.select();
   }
 
   toggleAllSelection() {
     if (this.allSelected.selected) {
       this.facultyForm1.controls.facultyGrade
-        .patchValue([...this.facultyGradeList.map(item => item), 0]);
+        .patchValue([...this.allGradesSubjects.grades.map(item => item.value), "0"]);
     } else {
       this.facultyForm1.controls.facultyGrade.patchValue([]);
     }
@@ -106,13 +127,13 @@ onSubmit(form: NgForm) {
   this.formValue={...this.formValue,...form.value}
   console.log(this.formValue,form.value)
   if(this.formShow == 5){
-    this.formValue["role"]='faculty'
+    this.formValue["userRole"]='faculty'
     this.formValue["certification"]=this.certificationList
     this.formValue["teachingExp"]=this.teachingExpList
     this.formValue["language"]=this.language
     this.formValue["password"]=this.formValue["password1"]
     
-    const index = this.formValue["facultyGrade"].indexOf(0);
+    const index = this.formValue["facultyGrade"].indexOf("0");
     if (index > -1) {
       this.formValue["facultyGrade"].splice(index, 1);
     }
@@ -138,6 +159,11 @@ onSubmit(form: NgForm) {
     console.log(this.formValue)
 
     this.auth.registerFaculty(formData)
+      .then((res) => {
+          console.log(res)
+      }, (rej) => {
+        console.log(rej)
+      })
   }
   
 }

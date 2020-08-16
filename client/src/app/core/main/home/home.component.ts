@@ -30,7 +30,6 @@ export class HomeComponent implements OnInit {
    }
 
   ngOnInit() {
-
    this.externalFiles.getFacultiDetails()
     .subscribe(data => {
       this.facultyList=data

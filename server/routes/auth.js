@@ -2,41 +2,72 @@ const express =require('express')
 const mongoose =require('mongoose')
 const shortId= require('shortid')
 const jwt =require('jsonwebtoken')
+const fs = require('fs')
+const verifyRequest =require('../routes/verify-token')
 const multer =require('multer')
-const storage =multer.diskStorage({
+/* const storage =multer.diskStorage({
     destination: function(req, file, cb) {
         cb(null, './uploads/')
     },
     filename: function(req, file, cb) {
         cb(null, file.originalname)
     }
+}) */
+
+const cvStorage =multer.diskStorage({
+    destination: function(req, file, cb) {
+        cb(null, './uploads/facultyCV/')
+    },
+    filename: function(req, file, cb) {
+        cb(null, new Date().toISOString().replace(/:/g, '-')+file.originalname)
+    }
 })
-const upload =multer({storage: storage})
+
+const userImageStorage =multer.diskStorage({
+    destination: function(req, file, cb) {
+        cb(null, './uploads/user-profile-image/')
+    },
+    filename: function(req, file, cb) {
+        cb(null, new Date().toISOString().replace(/:/g, '-')+file.originalname)
+    }
+})
+
+const uploadFacultyCv =multer({storage: cvStorage})
+const uploadUserProfilePic =multer({storage: userImageStorage})
 require('dotenv').config()
 
 const User =require('../models/user')
 
 const router =express.Router()
 const userDb = process.env.MONGOOSE_CONNECTION
+const secretKey =process.env.SECRET_KEY
 
 
-/********************************** DB connection ***********************************/
 
-mongoose.connect(userDb, { useNewUrlParser: true, useUnifiedTopology: true }, err=> {
-        if(err){
-            console.error('Erros!'+ err)
-        }else{
-            console.log('connected to userdb')
-      }
-    }
-)
+/********************************** Login a User ***********************************/
+
+router.post('/login',(req,res) => {
+    let userData =req.body
+    User.findOne({userName: userData.userName}, (err, user) =>{
+        if(!user) {
+            res.status(401).send({msg:"User not found"})
+        } else {
+            if (user.password !== userData.password){
+                res.status(401).send({msg:"Invalid Password"})
+              } else {
+                let payload ={_id: user._id, userName: user.userName, userRole: user.userRole}
+                let token =jwt.sign(payload, secretKey)
+                res.status(200).send({token})
+              }
+        }
+    })
+})
 
 /********************************** Register a User ***********************************/
 
 router.post('/register', (req,res)=>{
     let userData =req.body
     userData.secretKey=shortId.generate()
-    console.log(userData,req.body)
     let user =new User(userData)
     user.save((err, user)=>{
         if(err){
@@ -45,7 +76,7 @@ router.post('/register', (req,res)=>{
             let payload={userId: user._id}
             let secret =user.secretKey
             let token =jwt.sign(payload, secret)
-            res.status(200).send({msg:"new user created", token: token, name:user.firstName, role: user.role})
+            res.status(200).send({msg:"new user created", token: token, name:user.firstName, userRole: user.userRole})
         }
     })
 })
@@ -54,31 +85,124 @@ router.post('/register', (req,res)=>{
 /********************************* Register a faculty *******************************************/
 
 
-router.post('/facultyRegister', upload.single('selectedCVFile'), (req,res)=>{
+router.post('/facultyRegister', uploadFacultyCv.single('selectedCVFile'), (req,res)=>{
     facultyDet=JSON.parse(req.body.payload)
     facultyDet.selectedCVFile =req.file.path
-    console.log(facultyDet,req.file)
+    facultyDet.userName= facultyDet.email
+    facultyDet.creationDate= new Date()
+    facultyDet.updateDate=null
     let faculty =new User(facultyDet)
      faculty.save((err, user)=>{
         if(err){
             console.log(err)
             res.status(500).send({msg:"Input not valid"})
         } else {
-            let payload={userId: user._id}
-            let secret = process.env.SECRET_KEY
-            let token =jwt.sign(payload, secret)
-            res.status(200).send({msg:"new user created", token: token, name:user.firstName, role: user.role})
+            let payload={_id: user._id, userName: user.userName, userRole: user.userRole}
+            let token =jwt.sign(payload, secretKey)
+            res.status(200).send({msg:"new user created", token: token, name:user.firstName, userRole: user.userRole})
         }
     })
 })
 
 
+router.get('/getUserDetail',verifyRequest, (req,res) => {
+    let details={userName: req.userName, userRole: req.userRole}
+    User.findOne({userName: details.userName}, (err, user)=> {
+        if(err){
+            res.status(401).send("User is not authorized")
+        } else {
+            if(user.userRole == details.userRole) {
+                res.status(200).send({user})
+            } else {
+                res.status(401).send("User is not authorized")
+            }
+        }
+    })
+})
+
+router.post('/updateProfilePicture', verifyRequest, uploadUserProfilePic.single('selectedImageFile'),
+ (req,res) =>{
+    User.findOne({userName:req.userName}, (err,user) => {
+        if(err){
+            res.status(500).send({msg: "Please check inputs"})
+        } else {
+            console.log(req.file)
+            let oldImage=user.selectedImageFile
+            if(oldImage){
+                fs.unlink(oldImage, (err) =>{
+                    if(err) {
+                        console.log(err)
+                    }
+                }) 
+            }
+            user.updateOne({selectedImageFile: req.file.path, updateDate: new Date()},(err, newUser) => {
+                if(err){
+                    res.status(500).send({msg: "Please check inputs"})
+                } else {
+                    res.status(200).send({newUser})
+                }
+            })
+        }
+    })
+
+})
+
+router.post('/removeProfilePicture', verifyRequest, (req,res) => {
+    fileName = req.body.filePath
+    console.log(fileName)
+    User.findOne({userName: req.userName}, (err,user) => {
+        if(err){
+            res.status(500).send({msg: "Something is wrong"})
+        } else {
+            if(user == {}){
+                res.status(401).send({msg: "Unauthorized"})
+            } else {
+                let oldImage=user.selectedImageFile
+                if(oldImage){
+                fs.unlink(oldImage, (err) =>{
+                    if(err) {
+                        console.log(err)
+                    }
+                }) 
+                }
+                user.updateOne({selectedImageFile: null,updateDate: new Date()}, (err, newUser)=> {
+                    if(err) {
+                        res.status(500).send({msg: "Something is wrong"})
+                    } else {
+                        console.log("updated")
+                        res.status(200).send({user})
+                    }
+                })
+                
+            }
+        }
+    })
+
+})
 
 
-router.post('/allFaculties', (req,res) => {
+router.post('/updateUserProfile', verifyRequest, (req,res) => {
+    let details=req.body
+    if(details.userName==req.userName) {
+        details.updateDate=new Date()
+        User.findOneAndUpdate({_id: details._id},details,{useFindAndModify: false}, (err, user) => {
+            if(err) {
+                res.status(500).send({msg: "Please check inputs"})
+            } else {
+                res.status(200).send({user})
+            }
+        })
+    } else {
+        res.status(401).send({msg: "Unauthorized"})
+    }
+    
+})
+
+
+router.post('/getFaculties', (req,res) => {
     let gradeBoard = req.body
     
-    User.find({$and: [{role:"faculty"},{grade:gradeBoard.grade},{schoolboard:gradeBoard.board}]},
+    User.find({$and: [{userRole:"faculty"},{grade:gradeBoard.grade},{schoolboard:gradeBoard.board}]},
             (err, facultyList) => {
                 if(err){
                     res.status(500).send("no faculty found")

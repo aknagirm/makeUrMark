@@ -30,7 +30,6 @@ export class FacultyOptionsComponent implements OnInit {
   uploadMaterial: MaterialUploadForm =new MaterialUploadForm()
   scheduleTest: ScheduleTestForm =new ScheduleTestForm()
   recordMarks: RecordMarksForm =new RecordMarksForm()
-  obj={}
   module_endpoint= environment.server_endpoint
   selectedMaterial: File =null
   testSearchedObj: any =null
@@ -49,9 +48,6 @@ export class FacultyOptionsComponent implements OnInit {
       this.scrollTo(fragment)
     })
     this.getAllGradeSubs()
-    this.auth.getCurrentUser()
-    this.obj['userName']=this.auth.userObj.userName
-    this.obj['userRole']=this.auth.userObj.role
   }
 
   scrollTo(someId: string){
@@ -66,7 +62,7 @@ export class FacultyOptionsComponent implements OnInit {
 
   onReferenceSubmit(form: NgForm,referedRole: string, toastKey: string){
       console.log(form)
-      let obj={...this.obj,...form.form.value}
+      let obj={...form.form.value}
       obj['referedRole']=referedRole
       console.log(obj)
 
@@ -89,7 +85,7 @@ export class FacultyOptionsComponent implements OnInit {
   }
 
   onMaterialSubmit(form: NgForm){
-    let obj={...this.obj, ...form.form.value}
+    let obj={ ...form.form.value}
     obj['subject']=obj['subject']['value']
     obj['grade']=obj['grade']['value']
     console.log(obj)
@@ -102,19 +98,19 @@ export class FacultyOptionsComponent implements OnInit {
         .subscribe(data => {
           console.log(data)
           this.messageService.add(
-            {key: 'uploadMaterial', severity:'success', summary:'Successfull', 
+            {key: 'uploadMaterial', severity:'success', summary:'Successfull', life:30000,
             detail:data['msg']});
         }, error => {
           console.log(error)
           this.messageService.add(
-            {key: 'uploadMaterial', severity:'error', summary:'Failed', 
+            {key: 'uploadMaterial', severity:'error', summary:'Failed', life:30000,
             detail:error['msg']});
     })
   }
 
   onScheduleTestSubmit(form: NgForm){
       console.log(form.form.value)
-      let obj={...this.obj, ...form.form.value}
+      let obj={ ...form.form.value}
       obj['subject']=obj['subject']['value']
       obj['grade']=obj['grade']['value']
       obj['result']=[]
@@ -137,7 +133,7 @@ export class FacultyOptionsComponent implements OnInit {
   getTestIdList(){
     if(this.recordMarks.grade && this.recordMarks.subject 
           && this.recordMarks.testDate && this.recordMarks.testDate){
-      let obj={...this.obj, ...this.recordMarks}
+      let obj={ ...this.recordMarks}
       obj['subject']=obj['subject']['value']
       obj['grade']=obj['grade']['value']
       console.log(obj)
@@ -183,11 +179,15 @@ export class FacultyOptionsComponent implements OnInit {
               {key: 'recordMarks', severity:'error', summary:'Failed', life:30000,
               detail:'Searched test id not Found'});
           }
-          
           return arrObj
       })).subscribe(data => {
           console.log(data)
           this.enrolledStudentList=data
+          }, error =>{
+            console.log(error)
+            this.messageService.add(
+              {key: 'recordMarks', severity:'error', summary:'Failed', life:30000,
+              detail:error['error']['msg']});
           })
   }
 

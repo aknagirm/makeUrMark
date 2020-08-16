@@ -8,18 +8,18 @@
         <!------------------------------Email Id---------------------------------->
 
         <div @slideToLeft class="form-group col-11 mx-auto mb-0" *ngSwitchCase="1" style="margin-top: 30px;">
-            <strong>You are a: <span style="color: green">{{userObj.role}}</span></strong>
+            <strong>You are a: <span style="color: green">{{userObj.userRole}}</span></strong>
             <div class="row py-2 mt-2 shadow" style="background-color:rgba(122, 199, 191, 0.24); border:#7ac7bf solid 1px">
                 <div class="col-6">
-                    <input type="radio" id="Student" name="role" [(ngModel)]="userObj.role" value="student" >
+                    <input type="radio" id="Student" name="userRole" [(ngModel)]="userObj.userRole" value="student" >
                     <label class="pl-2" for="Student">Student</label><br>
                 </div>
                 <div class="col-6">
-                    <input type="radio" id="Parent" name="role" [(ngModel)]="userObj.role" value="parent">
+                    <input type="radio" id="Parent" name="userRole" [(ngModel)]="userObj.userRole" value="parent">
                     <label class="pl-2" for="Parent">Parent</label><br>
                 </div>
                 <!-- <div class="col-4"> 
-                    <input type="radio" id="faculty" name="role" [(ngModel)]="userObj.role" value="faculty">
+                    <input type="radio" id="faculty" name="userRole" [(ngModel)]="userObj.userRole" value="faculty">
                     <label class="pl-2" for="faculty">Faculty</label>
                 </div> -->
             </div>

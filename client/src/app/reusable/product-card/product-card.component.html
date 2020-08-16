@@ -2,21 +2,28 @@
     <div class="card shadow">
       <div class="front">
         <h1 class="title">
-          {{facultyDet.name}}
+          {{facultyDet.firstName | titlecase}} {{facultyDet.lastName | titlecase}}
         </h1>
-        <h2 class="sub-title">B.Tech, Electronics (IIT Madras)</h2>
-        <img class="image" src="../../../assets/faculties/faculty_{{facultyDet.id}}_noBg.png" alt="" />
+        <h4 class="sub-title">
+          {{facultyDet.highestQualification.course | uppercase}}, {{facultyDet.highestQualification.studiedSub| titlecase}},
+          {{facultyDet.highestQualification.passingInstitute | titlecase}}
+        </h4>
+        <div class="img-container mt-4">
+        <img class="image" [src]="profileImg" alt="image.jpg" />
+        </div>
       </div>
       <div class="back">
-        <h2 class="synopsis">{{facultyDet.name}}</h2>
+        <h2 class="synopsis">{{facultyDet.firstName | titlecase}} {{facultyDet.lastName | titlecase}}</h2>
         <hr>
-        <p>Education: <span class="info">B.Tech, Electronics (IIT Madras)</span></p>
-        <p>Subject: <span class="info">{{facultyDet.subject}}</span></p>
-        <p>Grade: <span class="info">{{facultyDet.grade}}</span></p>
-        <p>Tutorial Language: <span class="info">English</span></p>
+        <p>Education: <span class="info">
+          {{facultyDet.highestQualification.course | uppercase}}, {{facultyDet.highestQualification.studiedSub| titlecase}},
+          {{facultyDet.highestQualification.passingInstitute | titlecase}}  
+        </span></p>
+        <p>Subject: <span class="info">{{facultyDet.subjects.join(", ") | titlecase}}</span></p>
+        <p>Grades: <span class="info">{{facultyDet.facultyGrade.join(", ") | titlecase}}</span></p>
+        <p>Tutorial Language: <span class="info">{{facultyDet.language.join(", ") | titlecase}}</span></p>
 
-        <div class="btn">View All</div><!-- 
-        <div class="btn secondary"><i class="fa fa-heart "></i>Add to list</div> -->
+        <div class="btn" (click)="viewAllCalled()">View All</div>
       </div>
     </div>
 

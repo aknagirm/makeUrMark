@@ -82,7 +82,7 @@ img {
 
 .card {
   position: relative;
-  height: 400px;
+  height: 420px;
   background: white;
   border-radius: 7px;
  // box-shadow: 0 3px 7px rgba(0, 0, 0, 0.45);
@@ -111,7 +111,7 @@ hr {
   font-size: 15px;
   font-weight: 500;
   font-style: italic;
-  margin: 0 0 5px 0;
+  margin: 5px 0 5px 0;
 }
 
 .title {
@@ -123,6 +123,7 @@ hr {
   font-weight: 600;
   margin: 0;
 }
+
 
 .synopsis {
   color: $green;

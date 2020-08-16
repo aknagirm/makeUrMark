@@ -39,17 +39,29 @@
     
 }
 
+
+
 .logout-button {
   position: absolute;
   right:0%;
   margin: 18px;
 
-    border: #37c386 solid 2px;
+    border: #37c386 solid 1px;
     font-weight: 600;
     font-size: 15px;
     background: #212121;
-    border-radius: 14px;
     color: white;
+}
+.btn-secondary{
+    font-size: 14px;
+    background: #212121;
+    color: white;
+}
+
+.account-btn-menu{
+  background-color: #063247;
+  border-top: #37c386 solid 1px ;
+  color: white;
 }
 
 .fa {
@@ -59,6 +71,16 @@
     margin: 2px 4px 0px 0px;
     padding-left:3px;
 }
+.account-btn {
+  color: white;
+  cursor: pointer;
+}
+
+.account-btn:hover {
+  background-color: #212121;
+  color: #23dbdb;
+}
+
 
 /*//////////////////////////// navigation bar/////////////////////// */
 
@@ -297,3 +319,6 @@ nav ul {
   margin-left: 5px;
 }
 
+.ui-dialog {
+  width: auto !important;
+}

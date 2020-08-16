@@ -3,6 +3,7 @@ const shortId= require('shortid')
 const multer = require('multer');
 const Material =require('../models/material-upload')
 const TestResult =require('../models/test_schedule_result')
+const verifyRequest =require('../routes/verify-token')
 
 
 const storage =multer.diskStorage({
@@ -17,8 +18,11 @@ const storage =multer.diskStorage({
 const upload =multer({storage: storage})
 const router =express.Router()
 
-router.post('/materialUpload', upload.single('selectedMaterial'), (req,res)=>{
+
+router.post('/materialUpload',verifyRequest, upload.single('selectedMaterial'), (req,res)=>{
     details=JSON.parse(req.body.payload)
+    details.userName=req.userName
+    details.userRole=req.userRole
     details.selectedMaterial =req.file.path
     let material =new Material(details)
     material.save((err, material)=>{
@@ -31,11 +35,11 @@ router.post('/materialUpload', upload.single('selectedMaterial'), (req,res)=>{
     })
 })
 
-router.post('/scheduleTest', (req,res) => {
+router.post('/scheduleTest',verifyRequest, (req,res) => {
     details=req.body
-    console.log(details)
+    details.userName=req.userName
+    details.userRole=req.userRole
     searchedDay= new Date(details.testDateTime)
-    console.log(searchedDay.toString())
     let testObj=new TestResult(details)
     testObj.testId=shortId.generate()
     testObj.save((err,test)=> {
@@ -47,14 +51,14 @@ router.post('/scheduleTest', (req,res) => {
     })
 })
 
-router.post('/getTestIds', (req, res) => {
+router.post('/getTestIds',verifyRequest, (req, res) => {
     let details=req.body
-    console.log(details)
+    details.userName=req.userName
+    details.userRole=req.userRole
     let nextDate= new Date(details.testDate)
     searchedDay= new Date(details.testDate)
     nextDate.setDate(nextDate.getDate() + 1)
     
-    console.log(searchedDay.toString(),nextDate.toString())
     TestResult.find({userName: details.userName, grade: details.grade,
         subject: details.subject, testDateTime: {$gte: searchedDay,
         $lt: nextDate} }, (err, test)=> {
@@ -66,18 +70,24 @@ router.post('/getTestIds', (req, res) => {
         })
 })
 
-router.post('/getTestDetailsWithId', (req,res) => {
+router.post('/getTestDetailsWithId',verifyRequest, (req,res) => {
     let testIdObj =req.body 
+
     TestResult.findOne({testId: testIdObj.testId}, (err, test) => {
-        if(err) {
-            res.status(500).send({msg: "Input not valid"})
+        if(err || test == null) {
+            res.status(500).send({msg: "No Test Found"})
         } else {
-            res.status(200).send({details: test})
+            if(test.userName == req.userName){
+                res.status(200).send({details: test})
+            } else {
+                res.status(401).send({msg: "You are not authorized for this test"})
+            }
+            
         }
     })
 })
 
-router.post('/updateTestMarks', (req,res) => {
+router.post('/updateTestMarks',verifyRequest, (req,res) => {
     let details= req.body
     details.obtainedMarks.forEach(element => {
         TestResult.findOneAndUpdate({testId: details.testId, 'result.userName': element.userName},

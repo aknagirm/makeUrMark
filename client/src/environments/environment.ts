@@ -6,20 +6,29 @@ export const environment = {
   production: false,
   server_endpoint: {
     facultyDetails: '../assets/faculties',
+    baseUrl: 'http://localhost:3010',
     verification: {
       mailOtp: 'http://localhost:3010/verification/mailOtp',
       mobOtpSend: 'http://localhost:3010/verification/mobOtpSend',
       mobOtpVerify: 'http://localhost:3010/verification/mobOtpVerify',
       captchaVerify: 'http://localhost:3010/verification/captcha'
     },
+    home: {
+      getAllFaculties: 'http://localhost:3010/homeOptions/getAllFaculties'
+    },
     auth: {
+      login: 'http://localhost:3010/auth/login',
       register: 'http://localhost:3010/auth/register',
       facultyCVUpload: 'http://localhost:3010/auth/uploadCV',
-      facultyRegister: 'http://localhost:3010/auth/facultyRegister'
+      facultyRegister: 'http://localhost:3010/auth/facultyRegister',
+      getUserDetail: 'http://localhost:3010/auth/getUserDetail',
+      updateUserProfile: 'http://localhost:3010/auth/updateUserProfile',
+      updateProfilePicture: 'http://localhost:3010/auth/updateProfilePicture',
+      removeProfilePicture: 'http://localhost:3010/auth/removeProfilePicture'
     },
     subjectDet: {
       subjectDetails: 'http://localhost:3010/subjectDet/subjectDetails',
-      getFaculty: 'http://localhost:3010/auth/allFaculties',
+      getFaculty: 'http://localhost:3010/auth/getFaculties',
       addSubject: 'http://localhost:3010/subjectDet/addSubject',
       allGradeSubs: 'http://localhost:3010/subjectDet/allGradesSubs'
     },

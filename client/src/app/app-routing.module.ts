@@ -5,6 +5,7 @@ import { HomeComponent } from './core/main/home/home.component';
 import { CoursesComponent } from './core/main/courses/courses.component';
 import { FacultyRegistrationComponent } from './core/main/login-registration/faculty-registration/faculty-registration.component';
 import { FacultyOptionsComponent } from './core/main/faculty-options/faculty-options.component';
+import { ViewAllFacultyComponent } from './core/main/faculty-options/view-all-faculty/view-all-faculty.component';
 
 
 const routes: Routes = [
@@ -13,7 +14,8 @@ const routes: Routes = [
   {path: 'courses', component: CoursesComponent},
   {path: 'career', component: FacultyRegistrationComponent},
   {path: 'securePay',component: PaymentComponent},
-  {path: 'explore/faculty',component: FacultyOptionsComponent}
+  {path: 'explore/faculty',component: FacultyOptionsComponent},
+  {path: 'facultyView',component: ViewAllFacultyComponent}
 ];
 
 @NgModule({

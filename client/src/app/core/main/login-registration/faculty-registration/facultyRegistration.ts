@@ -1,6 +1,6 @@
 class FacultyRegistrationForm1 {
     constructor(
-        public role: string=null,
+        public userRole: string=null,
         public firstName: string=null,
         public lastName: string=null,
         public password: string=null,

@@ -1,0 +1,23 @@
+/* 
+.view-all-btn{
+    display: none;
+    position: relative;
+    bottom: 190px;
+    opacity: 0.4;
+}
+
+.img-container img:hover{
+    opacity: 0.5;
+}
+
+.img-container img:hover + .view-all-btn{
+    display: block;
+}
+
+.view-all-btn:hover {
+    display: block;
+    opacity: 1;
+}
+ */
+
+ 

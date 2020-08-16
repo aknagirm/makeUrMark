@@ -12,6 +12,11 @@ import {FileUploadModule} from 'primeng/fileupload';
 import {MultiSelectModule} from 'primeng/multiselect';
 import {ToastModule} from 'primeng/toast';
 import {TableModule} from 'primeng/table';
+import {MessagesModule} from 'primeng/messages';
+import {MessageModule} from 'primeng/message';
+import {ConfirmDialogModule} from 'primeng/confirmdialog';
+import {DynamicDialogModule} from 'primeng/dynamicdialog';
+import {DialogModule} from 'primeng/dialog';
 
 @NgModule({
   declarations: [],
@@ -28,7 +33,12 @@ import {TableModule} from 'primeng/table';
     FileUploadModule,
     MultiSelectModule,
     ToastModule,
-    TableModule
+    TableModule,
+    MessagesModule,
+    MessageModule,
+    ConfirmDialogModule,
+    DynamicDialogModule,
+    DialogModule
   ],
   exports: [
     CarouselModule,
@@ -42,7 +52,12 @@ import {TableModule} from 'primeng/table';
     FileUploadModule,
     MultiSelectModule,
     ToastModule,
-    TableModule
+    TableModule,
+    MessagesModule,
+    MessageModule,
+    ConfirmDialogModule,
+    DynamicDialogModule,
+    DialogModule
   ]
 })
 export class PrimeModule { }

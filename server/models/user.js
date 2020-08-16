@@ -3,11 +3,13 @@ const mongoose =require('mongoose')
 const schema =mongoose.Schema
 
 const userSchema =new schema({
-         secretKey: String,
-         role: String,
+         creationDate: Date,
+         updateDate: Date,
+         userRole: String,
          firstName: String,
          lastName: String,
          password: String,
+         gender: String,
          grade: String,
          email: String,
          contactNumber: String,
@@ -17,7 +19,7 @@ const userSchema =new schema({
          schoolName: String,
          schoolCity: String,
          schoolboard: String,
-
+        userName: String,
          
         subjects: Array,
         language: Array,
@@ -25,8 +27,8 @@ const userSchema =new schema({
         middleName: String,
         
         educationalDet: [
-                {standard: String, passingInstitute: String, 
-                passingYear: String, passingMarks: String, passingRemarks: String}],
+                {standard: String, passingInstitute: String, passingYear: String,
+                 passingMarks: String, course: String, studiedSub: String}],
 
         teachingExp: [{till: String, from: String, institute: String}],
         certification: Array,
@@ -34,10 +36,11 @@ const userSchema =new schema({
         homeSystem: Array,
         smartPhone: String,
         makeAndModel: String,
-        broadBand: String,
+        broadBand: Array,
         bandWidth: String,
         whiteBoardMarker: String,
-        selectedCVFile: String
+        selectedCVFile: String,
+        selectedImageFile: String
 })
 
 module.exports = mongoose.model('all_user_role', userSchema, 'all_user_role')

@@ -1,6 +1,7 @@
 <app-login-registration [callFor]=openLoginPopUp  (isVisisbleFromLogin)="loginPopUpClose($event)"></app-login-registration>
+<p-confirmDialog key="logoutConfirm" header="Logout" icon="pi pi-exclamation-triangle"></p-confirmDialog>
 <div class="container-fluid row py-1 mx-0" style="background: #94CAC5; top: 0px;position: fixed; overflow: hidden; z-index: 10; width: 100%">
-    <div class="upper-header" [ngClass]="isLoggedIn?'col-md-11':'col-md-12'" >
+    <div class="upper-header col-12" >
         <p class="pt-2">
             <span class="info info-mail"><i class="fa fa-envelope" style="font-size:18px;"></i>mrigXXXXX@abc.com</span>
             <span class="info info-location"><i class="fa fa-map-marker" style="font-size:18px"></i>Kolkata, West Bengal</span>
@@ -50,7 +51,7 @@
         </li>
         <li><a href="#">Explore<i class="fa fa-caret-down" aria-hidden="true"></i></a>
             <ul class="nav-dropdown2">
-                <li><a href="#">Explore as Student<i class="fa fa-caret-right" aria-hidden="true"></i></a>
+                <li><a href="#" >Explore as Student<i class="fa fa-caret-right" aria-hidden="true"></i></a>
                     <ul class="nav-dropdown3">
                         <li><a href="#">Registration</a></li>
                         <li><a href="#">View Recorded Sessions</a></li>
@@ -96,7 +97,17 @@
         </li>
         <li><a href="#">Contact Us</a></li>
     </ul>
-    <a><button class="logout-button py-1 px-4"  (click)="loginPopUp()">Login</button></a>
+    <a *ngIf="!userName"><button class="logout-button py-1 px-4" (click)="loginPopUp()">Login</button></a>
+    <div class="dropdown logout-button" *ngIf="userName">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Hello, {{userName | titlecase}}
+        </button>
+        <div class="dropdown-menu account-btn-menu" aria-labelledby="dropdownMenuButton">
+          <a class="dropdown-item account-btn" (click)="editProfileCalled()">Edit Profile</a>
+          <hr class="my-2" style="width: 90%;">
+          <a class="dropdown-item account-btn" (click)="logoutCalled()">Logout</a>
+        </div>
+      </div>
 </nav>
 
 
