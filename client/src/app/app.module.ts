@@ -40,6 +40,7 @@ import { ProductCardComponent } from './reusable/product-card/product-card.compo
 import { FacultyProfileEditComponent } from './core/main/faculty-options/faculty-profile-edit/faculty-profile-edit.component';
 import { TokenInterceptorService } from './core/services/token-interceptor.service';
 import { ViewAllFacultyComponent } from './core/main/faculty-options/view-all-faculty/view-all-faculty.component';
+import { StudentOptionsComponent } from './core/main/student-options/student-options.component';
 
 FullCalendarModule.registerPlugins([ // register FullCalendar plugins
   dayGridPlugin,
@@ -70,7 +71,8 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
     NumberOnlyDirective,
     ProductCardComponent,
     FacultyProfileEditComponent,
-    ViewAllFacultyComponent
+    ViewAllFacultyComponent,
+    StudentOptionsComponent
   ],
   imports: [
     BrowserModule,

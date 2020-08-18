@@ -18,11 +18,11 @@ export class HomeComponent implements OnInit {
     this.responsiveOptions = [
       {
           breakpoint: '1024px',
-          numVisible: 3,
-          numScroll: 3
+          numVisible: 2,
+          numScroll: 1
       },
       {
-          breakpoint: '768px',
+          breakpoint: '700px',
           numVisible: 1,
           numScroll: 1
       }

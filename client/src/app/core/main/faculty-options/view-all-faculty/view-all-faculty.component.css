@@ -68,7 +68,7 @@
     text-decoration: underline;
 }
 
-
+dialog
 
 .diag-p-name .info {
     color: #7ac7bf;
@@ -83,8 +83,27 @@
     background-color: #7ac7bf !important;
 } */
 
-@media screen and (max-width: 40em) {
+
+@media screen and (max-width: 768px) {
+    .card-container {
+        margin-left: auto;
+        margin-right: auto; 
+    }
+
+    :host ::ng-deep .ui-dialog {
+        width: 70vw !important
+    }
+}
+
+@media screen and (max-width: 1024px) {
+
+    :host ::ng-deep .ui-dialog {
+        width: 80vw !important
+    }
+}
+
+/* @media screen and (max-width: 40em) {
     :host ::ng-deep .ui-dialog {
         width: 75vw !important;
     }
-}
+} */

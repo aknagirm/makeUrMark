@@ -28,8 +28,21 @@ hr {
     text-decoration: underline;
 }
 
+.test-table{
+    font-size: 14px
+}
 
-@media only screen and (max-width: 768px){
+.fa-window-close {
+    color: red;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.materialTable {
+    width: 100%
+}
+
+@media only screen and (max-width: 700px){
     .context-menu {
         position: relative !important;
     }
@@ -38,5 +51,11 @@ hr {
     }
      .table-caption-search {
         text-align: center !important;
+    }
+    .test-table{
+        font-size: 11px
+    }
+    .materialTable {
+        width: 600px
     }
 }

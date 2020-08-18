@@ -4,10 +4,9 @@ import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../../services/auth.service';
 import { NgForm } from '@angular/forms';
 import { environment } from '../../../../environments/environment'
-import {MessageService} from 'primeng/api';
+import {MessageService, ConfirmationService} from 'primeng/api';
 import { StructuralService } from '../../services/structural.service';
 import { map } from 'rxjs/operators';
-import { SortEvent } from 'primeng/api';
 import { ActivatedRoute } from '@angular/router';
 
 export interface EnrolledStudent {
@@ -20,7 +19,8 @@ export interface EnrolledStudent {
 @Component({
   selector: 'app-faculty-options',
   templateUrl: './faculty-options.component.html',
-  styleUrls: ['./faculty-options.component.css']
+  styleUrls: ['./faculty-options.component.css'],
+  providers: [ConfirmationService]
 })
 export class FacultyOptionsComponent implements OnInit {
 
@@ -34,13 +34,17 @@ export class FacultyOptionsComponent implements OnInit {
   selectedMaterial: File =null
   testSearchedObj: any =null
   enrolledStudentList: any
+  minimumDate = new Date();
+  alltests
+  allMaterial
 
   constructor(
     private route: ActivatedRoute,
     private auth:AuthService,
     private http: HttpClient,
     private struct: StructuralService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private confirmationService: ConfirmationService
   ) { }
 
   ngOnInit() {
@@ -48,6 +52,8 @@ export class FacultyOptionsComponent implements OnInit {
       this.scrollTo(fragment)
     })
     this.getAllGradeSubs()
+    this.getAllScheduledTest()
+    this.getAllMaterial()
   }
 
   scrollTo(someId: string){
@@ -100,6 +106,8 @@ export class FacultyOptionsComponent implements OnInit {
           this.messageService.add(
             {key: 'uploadMaterial', severity:'success', summary:'Successfull', life:30000,
             detail:data['msg']});
+            form.reset()
+            this.getAllMaterial()
         }, error => {
           console.log(error)
           this.messageService.add(
@@ -107,6 +115,48 @@ export class FacultyOptionsComponent implements OnInit {
             detail:error['msg']});
     })
   }
+
+  getAllMaterial() {
+    this.http.get(this.module_endpoint.facultyOptions.getAllMaterial).pipe(
+      map(data => {
+        data['materialList'].forEach(material => {
+          let index=material.selectedMaterial.lastIndexOf('\\')
+          if(index != -1) {
+            let newFilename=material.selectedMaterial.substr(index+25)
+            material.newFileName=newFilename
+          }
+        });
+        return data
+      })
+    ).subscribe(data => {
+          this.allMaterial=data
+          console.log(this.allMaterial)
+        })
+  }
+
+  deleteMaterial(material) {
+    console.log(material)
+    this.confirmationService.confirm({
+      key: 'deleteTestConfirm',
+      message: 'Are you sure that you want to perform this action?',
+      accept: () => {
+    this.http.post(this.module_endpoint.facultyOptions.deleteMaterialById, material)
+        .subscribe(data => {
+          this.getAllMaterial()
+          this.messageService.add(
+            {key: 'scheduleTest', severity:'info', summary:'Material Deleted', life:10000,
+            detail:`Selected material has been deleted`});
+        }, error => {
+          console.log(error)
+          this.messageService.add(
+            {key: 'scheduleTest', severity:'error', summary:'Failed', 
+            detail:error['msg']});
+        })
+        
+      }
+    });
+  }
+
 
   onScheduleTestSubmit(form: NgForm){
       console.log(form.form.value)
@@ -122,12 +172,45 @@ export class FacultyOptionsComponent implements OnInit {
               this.messageService.add(
                 {key: 'scheduleTest', severity:'info', summary:'Test Scheduled', life:60000,
                 detail:`Please note the test id: ${data['details']['testId']}`});
+                form.reset()
+                this.getAllScheduledTest()
             }, error => {
               console.log(error)
               this.messageService.add(
                 {key: 'scheduleTest', severity:'error', summary:'Failed', 
                 detail:error['msg']});
             })
+  }
+
+  getAllScheduledTest() {
+    this.http.get(this.module_endpoint.facultyOptions.getAllScheduledTest)
+        .subscribe(data => {
+          this.alltests=data
+          console.log(this.alltests)
+        })
+  }
+
+  deleteTest(event){
+    this.confirmationService.confirm({
+      key: 'deleteTestConfirm',
+      message: 'Are you sure that you want to perform this action?',
+      accept: () => {
+          //Actual logic to perform a confirmation
+     
+    this.http.post(this.module_endpoint.facultyOptions.deleteTestById, event)
+        .subscribe(data => {
+          this.getAllScheduledTest()
+          this.messageService.add(
+            {key: 'scheduleTest', severity:'info', summary:'Test Deleted', life:10000,
+            detail:`Scheduled Test deleted for: ${data['test']['testId']}`});
+        }, error => {
+          console.log(error)
+          this.messageService.add(
+            {key: 'scheduleTest', severity:'error', summary:'Failed', 
+            detail:error['msg']});
+        })
+      }
+    });
   }
 
   getTestIdList(){

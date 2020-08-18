@@ -141,6 +141,13 @@ p {
     border-left: 8px solid #DE6262;
     border-radius: 6px;
     padding: 8px 8px;
+    font-size: 1.5vh
+}
+
+@media screen and (max-width: 1024px) {
+  p {
+    font-size: 1vh
+  }
 }
 
 .btn {
@@ -171,7 +178,14 @@ p {
   }
 }
 
+.img-container {
+  height: inherit;
+  height: -webkit-fill-available;
+}
+
 .image {
+  height: 100%;
+  width: 100%;
   animation: slide-in-right 1.25s;
   animation: slide-in-right 1.25s cubic-bezier(0.625, 0.075, 0.110, 1.165);
   animation-timing-function: cubic-bezier(0.625, 0.075, 0.110, 1.165);

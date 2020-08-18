@@ -6,39 +6,43 @@ export const environment = {
   production: false,
   server_endpoint: {
     facultyDetails: '../assets/faculties',
-    baseUrl: 'http://localhost:3010',
+    baseUrl: 'http://192.168.0.105:3010',
     verification: {
-      mailOtp: 'http://localhost:3010/verification/mailOtp',
-      mobOtpSend: 'http://localhost:3010/verification/mobOtpSend',
-      mobOtpVerify: 'http://localhost:3010/verification/mobOtpVerify',
-      captchaVerify: 'http://localhost:3010/verification/captcha'
+      mailOtp: 'http://192.168.0.105:3010/verification/mailOtp',
+      mobOtpSend: 'http://192.168.0.105:3010/verification/mobOtpSend',
+      mobOtpVerify: 'http://192.168.0.105:3010/verification/mobOtpVerify',
+      captchaVerify: 'http://192.168.0.105:3010/verification/captcha'
     },
     home: {
-      getAllFaculties: 'http://localhost:3010/homeOptions/getAllFaculties'
+      getAllFaculties: 'http://192.168.0.105:3010/homeOptions/getAllFaculties'
     },
     auth: {
-      login: 'http://localhost:3010/auth/login',
-      register: 'http://localhost:3010/auth/register',
-      facultyCVUpload: 'http://localhost:3010/auth/uploadCV',
-      facultyRegister: 'http://localhost:3010/auth/facultyRegister',
-      getUserDetail: 'http://localhost:3010/auth/getUserDetail',
-      updateUserProfile: 'http://localhost:3010/auth/updateUserProfile',
-      updateProfilePicture: 'http://localhost:3010/auth/updateProfilePicture',
-      removeProfilePicture: 'http://localhost:3010/auth/removeProfilePicture'
+      login: 'http://192.168.0.105:3010/auth/login',
+      register: 'http://192.168.0.105:3010/auth/register',
+      facultyCVUpload: 'http://192.168.0.105:3010/auth/uploadCV',
+      facultyRegister: 'http://192.168.0.105:3010/auth/facultyRegister',
+      getUserDetail: 'http://192.168.0.105:3010/auth/getUserDetail',
+      updateUserProfile: 'http://192.168.0.105:3010/auth/updateUserProfile',
+      updateProfilePicture: 'http://192.168.0.105:3010/auth/updateProfilePicture',
+      removeProfilePicture: 'http://192.168.0.105:3010/auth/removeProfilePicture'
     },
     subjectDet: {
-      subjectDetails: 'http://localhost:3010/subjectDet/subjectDetails',
-      getFaculty: 'http://localhost:3010/auth/getFaculties',
-      addSubject: 'http://localhost:3010/subjectDet/addSubject',
-      allGradeSubs: 'http://localhost:3010/subjectDet/allGradesSubs'
+      subjectDetails: 'http://192.168.0.105:3010/subjectDet/subjectDetails',
+      getFaculty: 'http://192.168.0.105:3010/auth/getFaculties',
+      addSubject: 'http://192.168.0.105:3010/subjectDet/addSubject',
+      allGradeSubs: 'http://192.168.0.105:3010/subjectDet/allGradesSubs'
     },
     facultyOptions: {
-      materialUpload: 'http://localhost:3010/facultyExplore/materialUpload',
-      scheduleTest: 'http://localhost:3010/facultyExplore/scheduleTest',
-      referStudentFaculty: 'http://localhost:3010/refer/newReference',
-      getTestIds: 'http://localhost:3010/facultyExplore/getTestIds',
-      getTestDetailsWithId: 'http://localhost:3010/facultyExplore/getTestDetailsWithId',
-      updateTestMarks: 'http://localhost:3010/facultyExplore/updateTestMarks'
+      materialUpload: 'http://192.168.0.105:3010/facultyExplore/materialUpload',
+      getAllMaterial: 'http://192.168.0.105:3010/facultyExplore/getAllMaterial',
+      deleteMaterialById: 'http://192.168.0.105:3010/facultyExplore/deleteMaterialById',
+      scheduleTest: 'http://192.168.0.105:3010/facultyExplore/scheduleTest',
+      getAllScheduledTest: 'http://192.168.0.105:3010/facultyExplore/getAllScheduledTest',
+      deleteTestById: 'http://192.168.0.105:3010/facultyExplore/deleteTestById',
+      referStudentFaculty: 'http://192.168.0.105:3010/refer/newReference',
+      getTestIds: 'http://192.168.0.105:3010/facultyExplore/getTestIds',
+      getTestDetailsWithId: 'http://192.168.0.105:3010/facultyExplore/getTestDetailsWithId',
+      updateTestMarks: 'http://192.168.0.105:3010/facultyExplore/updateTestMarks'
     }
   }
   

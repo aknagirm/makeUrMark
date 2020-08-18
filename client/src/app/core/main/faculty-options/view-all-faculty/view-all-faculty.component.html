@@ -4,15 +4,15 @@
     </div>
     <div class="row mt-4">
         
-    <div class="col-12  my-4">
+    <div class="col-12 my-4">
         <div class="mr-3 col-12" >
-            <i class="fa fa-search"></i>
-            <input class="col-5 pl-2 col-md-3 search-input" style="padding:9px 0px;float:right" type="text" 
+            <i class="col-1 fa fa-search" style="text-align: right;"></i>
+            <input class="col-11 pl-2 col-lg-3 search-input" style="padding:9px 0px;float:right" type="text" 
                 (keyup)="searchCalled($event)" placeholder="Search by name">
             
         </div>
     </div>
-        <div class="col-md-4" *ngFor="let faculty of facultyList?.faculties">
+        <div class="card-container col-12 col-md-10 col-lg-6 col-xl-4" *ngFor="let faculty of facultyList?.faculties">
             <div class="card mx-3 my-4 shadow">
             <div class="card-header">
                 <div class="row">
@@ -53,7 +53,7 @@
     </div>
 </div>
 
-<p-dialog header="FACULTY DETAILS" [(visible)]="displayBasic" [style]="{width: '50vw'}" 
+<p-dialog header="FACULTY DETAILS" [(visible)]="displayBasic" [style]="{width: '40vw'}" 
 [baseZIndex]="10000" [modal]="true">
 
     <div class="row" *ngIf="clickedFaculty">
