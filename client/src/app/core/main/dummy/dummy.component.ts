@@ -33,13 +33,10 @@ export class DummyComponent implements OnInit {
   }
 
   loginPopUpClose($event){
-    console.log("close call")
     this.openLoginPopUp={open: false, form: ""}
   }
 
   navigateTo(option: string){
-
-    console.log(option)
       if(option === 'securePay'){
         this.router.navigate(['./securePay'])
       }

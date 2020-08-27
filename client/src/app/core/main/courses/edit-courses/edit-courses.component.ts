@@ -22,12 +22,9 @@ export class EditCoursesComponent implements OnInit {
     private http: HttpClient
   ) { }
 
-  ngOnInit() {
-    console.log(this.courseDet.columns)
-  }
+  ngOnInit() {}
 
   changed(event, name) {
-    console.log(event, name)
     if (this.courseDet.grade != null && this.courseDet.board != null) {
       var obj = { grade: this.courseDet.grade, board: this.courseDet.board }
       this.http.post(this.module_endpoint.getFaculty, obj).pipe(
@@ -43,7 +40,6 @@ export class EditCoursesComponent implements OnInit {
         .subscribe(data => {
           for (let det of this.courseDet.columns) {
             if (det.name == 'facultyName') {
-              console.log(det)
               det.values = data
             }
           }
@@ -54,15 +50,12 @@ export class EditCoursesComponent implements OnInit {
   
   formSubmitted(event) {
     let days={sun: 1,mon:2, tue: 3, wed: 4, thu:5, fri:6, sat:7}
-    console.log(this.courseDet)
     this.courseDet.batchId =`G${this.courseDet.grade}_${(this.courseDet.type.substr(0,1)).toUpperCase()}_${this.courseDet.subjectName.substr(0,3)}_0${days[this.courseDet.day]}_${this.courseDet.startTime.replace(':','')}_${this.courseDet.endTime.replace(':','')}`
 
 
     this.http.post(this.module_endpoint.addSubject, this.courseDet)
         .subscribe(data => {
-          console.log(data)
         })
-    console.log(this.courseDet)
   }
 
 

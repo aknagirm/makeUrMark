@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { ExternalFilesService } from '../../services/external-files.service';
 
 @Component({
@@ -13,7 +13,7 @@ export class HomeComponent implements OnInit {
   achivements: any={}
 
   constructor(
-    private externalFiles:ExternalFilesService
+    private externalFiles:ExternalFilesService,
   ) {
     this.responsiveOptions = [
       {
@@ -33,24 +33,19 @@ export class HomeComponent implements OnInit {
    this.externalFiles.getFacultiDetails()
     .subscribe(data => {
       this.facultyList=data
-      console.log(this.facultyList)
     },
       error => {
         console.log(error)
       }
     )
-
-
     this.externalFiles.getAchivementDetails()
     .subscribe(data => {
       this.achivements=data
-      console.log(this.achivements)
     },
       error => {
         console.log(error)
       }
     )
-      
   }
 
 }

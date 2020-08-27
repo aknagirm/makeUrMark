@@ -122,7 +122,6 @@ export class FacultyProfileEditComponent implements OnInit {
   }
 
   onFileSelected(event) {
-    console.log(event.target.files[0])
     this.selectedImageFile = <File>event.target.files[0]
     this.preview()
   }
@@ -157,7 +156,6 @@ export class FacultyProfileEditComponent implements OnInit {
       formData.append('selectedImageFile', this.selectedImageFile)
       this.auth.updateProfilePicture(formData)
         .then(data => {
-          console.log(data)
           this.messageService.add(
             {
               key: 'editProfile', severity: 'success', summary: 'Successfull', life: 5000,
@@ -174,10 +172,8 @@ export class FacultyProfileEditComponent implements OnInit {
           }
         )
     } else {
-      console.log("in remove", this.newFacultyProfile.selectedImageFile)
       this.auth.removeProfilePicture({ filePath: this.newFacultyProfile.selectedImageFile })
         .then(data => {
-          console.log(data)
           this.messageService.add(
             {
               key: 'editProfile', severity: 'success', summary: 'Successfull', life: 5000,
@@ -208,7 +204,6 @@ export class FacultyProfileEditComponent implements OnInit {
       accept: () => {
           //Actual logic to perform a confirmation
       
-    console.log(form)
     let submittedForm = form.form.value
 
 
@@ -222,12 +217,10 @@ export class FacultyProfileEditComponent implements OnInit {
     Object.keys(submittedForm).forEach(el => {
       this.newFacultyProfile[el] = this.facultyProfileEdit[el]
     })
-    console.log(this.newFacultyProfile)
 
     delete this.facultyProfileEdit.newPassword
     this.auth.updateUserProfile(this.newFacultyProfile)
       .then(data => {
-        console.log(data)
         this.messageService.add(
           {
             key: 'editProfile', severity: 'success', summary: 'Successfull', life: 5000,

@@ -4,6 +4,7 @@ export class ReferenceForm {
         public firstName: string =null,
         public lastName: string =null,
         public contactNumber: string =null,
+        public emailId: string =null,
         public currentlyStudying: string =null,
         public subjectsForFaculty: string =null
     ){}
@@ -15,7 +16,19 @@ export class MaterialUploadForm {
         public subject: string =null,
         public chapters: string =null,
         public materialType: string =null,
-        public selectedMaterial: string =null
+        public selectedMaterial: string =null,
+        public materialViewTable: any ={
+            frozenCols: [
+                { field: 'del', header: 'Del', width: 40 },
+                { field: 'newFileName', header: 'Filename', width: 100 }
+            ],
+            moveableCols: [
+                { field: 'grade', header: 'Grade', width: 60 },
+                { field: 'subject', header: 'Subject', width: 120, pipeChk: 'title' },
+                { field: 'materialType', header: 'Type', width: 100, pipeChk: 'title' },
+                { field: 'chapters', header: 'Chapters', width: 250 }
+            ]
+        }
     ){}
 }
 
@@ -26,7 +39,22 @@ export class ScheduleTestForm {
         public syllabus: string =null,
         public testDateTime: Date =null,
         public duration: string =null,
-        public fullMarks: string =null
+        public fullMarks: string =null,
+        public testViewTable: any ={
+            frozenCols: [
+            ],
+            moveableCols: [
+                
+                { field: 'del', header: 'Del', width: 40},
+                { field: 'testId', header: 'Test Id', width: 90 },
+                { field: 'grade', header: 'Grade', width: 60},
+                { field: 'subject', header: 'Subject', width: 90, pipeChk: 'title'},
+                { field: 'syllabus', header: 'Syllabus', width: 250},
+                { field: 'testDateTime', header: 'Date-Time', width: 100, pipeChk: 'date'},
+                { field: 'fullMarks', header: 'F.M', width: 70},
+                { field: 'duration', header: 'Duration', width: 80}
+            ]
+        }
     ){}
 }
 

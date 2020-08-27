@@ -47,7 +47,6 @@ export class LoginComponent implements OnInit {
         this.msgs.push({severity:'error', summary:'Error', 
         detail:data['error']['msg']});
       } else {
-        console.log(data)
         this.popUpClosed.emit()
         this.router.navigate(['/home'])
       }

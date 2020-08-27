@@ -22,7 +22,6 @@ export class LoginRegistrationComponent implements OnInit, OnChanges {
   ) { }
 
   ngOnChanges(){
-    console.log(this.callFor)
     this.isVisible=this.callFor.open
     this.formView=this.callFor.form
   }

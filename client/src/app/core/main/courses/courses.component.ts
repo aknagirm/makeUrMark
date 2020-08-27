@@ -64,7 +64,6 @@ export class CoursesComponent implements OnInit {
               let cost=+subject.cost
               this.totalAllCost=cost+this.totalAllCost
           });
-          console.log(this.subjectList)
         })
    }
 

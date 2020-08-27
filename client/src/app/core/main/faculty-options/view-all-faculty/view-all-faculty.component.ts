@@ -36,7 +36,6 @@ export class ViewAllFacultyComponent implements OnInit {
     .subscribe(data => {
       this.facultyList=data
       this.facultyListBackUp={...this.facultyList}
-      console.log(this.facultyList)
     },
       error => {
         console.log(error)
@@ -48,13 +47,11 @@ export class ViewAllFacultyComponent implements OnInit {
     
     this.displayBasic=true
     this.clickedFaculty=faculty
-    console.log(this.clickedFaculty)
   }
 
   searchCalled(event){
     this.facultyList={...this.facultyListBackUp}
     let filtereddata= []
-    console.log(event.srcElement.value, this.facultyList, ...this.facultyListBackUp)
     let searchedStr=event.srcElement.value.toUpperCase()
      this.facultyList.faculties.forEach(faculty => {
       if(faculty.firstName.toUpperCase().indexOf(searchedStr) !== -1 
@@ -63,9 +60,7 @@ export class ViewAllFacultyComponent implements OnInit {
       }
     }); 
     
-    console.log(this.facultyList, filtereddata)
     this.facultyList.faculties=[...filtereddata]
-    console.log(this.facultyList)
   }
 
 }

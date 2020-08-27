@@ -76,7 +76,6 @@ export class FacultyRegistrationComponent implements OnInit {
     t.label === subs.label && t.value === subs.value
       ))
     )
-    console.log(this.allGradesSubjects)
   }
 
   tosslePerOne(all){ 
@@ -125,7 +124,6 @@ onSubmit(form: NgForm) {
   this.formShow <= 4? this.formShow=this.formShow+1 : this.formShow=this.formShow
 
   this.formValue={...this.formValue,...form.value}
-  console.log(this.formValue,form.value)
   if(this.formShow == 5){
     this.formValue["userRole"]='faculty'
     this.formValue["certification"]=this.certificationList
@@ -156,13 +154,10 @@ onSubmit(form: NgForm) {
     formData.append('selectedCVFile', this.selectedCVFile, this.selectedCVFile.name)
     formData.append('payload', JSON.stringify(this.formValue))
   
-    console.log(this.formValue)
 
     this.auth.registerFaculty(formData)
       .then((res) => {
-          console.log(res)
       }, (rej) => {
-        console.log(rej)
       })
   }
   

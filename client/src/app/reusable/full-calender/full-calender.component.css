@@ -3,3 +3,9 @@
     height: 550px;
     padding: 1rem
 }
+
+@media only screen and (max-width: 700px) {
+    .full-calendar-container {
+        font-size: 12px;
+    }
+}

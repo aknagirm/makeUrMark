@@ -18,7 +18,6 @@ export class ProductCardComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    console.log(this.facultyDet)
     //this.name=this.facultyDet.name
     this.facultyDet.selectedImageFile? 
         this.profileImg=this.module_endpoint.baseUrl+"/"+this.facultyDet.selectedImageFile :

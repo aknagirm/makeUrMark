@@ -35,7 +35,6 @@ export class HeaderUpdatedComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.auth.loggedInUserObj
         .subscribe(data => {
-          console.log(data)
           if(data instanceof HttpErrorResponse || data == null || data == undefined) {
             this.userName=null
           } else {
@@ -54,13 +53,10 @@ export class HeaderUpdatedComponent implements OnInit, OnDestroy {
   }
 
   loginPopUpClose($event){
-    console.log("close call")
     this.openLoginPopUp={open: false, form: ""}
   }
 
   navigateTo(option: string){
-
-    console.log(option)
       if(option === 'securePay'){
         this.router.navigate(['./securePay'])
       }
@@ -69,7 +65,6 @@ export class HeaderUpdatedComponent implements OnInit, OnDestroy {
   }
 
   editProfileCalled() {
-    console.log("called")
     this.editProfileRef =this.dialogService.open(FacultyProfileEditComponent, {
       header: 'Profile Update Portal',
       contentStyle: {"overflow": "auto","background-color": "aliceblue"},

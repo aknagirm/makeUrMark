@@ -9,8 +9,10 @@ const references =new schema({
     firstName: String,
     lastName: String,
     contactNumber: String,
+    emailId: String,
     currentlyStudying: String,
-    subjectsForFaculty: String 
+    subjectsForFaculty: String,
+    refId: String 
 
 })
 

@@ -65,12 +65,10 @@ export class RegistrationComponent implements OnInit {
   }
 
   mailOtpGenerate(){
-    console.log(this.userObj.email )
     this.mailVerified="not tried"
         this.http.post(this.module_endpoint.verification.mailOtp, {"email":this.userObj.email})
           .subscribe(data => {
               this.tempMailOtp=data
-              console.log(this.tempMailOtp)
           }, error => {
             this.mailVerified="no mail"
           })
@@ -95,19 +93,16 @@ export class RegistrationComponent implements OnInit {
         } else {
           this.mailVerified="not matched"
         }
-        console.log(this.mailOtp,this.tempMailOtp.mailOtp) 
     }
 
   }
 
   numberOtpGenerate(){
-    console.log(this.userObj.contactNumber)
     let otpObj={"contactNumber":this.userObj.contactNumber, "channel": "sms"}
     this.numberVerified="not tried"
         this.http.post(this.module_endpoint.verification.mobOtpSend, otpObj)
           .subscribe(data => {
               this.tempNumberOtp=data
-              console.log(this.tempNumberOtp)
           }, error => {
             this.numberVerified="no number"
           })
@@ -120,13 +115,11 @@ export class RegistrationComponent implements OnInit {
   verifyNumber(){
     var numberOtp =(<HTMLInputElement>document.getElementById("otp-mob")).value
     let otpObj={"contactNumber":this.userObj.contactNumber, "code": numberOtp}
-    console.log(otpObj)
     if(this.myMobTimer =="00:00") {
       this.numberVerified="expired"
     } else {
       this.http.post(this.module_endpoint.verification.mobOtpVerify, otpObj)
           .subscribe(data=>{
-            console.log(data)
             if(data['status']=="approved") {
               this.numberVerified="matched"
               setTimeout(()=>{
@@ -150,15 +143,12 @@ export class RegistrationComponent implements OnInit {
       take(1)
     )
     .subscribe(data=>{
-      console.log(data)
       if(data['success']===true) {
         this.signUpDisable=false
-        console.log(this.signUpDisable)
       }
     }
 
       )
-    console.log(`Resolved captcha with response: ${captchaResponse}`);
 }
 
   onSubmit(){

@@ -6,6 +6,7 @@ require('dotenv').config()
 const secretKey= process.env.SECRET_KEY
 
 module.exports=function verifyToken(req,res, next) {
+  setTimeout(() => {
     if(!req.headers.authorization) {
         console.log("header didnot find")
         return res.status(401).send('Unauthorized request')
@@ -22,7 +23,6 @@ module.exports=function verifyToken(req,res, next) {
                         if(err){
                             return res.status(401).send('Unauthorized request')
                         } else {   
-                            console.log(payload)
                             if(user.userName == payload.userName){
                                 req.userName= payload.userName
                                 req.userRole= payload.userRole
@@ -41,4 +41,5 @@ module.exports=function verifyToken(req,res, next) {
                 }
             }
         }
+    }, 5000)
     }

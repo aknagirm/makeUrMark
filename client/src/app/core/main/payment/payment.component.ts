@@ -29,15 +29,12 @@ export class PaymentComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this.paymentDet)
-    console.log("in payment",)
   }
 
   
 
  async pay(){
   const __DEV__ = document.domain === 'localhost'
-      console.log("pay")
     
       const data = await fetch(this._paymentURL, { 
         method: 'POST' ,

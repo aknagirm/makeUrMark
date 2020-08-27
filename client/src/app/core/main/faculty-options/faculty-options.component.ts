@@ -35,7 +35,7 @@ export class FacultyOptionsComponent implements OnInit {
   testSearchedObj: any =null
   enrolledStudentList: any
   minimumDate = new Date();
-  alltests
+  allTests
   allMaterial
 
   constructor(
@@ -63,18 +63,14 @@ export class FacultyOptionsComponent implements OnInit {
   async getAllGradeSubs(){
       let allDet= await this.struct.getAllGradeSubjects()
       this.allGradesSubjects=allDet['gradeList'][0]
-      console.log(this.allGradesSubjects)
   }
 
   onReferenceSubmit(form: NgForm,referedRole: string, toastKey: string){
-      console.log(form)
       let obj={...form.form.value}
       obj['referedRole']=referedRole
-      console.log(obj)
 
       this.http.post(this.module_endpoint.facultyOptions.referStudentFaculty, obj)
             .subscribe(data => {
-              console.log(data)
               this.messageService.add(
                 {key: toastKey, severity:'success', summary:'Thank you', 
                 detail:'We will contact the person shortly'});
@@ -82,7 +78,7 @@ export class FacultyOptionsComponent implements OnInit {
               console.log(error)
               this.messageService.add(
                 {key: toastKey, severity:'error', summary:'Error', 
-                detail:'Please check your internet conncetion or contact Admin'});
+                detail:error['error']['msg']});
         })
   }
 
@@ -94,7 +90,6 @@ export class FacultyOptionsComponent implements OnInit {
     let obj={ ...form.form.value}
     obj['subject']=obj['subject']['value']
     obj['grade']=obj['grade']['value']
-    console.log(obj)
 
     var formData= new FormData()
     formData.append('selectedMaterial', this.selectedMaterial)
@@ -102,7 +97,6 @@ export class FacultyOptionsComponent implements OnInit {
 
     this.http.post(this.module_endpoint.facultyOptions.materialUpload, formData)
         .subscribe(data => {
-          console.log(data)
           this.messageService.add(
             {key: 'uploadMaterial', severity:'success', summary:'Successfull', life:30000,
             detail:data['msg']});
@@ -130,12 +124,10 @@ export class FacultyOptionsComponent implements OnInit {
       })
     ).subscribe(data => {
           this.allMaterial=data
-          console.log(this.allMaterial)
         })
   }
 
   deleteMaterial(material) {
-    console.log(material)
     this.confirmationService.confirm({
       key: 'deleteTestConfirm',
       message: 'Are you sure that you want to perform this action?',
@@ -159,16 +151,13 @@ export class FacultyOptionsComponent implements OnInit {
 
 
   onScheduleTestSubmit(form: NgForm){
-      console.log(form.form.value)
       let obj={ ...form.form.value}
       obj['subject']=obj['subject']['value']
       obj['grade']=obj['grade']['value']
       obj['result']=[]
-      console.log(obj, obj['testDateTime'])
 
       this.http.post(this.module_endpoint.facultyOptions.scheduleTest, obj)
             .subscribe(data => {
-              console.log(data, data['details']['testDateTime'].toString())
               this.messageService.add(
                 {key: 'scheduleTest', severity:'info', summary:'Test Scheduled', life:60000,
                 detail:`Please note the test id: ${data['details']['testId']}`});
@@ -185,8 +174,7 @@ export class FacultyOptionsComponent implements OnInit {
   getAllScheduledTest() {
     this.http.get(this.module_endpoint.facultyOptions.getAllScheduledTest)
         .subscribe(data => {
-          this.alltests=data
-          console.log(this.alltests)
+          this.allTests=data
         })
   }
 
@@ -219,37 +207,30 @@ export class FacultyOptionsComponent implements OnInit {
       let obj={ ...this.recordMarks}
       obj['subject']=obj['subject']['value']
       obj['grade']=obj['grade']['value']
-      console.log(obj)
 
       this.http.post(this.module_endpoint.facultyOptions.getTestIds, obj).pipe(
         map(data => {
           data['details'].forEach(element => {
             let date=new Date(element.testDateTime)
-            console.log(typeof date)
             element.label=`Test Id: ${element.testId} ----- ( Slot: ${date.toLocaleTimeString()} )`
             element.value=element.testId
           })
         return data
         })
             ).subscribe(data => {
-              console.log(data)
                 this.testSearchedObj=data
-                console.log(this.testSearchedObj)
             })
     }
     
   }
 
   searchStudents(testId: string){
-    console.log(testId)
     this.http.post(this.module_endpoint.facultyOptions.getTestDetailsWithId, {testId: testId}).pipe(
       map(data => {
-        let arrObj ={fullMarks: '',obtainedMarks: [], testId: '', objId: ''}
+        let arrObj={obtainedMarks: []}
         if(data['details']){
-        console.log(data)
-        arrObj.fullMarks=data['details']['fullMarks']
-        arrObj.testId=data['details']['testId']
-        arrObj.objId=data['details']['_id']
+        arrObj={...data['details'], ...arrObj}
+        delete arrObj['result']
           data['details']['result'].forEach(element => {
             arrObj.obtainedMarks.push({userName: element.userName,
                 fullName: `${element.firstName} ${element.lastName}`,
@@ -264,7 +245,6 @@ export class FacultyOptionsComponent implements OnInit {
           }
           return arrObj
       })).subscribe(data => {
-          console.log(data)
           this.enrolledStudentList=data
           }, error =>{
             console.log(error)
@@ -275,7 +255,6 @@ export class FacultyOptionsComponent implements OnInit {
   }
 
   updateStudentMarks(){
-    console.log(this.enrolledStudentList)
     this.http.post(this.module_endpoint.facultyOptions.updateTestMarks, this.enrolledStudentList)
           .subscribe(data => {
             this.messageService.add(
