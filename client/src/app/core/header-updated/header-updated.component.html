@@ -84,6 +84,15 @@
                         <li><a href="#">View Recorded Sessions Test</a></li>
                     </ul>
                 </li>
+                <li *ngIf="userRole == 'owner'"><a href="#">Explore as Admin<i class="fa fa-caret-right" aria-hidden="true"></i></a>
+                    <ul class="nav-dropdown3">
+                        <li><a [routerLink]="['explore/admin']" fragment="upload-material">Materials/Question Upload</a></li>
+                        <li><a [routerLink]="['explore/admin']" fragment="schedule-test">Schedule Test</a></li>
+                        <li><a [routerLink]="['explore/admin']" fragment="record-marks">Record Students' Marks</a></li>
+                        <li><a [routerLink]="['explore/admin']" fragment="refer-student">Refer Student</a></li>
+                        <li><a [routerLink]="['explore/admin']" fragment="refer-faculty">Refer Faculty</a></li>
+                    </ul>
+                </li>
             </ul>
         </li>
         
@@ -176,6 +185,15 @@
                         <li><a href="#">Refer Teacher</a></li>
                         <li><a href="#">Pay Fees</a></li>
                         <li><a href="#">View Recorded Sessions Test</a></li>
+                    </ul>
+                </li>
+                <li *ngIf="userRole == 'owner'"><a href="#">Explore as Admin<i class="fa fa-caret-right" aria-hidden="true"></i></a>
+                    <ul class="nav-dropdown3">
+                        <li><a [routerLink]="['explore/admin']" fragment="upload-material">Materials/Question Upload</a></li>
+                        <li><a [routerLink]="['explore/admin']" fragment="schedule-test">Schedule Test</a></li>
+                        <li><a [routerLink]="['explore/admin']" fragment="record-marks">Record Students' Marks</a></li>
+                        <li><a [routerLink]="['explore/admin']" fragment="refer-student">Refer Student</a></li>
+                        <li><a [routerLink]="['explore/admin']" fragment="refer-faculty">Refer Faculty</a></li>
                     </ul>
                 </li>
             </ul>

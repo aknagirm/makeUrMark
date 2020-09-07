@@ -6,19 +6,24 @@ import { ViewAllFacultyComponent } from './view-all-faculty/view-all-faculty.com
 import { FormsModule }   from '@angular/forms';
 import { PrimeModule } from 'src/app/external/prime.module';
 import { MaterialModule } from 'src/app/external/material.module';
+import { NumberOnlyDirective } from '../../directives/number-only.directive';
 
 
 @NgModule({
   declarations: [
     FacultyProfileEditComponent,
     ViewAllFacultyComponent,
-    FacultyOptionsComponent
+    FacultyOptionsComponent,
+    NumberOnlyDirective
   ],
   imports: [
     CommonModule,
     FormsModule,
     PrimeModule,
     MaterialModule
+  ],
+  exports: [
+    NumberOnlyDirective
   ],
   entryComponents: [
     FacultyProfileEditComponent

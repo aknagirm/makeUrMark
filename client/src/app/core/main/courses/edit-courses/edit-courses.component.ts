@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { EditCourseForm } from './edit-courses';
+import { EditCourseForm } from '../../../../reusable/models/edit-courses';
 import { NgForm } from '@angular/forms';
 import { environment } from '../../../../../environments/environment'
 import { HttpClient } from '@angular/common/http';

@@ -20,6 +20,7 @@ export class HeaderUpdatedComponent implements OnInit, OnDestroy {
 
   openLoginPopUp= {open: false, form: ""}
   userName: string= null
+  userRole: string= null
   sideNavBarOpen=false
   classList=['VI','VII','VIII','IX','X','XI','XII']
   editProfileRef: DynamicDialogRef;
@@ -38,7 +39,9 @@ export class HeaderUpdatedComponent implements OnInit, OnDestroy {
           if(data instanceof HttpErrorResponse || data == null || data == undefined) {
             this.userName=null
           } else {
+            console.log(data)
             this.userName=data['firstName']
+            this.userRole=data['userRole']
           }
         })
         this.auth.getCurrentUser()

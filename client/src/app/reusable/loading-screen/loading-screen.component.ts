@@ -21,7 +21,6 @@ export class LoadingScreenComponent implements OnInit {
   
   checkLoader(){
     this.loader.getLoaderStatus().subscribe(status => {
-      console.log(status)
       this.loading =status
       this.cdRef.detectChanges()
     })

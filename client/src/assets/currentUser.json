@@ -1,1 +1,1534 @@
-{"user": {"userName": "abc", "userRole": "faculty"}}
+{
+    "_id": {
+        "$oid": "5f4e6c25c18f5ccc349bd045"
+    },
+    "name": "allGradesSubjects",
+    "grades": [
+        {
+		"createDate": {
+            "$date": {
+                "$numberLong": "1598892351941"
+            }
+        },
+        "createdBy": "abir.roy@gmail.com",
+        "label": "Grade 6",
+        "value": "6",
+        "subjects": [
+            {
+            "createDate": {
+                "$date": {
+                    "$numberLong": "1598892351941"
+                }
+            },
+            "createdBy": "abir.roy@gmail.com",
+            "testFees": {
+                "createDate": "",
+                "createdBy": "",
+                "fees": ""
+            }, 
+            "batches":[{"createDate": {
+                "$date": {
+                    "$numberLong": "1598892351941"
+                }
+            },
+            "createdBy": "abir.roy@gmail.com",
+			"studentCount":"4",
+			"fees":"200",
+			"status":"active"}],
+            "label": "HISTORY",
+            "value": "history"
+        }, {
+            "createDate": {
+                "$date": {
+                    "$numberLong": "1598892351941"
+                }
+            },
+            "createdBy": "abir.roy@gmail.com",
+            "testFees": {
+            "createDate": "",
+            "createdBy": "",
+            "fees": ""
+        }, 
+"batches":[{"createDate": {
+                "$date": {
+                    "$numberLong": "1598892351941"
+                }
+            },
+            "createdBy": "abir.roy@gmail.com",
+			"studentCount":"4",
+			"fees":"200",
+			"status":"active"}],
+            "label": "GEOGRAPHY",
+            "value": "geography"
+        }, {
+            "createDate": {
+                "$date": {
+                    "$numberLong": "1598892351941"
+                }
+            },
+            "createdBy": "abir.roy@gmail.com",
+            "testFees": {
+            "createDate": "",
+            "createdBy": "",
+            "fees": ""
+        }, 
+"batches":[{"createDate": {
+                "$date": {
+                    "$numberLong": "1598892351941"
+                }
+            },
+            "createdBy": "abir.roy@gmail.com",
+			"studentCount":"4",
+			"fees":"200",
+			"status":"active"}],
+            "label": "PHYSICS",
+            "value": "physics"
+        }, {
+            "createDate": {
+                "$date": {
+                    "$numberLong": "1598892351941"
+                }
+            },
+            "createdBy": "abir.roy@gmail.com",
+            "testFees": {
+            "createDate": "",
+            "createdBy": "",
+            "fees": ""
+        }, 
+"batches":[{"createDate": {
+                "$date": {
+                    "$numberLong": "1598892351941"
+                }
+            },
+            "createdBy": "abir.roy@gmail.com",
+			"studentCount":"4",
+			"fees":"200",
+			"status":"active"}],
+            "label": "CHEMISTRY",
+            "value": "chemistry"
+        }, {
+            "createDate": {
+                "$date": {
+                    "$numberLong": "1598892351941"
+                }
+            },
+            "createdBy": "abir.roy@gmail.com",
+            "testFees": {
+            "createDate": "",
+            "createdBy": "",
+            "fees": ""
+        }, 
+"batches":[{"createDate": {
+                "$date": {
+                    "$numberLong": "1598892351941"
+                }
+            },
+            "createdBy": "abir.roy@gmail.com",
+			"studentCount":"4",
+			"fees":"200",
+			"status":"active"}],
+            "label": "MATHEMATICS",
+            "value": "mathematics"
+        }, {
+            "createDate": {
+                "$date": {
+                    "$numberLong": "1598892351941"
+                }
+            },
+            "createdBy": "abir.roy@gmail.com",
+            "testFees": {
+            "createDate": "",
+            "createdBy": "",
+            "fees": ""
+        }, 
+"batches":[{"createDate": {
+                "$date": {
+                    "$numberLong": "1598892351941"
+                }
+            },
+            "createdBy": "abir.roy@gmail.com",
+			"studentCount":"4",
+			"fees":"200",
+			"status":"active"}],
+            "label": "BENGALI",
+            "value": "bengali"
+        }, {
+            "createDate": {
+                "$date": {
+                    "$numberLong": "1598892351941"
+                }
+            },
+            "createdBy": "abir.roy@gmail.com",
+            "testFees": {
+            "createDate": "",
+            "createdBy": "",
+            "fees": ""
+        }, 
+"batches":[{"createDate": {
+                "$date": {
+                    "$numberLong": "1598892351941"
+                }
+            },
+            "createdBy": "abir.roy@gmail.com",
+			"studentCount":"4",
+			"fees":"200",
+			"status":"active"}],
+            "label": "ENGLISH",
+            "value": "english"
+        }, {
+            "createDate": {
+                "$date": {
+                    "$numberLong": "1598892351941"
+                }
+            },
+            "createdBy": "abir.roy@gmail.com",
+            "testFees": {
+            "createDate": "",
+            "createdBy": "",
+            "fees": ""
+        }, 
+"batches":[{"createDate": {
+                "$date": {
+                    "$numberLong": "1598892351941"
+                }
+            },
+            "createdBy": "abir.roy@gmail.com",
+			"studentCount":"4",
+			"fees":"200",
+			"status":"active"}],
+            "label": "COMPUTER SC",
+            "value": "computer"
+        }, {
+            "createDate": {
+                "$date": {
+                    "$numberLong": "1598892351941"
+                }
+            },
+            "createdBy": "abir.roy@gmail.com",
+            "testFees": {
+            "createDate": "",
+            "createdBy": "",
+            "fees": ""
+        }, 
+"batches":[{"createDate": {
+                "$date": {
+                    "$numberLong": "1598892351941"
+                }
+            },
+            "createdBy": "abir.roy@gmail.com",
+			"studentCount":"4",
+			"fees":"200",
+			"status":"active"}],
+            "label": "BIOLOGY",
+            "value": "biology"
+        }]
+    }, {
+        "createDate": {
+            "$date": {
+                "$numberLong": "1598892351941"
+            }
+        },
+        "createdBy": "abir.roy@gmail.com",
+        "label": "Grade 7",
+        "value": "7",
+        "subjects": [
+            {
+            "createDate": {
+                "$date": {
+                    "$numberLong": "1598892351941"
+                }
+            },
+            "createdBy": "abir.roy@gmail.com",
+            "testFees": {
+            "createDate": "",
+            "createdBy": "",
+            "fees": ""
+        }, 
+"batches":[{"createDate": {
+                "$date": {
+                    "$numberLong": "1598892351941"
+                }
+            },
+            "createdBy": "abir.roy@gmail.com",
+			"studentCount":"4",
+			"fees":"200",
+			"status":"active"}],
+            "label": "HISTORY",
+            "value": "history"
+        }, {
+            "createDate": {
+                "$date": {
+                    "$numberLong": "1598892351941"
+                }
+            },
+            "createdBy": "abir.roy@gmail.com",
+            "testFees": {
+            "createDate": "",
+            "createdBy": "",
+            "fees": ""
+        }, 
+"batches":[{"createDate": {
+                "$date": {
+                    "$numberLong": "1598892351941"
+                }
+            },
+            "createdBy": "abir.roy@gmail.com",
+			"studentCount":"4",
+			"fees":"200",
+			"status":"active"}],
+            "label": "GEOGRAPHY",
+            "value": "geography"
+        }, {
+            "createDate": {
+                "$date": {
+                    "$numberLong": "1598892351941"
+                }
+            },
+            "createdBy": "abir.roy@gmail.com",
+            "testFees": {
+            "createDate": "",
+            "createdBy": "",
+            "fees": ""
+        }, 
+"batches":[{"createDate": {
+                "$date": {
+                    "$numberLong": "1598892351941"
+                }
+            },
+            "createdBy": "abir.roy@gmail.com",
+			"studentCount":"4",
+			"fees":"200",
+			"status":"active"}],
+            "label": "PHYSICS",
+            "value": "physics"
+        }, {
+            "createDate": {
+                "$date": {
+                    "$numberLong": "1598892351941"
+                }
+            },
+            "createdBy": "abir.roy@gmail.com",
+            "testFees": {
+            "createDate": "",
+            "createdBy": "",
+            "fees": ""
+        }, 
+"batches":[{"createDate": {
+                "$date": {
+                    "$numberLong": "1598892351941"
+                }
+            },
+            "createdBy": "abir.roy@gmail.com",
+			"studentCount":"4",
+			"fees":"200",
+			"status":"active"}],
+            "label": "CHEMISTRY",
+            "value": "chemistry"
+        }, {
+            "createDate": {
+                "$date": {
+                    "$numberLong": "1598892351941"
+                }
+            },
+            "createdBy": "abir.roy@gmail.com",
+            "testFees": {
+            "createDate": "",
+            "createdBy": "",
+            "fees": ""
+        }, 
+"batches":[{"createDate": {
+                "$date": {
+                    "$numberLong": "1598892351941"
+                }
+            },
+            "createdBy": "abir.roy@gmail.com",
+			"studentCount":"4",
+			"fees":"200",
+			"status":"active"}],
+            "label": "MATHEMATICS",
+            "value": "mathematics"
+        }, {
+            "createDate": {
+                "$date": {
+                    "$numberLong": "1598892351941"
+                }
+            },
+            "createdBy": "abir.roy@gmail.com",
+            "testFees": {
+            "createDate": "",
+            "createdBy": "",
+            "fees": ""
+        }, 
+"batches":[{"createDate": {
+                "$date": {
+                    "$numberLong": "1598892351941"
+                }
+            },
+            "createdBy": "abir.roy@gmail.com",
+			"studentCount":"4",
+			"fees":"200",
+			"status":"active"}],
+            "label": "BENGALI",
+            "value": "bengali"
+        }, {
+            "createDate": {
+                "$date": {
+                    "$numberLong": "1598892351941"
+                }
+            },
+            "createdBy": "abir.roy@gmail.com",
+            "testFees": {
+            "createDate": "",
+            "createdBy": "",
+            "fees": ""
+        }, 
+"batches":[{"createDate": {
+                "$date": {
+                    "$numberLong": "1598892351941"
+                }
+            },
+            "createdBy": "abir.roy@gmail.com",
+			"studentCount":"4",
+			"fees":"200",
+			"status":"active"}],
+            "label": "ENGLISH",
+            "value": "english"
+        }, {
+            "createDate": {
+                "$date": {
+                    "$numberLong": "1598892351941"
+                }
+            },
+            "createdBy": "abir.roy@gmail.com",
+            "testFees": {
+            "createDate": "",
+            "createdBy": "",
+            "fees": ""
+        }, 
+"batches":[{"createDate": {
+                "$date": {
+                    "$numberLong": "1598892351941"
+                }
+            },
+            "createdBy": "abir.roy@gmail.com",
+			"studentCount":"4",
+			"fees":"200",
+			"status":"active"}],
+            "label": "COMPUTER SC",
+            "value": "computer"
+        }, {
+            "createDate": {
+                "$date": {
+                    "$numberLong": "1598892351941"
+                }
+            },
+            "createdBy": "abir.roy@gmail.com",
+            "testFees": {
+            "createDate": "",
+            "createdBy": "",
+            "fees": ""
+        }, 
+"batches":[{"createDate": {
+                "$date": {
+                    "$numberLong": "1598892351941"
+                }
+            },
+            "createdBy": "abir.roy@gmail.com",
+			"studentCount":"4",
+			"fees":"200",
+			"status":"active"}],
+            "label": "BIOLOGY",
+            "value": "biology"
+        }]
+    }, {
+        "createDate": {
+            "$date": {
+                "$numberLong": "1598892351941"
+            }
+        },
+        "createdBy": "abir.roy@gmail.com",
+        "label": "Grade 8",
+        "value": "8",
+        "subjects": [
+            {
+            "createDate": {
+                "$date": {
+                    "$numberLong": "1598892351941"
+                }
+            },
+            "createdBy": "abir.roy@gmail.com",
+            "testFees": {
+            "createDate": "",
+            "createdBy": "",
+            "fees": ""
+        }, 
+"batches":[{"createDate": {
+                "$date": {
+                    "$numberLong": "1598892351941"
+                }
+            },
+            "createdBy": "abir.roy@gmail.com",
+			"studentCount":"4",
+			"fees":"200",
+			"status":"active"}],
+            "label": "HISTORY",
+            "value": "history"
+        }, {
+            "createDate": {
+                "$date": {
+                    "$numberLong": "1598892351941"
+                }
+            },
+            "createdBy": "abir.roy@gmail.com",
+            "testFees": {
+            "createDate": "",
+            "createdBy": "",
+            "fees": ""
+        }, 
+"batches":[{"createDate": {
+                "$date": {
+                    "$numberLong": "1598892351941"
+                }
+            },
+            "createdBy": "abir.roy@gmail.com",
+			"studentCount":"4",
+			"fees":"200",
+			"status":"active"}],
+            "label": "GEOGRAPHY",
+            "value": "geography"
+        }, {
+            "createDate": {
+                "$date": {
+                    "$numberLong": "1598892351941"
+                }
+            },
+            "createdBy": "abir.roy@gmail.com",
+            "testFees": {
+            "createDate": "",
+            "createdBy": "",
+            "fees": ""
+        }, 
+"batches":[{"createDate": {
+                "$date": {
+                    "$numberLong": "1598892351941"
+                }
+            },
+            "createdBy": "abir.roy@gmail.com",
+			"studentCount":"4",
+			"fees":"200",
+			"status":"active"}],
+            "label": "PHYSICS",
+            "value": "physics"
+        }, {
+            "createDate": {
+                "$date": {
+                    "$numberLong": "1598892351941"
+                }
+            },
+            "createdBy": "abir.roy@gmail.com",
+            "testFees": {
+            "createDate": "",
+            "createdBy": "",
+            "fees": ""
+        }, 
+"batches":[{"createDate": {
+                "$date": {
+                    "$numberLong": "1598892351941"
+                }
+            },
+            "createdBy": "abir.roy@gmail.com",
+			"studentCount":"4",
+			"fees":"200",
+			"status":"active"}],
+            "label": "CHEMISTRY",
+            "value": "chemistry"
+        }, {
+            "createDate": {
+                "$date": {
+                    "$numberLong": "1598892351941"
+                }
+            },
+            "createdBy": "abir.roy@gmail.com",
+            "testFees": {
+            "createDate": "",
+            "createdBy": "",
+            "fees": ""
+        }, 
+"batches":[{"createDate": {
+                "$date": {
+                    "$numberLong": "1598892351941"
+                }
+            },
+            "createdBy": "abir.roy@gmail.com",
+			"studentCount":"4",
+			"fees":"200",
+			"status":"active"}],
+            "label": "MATHEMATICS",
+            "value": "mathematics"
+        }, {
+            "createDate": {
+                "$date": {
+                    "$numberLong": "1598892351941"
+                }
+            },
+            "createdBy": "abir.roy@gmail.com",
+            "testFees": {
+            "createDate": "",
+            "createdBy": "",
+            "fees": ""
+        }, 
+"batches":[{"createDate": {
+                "$date": {
+                    "$numberLong": "1598892351941"
+                }
+            },
+            "createdBy": "abir.roy@gmail.com",
+			"studentCount":"4",
+			"fees":"200",
+			"status":"active"}],
+            "label": "BENGALI",
+            "value": "bengali"
+        }, {
+            "createDate": {
+                "$date": {
+                    "$numberLong": "1598892351941"
+                }
+            },
+            "createdBy": "abir.roy@gmail.com",
+            "testFees": {
+            "createDate": "",
+            "createdBy": "",
+            "fees": ""
+        }, 
+"batches":[{"createDate": {
+                "$date": {
+                    "$numberLong": "1598892351941"
+                }
+            },
+            "createdBy": "abir.roy@gmail.com",
+			"studentCount":"4",
+			"fees":"200",
+			"status":"active"}],
+            "label": "ENGLISH",
+            "value": "english"
+        }, {
+            "createDate": {
+                "$date": {
+                    "$numberLong": "1598892351941"
+                }
+            },
+            "createdBy": "abir.roy@gmail.com",
+            "testFees": {
+            "createDate": "",
+            "createdBy": "",
+            "fees": ""
+        }, 
+"batches":[{"createDate": {
+                "$date": {
+                    "$numberLong": "1598892351941"
+                }
+            },
+            "createdBy": "abir.roy@gmail.com",
+			"studentCount":"4",
+			"fees":"200",
+			"status":"active"}],
+            "label": "COMPUTER SC",
+            "value": "computer"
+        }, {
+            "createDate": {
+                "$date": {
+                    "$numberLong": "1598892351941"
+                }
+            },
+            "createdBy": "abir.roy@gmail.com",
+            "testFees": {
+            "createDate": "",
+            "createdBy": "",
+            "fees": ""
+        }, 
+"batches":[{"createDate": {
+                "$date": {
+                    "$numberLong": "1598892351941"
+                }
+            },
+            "createdBy": "abir.roy@gmail.com",
+			"studentCount":"4",
+			"fees":"200",
+			"status":"active"}],
+            "label": "BIOLOGY",
+            "value": "biology"
+        }]
+    }, {
+        "createDate": {
+            "$date": {
+                "$numberLong": "1598892351941"
+            }
+        },
+        "createdBy": "abir.roy@gmail.com",
+        "label": "Grade 9",
+        "value": "9",
+        "subjects": [
+            {
+            "createDate": {
+                "$date": {
+                    "$numberLong": "1598892351941"
+                }
+            },
+            "createdBy": "abir.roy@gmail.com",
+            "testFees": {
+            "createDate": "",
+            "createdBy": "",
+            "fees": ""
+        }, 
+"batches":[{"createDate": {
+                "$date": {
+                    "$numberLong": "1598892351941"
+                }
+            },
+            "createdBy": "abir.roy@gmail.com",
+			"studentCount":"4",
+			"fees":"200",
+			"status":"active"}],
+            "label": "HISTORY",
+            "value": "history"
+        }, {
+            "createDate": {
+                "$date": {
+                    "$numberLong": "1598892351941"
+                }
+            },
+            "createdBy": "abir.roy@gmail.com",
+            "testFees": {
+            "createDate": "",
+            "createdBy": "",
+            "fees": ""
+        }, 
+"batches":[{"createDate": {
+                "$date": {
+                    "$numberLong": "1598892351941"
+                }
+            },
+            "createdBy": "abir.roy@gmail.com",
+			"studentCount":"4",
+			"fees":"200",
+			"status":"active"}],
+            "label": "GEOGRAPHY",
+            "value": "geography"
+        }, {
+            "createDate": {
+                "$date": {
+                    "$numberLong": "1598892351941"
+                }
+            },
+            "createdBy": "abir.roy@gmail.com",
+            "testFees": {
+            "createDate": "",
+            "createdBy": "",
+            "fees": ""
+        }, 
+"batches":[{"createDate": {
+                "$date": {
+                    "$numberLong": "1598892351941"
+                }
+            },
+            "createdBy": "abir.roy@gmail.com",
+			"studentCount":"4",
+			"fees":"200",
+			"status":"active"}],
+            "label": "PHYSICS",
+            "value": "physics"
+        }, {
+            "createDate": {
+                "$date": {
+                    "$numberLong": "1598892351941"
+                }
+            },
+            "createdBy": "abir.roy@gmail.com",
+            "testFees": {
+            "createDate": "",
+            "createdBy": "",
+            "fees": ""
+        }, 
+"batches":[{"createDate": {
+                "$date": {
+                    "$numberLong": "1598892351941"
+                }
+            },
+            "createdBy": "abir.roy@gmail.com",
+			"studentCount":"4",
+			"fees":"200",
+			"status":"active"}],
+            "label": "CHEMISTRY",
+            "value": "chemistry"
+        }, {
+            "createDate": {
+                "$date": {
+                    "$numberLong": "1598892351941"
+                }
+            },
+            "createdBy": "abir.roy@gmail.com",
+            "testFees": {
+            "createDate": "",
+            "createdBy": "",
+            "fees": ""
+        }, 
+"batches":[{"createDate": {
+                "$date": {
+                    "$numberLong": "1598892351941"
+                }
+            },
+            "createdBy": "abir.roy@gmail.com",
+			"studentCount":"4",
+			"fees":"200",
+			"status":"active"}],
+            "label": "MATHEMATICS",
+            "value": "mathematics"
+        }, {
+            "createDate": {
+                "$date": {
+                    "$numberLong": "1598892351941"
+                }
+            },
+            "createdBy": "abir.roy@gmail.com",
+            "testFees": {
+            "createDate": "",
+            "createdBy": "",
+            "fees": ""
+        }, 
+"batches":[{"createDate": {
+                "$date": {
+                    "$numberLong": "1598892351941"
+                }
+            },
+            "createdBy": "abir.roy@gmail.com",
+			"studentCount":"4",
+			"fees":"200",
+			"status":"active"}],
+            "label": "BENGALI",
+            "value": "bengali"
+        }, {
+            "createDate": {
+                "$date": {
+                    "$numberLong": "1598892351941"
+                }
+            },
+            "createdBy": "abir.roy@gmail.com",
+            "testFees": {
+            "createDate": "",
+            "createdBy": "",
+            "fees": ""
+        }, 
+"batches":[{"createDate": {
+                "$date": {
+                    "$numberLong": "1598892351941"
+                }
+            },
+            "createdBy": "abir.roy@gmail.com",
+			"studentCount":"4",
+			"fees":"200",
+			"status":"active"}],
+            "label": "ENGLISH",
+            "value": "english"
+        }, {
+            "createDate": {
+                "$date": {
+                    "$numberLong": "1598892351941"
+                }
+            },
+            "createdBy": "abir.roy@gmail.com",
+            "testFees": {
+            "createDate": "",
+            "createdBy": "",
+            "fees": ""
+        }, 
+"batches":[{"createDate": {
+                "$date": {
+                    "$numberLong": "1598892351941"
+                }
+            },
+            "createdBy": "abir.roy@gmail.com",
+			"studentCount":"4",
+			"fees":"200",
+			"status":"active"}],
+            "label": "COMPUTER SC",
+            "value": "computer"
+        }, {
+            "createDate": {
+                "$date": {
+                    "$numberLong": "1598892351941"
+                }
+            },
+            "createdBy": "abir.roy@gmail.com",
+            "testFees": {
+            "createDate": "",
+            "createdBy": "",
+            "fees": ""
+        }, 
+"batches":[{"createDate": {
+                "$date": {
+                    "$numberLong": "1598892351941"
+                }
+            },
+            "createdBy": "abir.roy@gmail.com",
+			"studentCount":"4",
+			"fees":"200",
+			"status":"active"}],
+            "label": "BIOLOGY",
+            "value": "biology"
+        }]
+    }, {
+        "createDate": {
+            "$date": {
+                "$numberLong": "1598892351941"
+            }
+        },
+        "createdBy": "abir.roy@gmail.com",
+        "label": "Grade 10",
+        "value": "10",
+        "subjects": [
+            {
+            "createDate": {
+                "$date": {
+                    "$numberLong": "1598892351941"
+                }
+            },
+            "createdBy": "abir.roy@gmail.com",
+            "testFees": {
+            "createDate": "",
+            "createdBy": "",
+            "fees": ""
+        }, 
+"batches":[{"createDate": {
+                "$date": {
+                    "$numberLong": "1598892351941"
+                }
+            },
+            "createdBy": "abir.roy@gmail.com",
+			"studentCount":"4",
+			"fees":"200",
+			"status":"active"}],
+            "label": "HISTORY",
+            "value": "history"
+        }, {
+            "createDate": {
+                "$date": {
+                    "$numberLong": "1598892351941"
+                }
+            },
+            "createdBy": "abir.roy@gmail.com",
+            "testFees": {
+            "createDate": "",
+            "createdBy": "",
+            "fees": ""
+        }, 
+"batches":[{"createDate": {
+                "$date": {
+                    "$numberLong": "1598892351941"
+                }
+            },
+            "createdBy": "abir.roy@gmail.com",
+			"studentCount":"4",
+			"fees":"200",
+			"status":"active"}],
+            "label": "GEOGRAPHY",
+            "value": "geography"
+        }, {
+            "createDate": {
+                "$date": {
+                    "$numberLong": "1598892351941"
+                }
+            },
+            "createdBy": "abir.roy@gmail.com",
+            "testFees": {
+            "createDate": "",
+            "createdBy": "",
+            "fees": ""
+        }, 
+"batches":[{"createDate": {
+                "$date": {
+                    "$numberLong": "1598892351941"
+                }
+            },
+            "createdBy": "abir.roy@gmail.com",
+			"studentCount":"4",
+			"fees":"200",
+			"status":"active"}],
+            "label": "PHYSICS",
+            "value": "physics"
+        }, {
+            "createDate": {
+                "$date": {
+                    "$numberLong": "1598892351941"
+                }
+            },
+            "createdBy": "abir.roy@gmail.com",
+            "testFees": {
+            "createDate": "",
+            "createdBy": "",
+            "fees": ""
+        }, 
+"batches":[{"createDate": {
+                "$date": {
+                    "$numberLong": "1598892351941"
+                }
+            },
+            "createdBy": "abir.roy@gmail.com",
+			"studentCount":"4",
+			"fees":"200",
+			"status":"active"}],
+            "label": "CHEMISTRY",
+            "value": "chemistry"
+        }, {
+            "createDate": {
+                "$date": {
+                    "$numberLong": "1598892351941"
+                }
+            },
+            "createdBy": "abir.roy@gmail.com",
+            "testFees": {
+            "createDate": "",
+            "createdBy": "",
+            "fees": ""
+        }, 
+"batches":[{"createDate": {
+                "$date": {
+                    "$numberLong": "1598892351941"
+                }
+            },
+            "createdBy": "abir.roy@gmail.com",
+			"studentCount":"4",
+			"fees":"200",
+			"status":"active"}],
+            "label": "MATHEMATICS",
+            "value": "mathematics"
+        }, {
+            "createDate": {
+                "$date": {
+                    "$numberLong": "1598892351941"
+                }
+            },
+            "createdBy": "abir.roy@gmail.com",
+            "testFees": {
+            "createDate": "",
+            "createdBy": "",
+            "fees": ""
+        }, 
+"batches":[{"createDate": {
+                "$date": {
+                    "$numberLong": "1598892351941"
+                }
+            },
+            "createdBy": "abir.roy@gmail.com",
+			"studentCount":"4",
+			"fees":"200",
+			"status":"active"}],
+            "label": "BENGALI",
+            "value": "bengali"
+        }, {
+            "createDate": {
+                "$date": {
+                    "$numberLong": "1598892351941"
+                }
+            },
+            "createdBy": "abir.roy@gmail.com",
+            "testFees": {
+            "createDate": "",
+            "createdBy": "",
+            "fees": ""
+        }, 
+"batches":[{"createDate": {
+                "$date": {
+                    "$numberLong": "1598892351941"
+                }
+            },
+            "createdBy": "abir.roy@gmail.com",
+			"studentCount":"4",
+			"fees":"200",
+			"status":"active"}],
+            "label": "ENGLISH",
+            "value": "english"
+        }, {
+            "createDate": {
+                "$date": {
+                    "$numberLong": "1598892351941"
+                }
+            },
+            "createdBy": "abir.roy@gmail.com",
+            "testFees": {
+            "createDate": "",
+            "createdBy": "",
+            "fees": ""
+        }, 
+"batches":[{"createDate": {
+                "$date": {
+                    "$numberLong": "1598892351941"
+                }
+            },
+            "createdBy": "abir.roy@gmail.com",
+			"studentCount":"4",
+			"fees":"200",
+			"status":"active"}],
+            "label": "COMPUTER SC",
+            "value": "computer"
+        }, {
+            "createDate": {
+                "$date": {
+                    "$numberLong": "1598892351941"
+                }
+            },
+            "createdBy": "abir.roy@gmail.com",
+            "testFees": {
+            "createDate": "",
+            "createdBy": "",
+            "fees": ""
+        }, 
+"batches":[{"createDate": {
+                "$date": {
+                    "$numberLong": "1598892351941"
+                }
+            },
+            "createdBy": "abir.roy@gmail.com",
+			"studentCount":"4",
+			"fees":"200",
+			"status":"active"}],
+            "label": "BIOLOGY",
+            "value": "biology"
+        }]
+    }, {
+        "createDate": {
+            "$date": {
+                "$numberLong": "1598892351941"
+            }
+        },
+        "createdBy": "abir.roy@gmail.com",
+        "label": "Grade 11",
+        "value": "11",
+        "subjects": [
+            {
+            "createDate": {
+                "$date": {
+                    "$numberLong": "1598892351941"
+                }
+            },
+            "createdBy": "abir.roy@gmail.com",
+            "testFees": {
+            "createDate": "",
+            "createdBy": "",
+            "fees": ""
+        }, 
+"batches":[{"createDate": {
+                "$date": {
+                    "$numberLong": "1598892351941"
+                }
+            },
+            "createdBy": "abir.roy@gmail.com",
+			"studentCount":"4",
+			"fees":"200",
+			"status":"active"}],
+            "label": "HISTORY",
+            "value": "history"
+        }, {
+            "createDate": {
+                "$date": {
+                    "$numberLong": "1598892351941"
+                }
+            },
+            "createdBy": "abir.roy@gmail.com",
+            "testFees": {
+            "createDate": "",
+            "createdBy": "",
+            "fees": ""
+        }, 
+"batches":[{"createDate": {
+                "$date": {
+                    "$numberLong": "1598892351941"
+                }
+            },
+            "createdBy": "abir.roy@gmail.com",
+			"studentCount":"4",
+			"fees":"200",
+			"status":"active"}],
+            "label": "GEOGRAPHY",
+            "value": "geography"
+        }, {
+            "createDate": {
+                "$date": {
+                    "$numberLong": "1598892351941"
+                }
+            },
+            "createdBy": "abir.roy@gmail.com",
+            "testFees": {
+            "createDate": "",
+            "createdBy": "",
+            "fees": ""
+        }, 
+"batches":[{"createDate": {
+                "$date": {
+                    "$numberLong": "1598892351941"
+                }
+            },
+            "createdBy": "abir.roy@gmail.com",
+			"studentCount":"4",
+			"fees":"200",
+			"status":"active"}],
+            "label": "PHYSICS",
+            "value": "physics"
+        }, {
+            "createDate": {
+                "$date": {
+                    "$numberLong": "1598892351941"
+                }
+            },
+            "createdBy": "abir.roy@gmail.com",
+            "testFees": {
+            "createDate": "",
+            "createdBy": "",
+            "fees": ""
+        }, 
+"batches":[{"createDate": {
+                "$date": {
+                    "$numberLong": "1598892351941"
+                }
+            },
+            "createdBy": "abir.roy@gmail.com",
+			"studentCount":"4",
+			"fees":"200",
+			"status":"active"}],
+            "label": "CHEMISTRY",
+            "value": "chemistry"
+        }, {
+            "createDate": {
+                "$date": {
+                    "$numberLong": "1598892351941"
+                }
+            },
+            "createdBy": "abir.roy@gmail.com",
+            "testFees": {
+            "createDate": "",
+            "createdBy": "",
+            "fees": ""
+        }, 
+"batches":[{"createDate": {
+                "$date": {
+                    "$numberLong": "1598892351941"
+                }
+            },
+            "createdBy": "abir.roy@gmail.com",
+			"studentCount":"4",
+			"fees":"200",
+			"status":"active"}],
+            "label": "MATHEMATICS",
+            "value": "mathematics"
+        }, {
+            "createDate": {
+                "$date": {
+                    "$numberLong": "1598892351941"
+                }
+            },
+            "createdBy": "abir.roy@gmail.com",
+            "testFees": {
+            "createDate": "",
+            "createdBy": "",
+            "fees": ""
+        }, 
+"batches":[{"createDate": {
+                "$date": {
+                    "$numberLong": "1598892351941"
+                }
+            },
+            "createdBy": "abir.roy@gmail.com",
+			"studentCount":"4",
+			"fees":"200",
+			"status":"active"}],
+            "label": "BENGALI",
+            "value": "bengali"
+        }, {
+            "createDate": {
+                "$date": {
+                    "$numberLong": "1598892351941"
+                }
+            },
+            "createdBy": "abir.roy@gmail.com",
+            "testFees": {
+            "createDate": "",
+            "createdBy": "",
+            "fees": ""
+        }, 
+"batches":[{"createDate": {
+                "$date": {
+                    "$numberLong": "1598892351941"
+                }
+            },
+            "createdBy": "abir.roy@gmail.com",
+			"studentCount":"4",
+			"fees":"200",
+			"status":"active"}],
+            "label": "ENGLISH",
+            "value": "english"
+        }, {
+            "createDate": {
+                "$date": {
+                    "$numberLong": "1598892351941"
+                }
+            },
+            "createdBy": "abir.roy@gmail.com",
+            "testFees": {
+            "createDate": "",
+            "createdBy": "",
+            "fees": ""
+        }, 
+"batches":[{"createDate": {
+                "$date": {
+                    "$numberLong": "1598892351941"
+                }
+            },
+            "createdBy": "abir.roy@gmail.com",
+			"studentCount":"4",
+			"fees":"200",
+			"status":"active"}],
+            "label": "COMPUTER SC",
+            "value": "computer"
+        }, {
+            "createDate": {
+                "$date": {
+                    "$numberLong": "1598892351941"
+                }
+            },
+            "createdBy": "abir.roy@gmail.com",
+            "testFees": {
+            "createDate": "",
+            "createdBy": "",
+            "fees": ""
+        }, 
+"batches":[{"createDate": {
+                "$date": {
+                    "$numberLong": "1598892351941"
+                }
+            },
+            "createdBy": "abir.roy@gmail.com",
+			"studentCount":"4",
+			"fees":"200",
+			"status":"active"}],
+            "label": "BIOLOGY",
+            "value": "biology"
+        }]
+    }, {
+        "createDate": {
+            "$date": {
+                "$numberLong": "1598892351941"
+            }
+        },
+        "createdBy": "abir.roy@gmail.com",
+        "label": "Grade 12",
+        "value": "12",
+        "subjects": [
+            {
+            "createDate": {
+                "$date": {
+                    "$numberLong": "1598892351941"
+                }
+            },
+            "createdBy": "abir.roy@gmail.com",
+            "testFees": {
+            "createDate": "",
+            "createdBy": "",
+            "fees": ""
+        }, 
+"batches":[{"createDate": {
+                "$date": {
+                    "$numberLong": "1598892351941"
+                }
+            },
+            "createdBy": "abir.roy@gmail.com",
+			"studentCount":"4",
+			"fees":"200",
+			"status":"active"}],
+            "label": "HISTORY",
+            "value": "history"
+        }, {
+            "createDate": {
+                "$date": {
+                    "$numberLong": "1598892351941"
+                }
+            },
+            "createdBy": "abir.roy@gmail.com",
+            "testFees": {
+            "createDate": "",
+            "createdBy": "",
+            "fees": ""
+        }, 
+"batches":[{"createDate": {
+                "$date": {
+                    "$numberLong": "1598892351941"
+                }
+            },
+            "createdBy": "abir.roy@gmail.com",
+			"studentCount":"4",
+			"fees":"200",
+			"status":"active"}],
+            "label": "GEOGRAPHY",
+            "value": "geography"
+        }, {
+            "createDate": {
+                "$date": {
+                    "$numberLong": "1598892351941"
+                }
+            },
+            "createdBy": "abir.roy@gmail.com",
+            "testFees": {
+            "createDate": "",
+            "createdBy": "",
+            "fees": ""
+        }, 
+"batches":[{"createDate": {
+                "$date": {
+                    "$numberLong": "1598892351941"
+                }
+            },
+            "createdBy": "abir.roy@gmail.com",
+			"studentCount":"4",
+			"fees":"200",
+			"status":"active"}],
+            "label": "PHYSICS",
+            "value": "physics"
+        }, {
+            "createDate": {
+                "$date": {
+                    "$numberLong": "1598892351941"
+                }
+            },
+            "createdBy": "abir.roy@gmail.com",
+            "testFees": {
+            "createDate": "",
+            "createdBy": "",
+            "fees": ""
+        }, 
+"batches":[{"createDate": {
+                "$date": {
+                    "$numberLong": "1598892351941"
+                }
+            },
+            "createdBy": "abir.roy@gmail.com",
+			"studentCount":"4",
+			"fees":"200",
+			"status":"active"}],
+            "label": "CHEMISTRY",
+            "value": "chemistry"
+        }, {
+            "createDate": {
+                "$date": {
+                    "$numberLong": "1598892351941"
+                }
+            },
+            "createdBy": "abir.roy@gmail.com",
+            "testFees": {
+            "createDate": "",
+            "createdBy": "",
+            "fees": ""
+        }, 
+"batches":[{"createDate": {
+                "$date": {
+                    "$numberLong": "1598892351941"
+                }
+            },
+            "createdBy": "abir.roy@gmail.com",
+			"studentCount":"4",
+			"fees":"200",
+			"status":"active"}],
+            "label": "MATHEMATICS",
+            "value": "mathematics"
+        }, {
+            "createDate": {
+                "$date": {
+                    "$numberLong": "1598892351941"
+                }
+            },
+            "createdBy": "abir.roy@gmail.com",
+            "testFees": {
+            "createDate": "",
+            "createdBy": "",
+            "fees": ""
+        }, 
+"batches":[{"createDate": {
+                "$date": {
+                    "$numberLong": "1598892351941"
+                }
+            },
+            "createdBy": "abir.roy@gmail.com",
+			"studentCount":"4",
+			"fees":"200",
+			"status":"active"}],
+            "label": "BENGALI",
+            "value": "bengali"
+        }, {
+            "createDate": {
+                "$date": {
+                    "$numberLong": "1598892351941"
+                }
+            },
+            "createdBy": "abir.roy@gmail.com",
+            "testFees": {
+            "createDate": "",
+            "createdBy": "",
+            "fees": ""
+        }, 
+"batches":[{"createDate": {
+                "$date": {
+                    "$numberLong": "1598892351941"
+                }
+            },
+            "createdBy": "abir.roy@gmail.com",
+			"studentCount":"4",
+			"fees":"200",
+			"status":"active"}],
+            "label": "ENGLISH",
+            "value": "english"
+        }, {
+            "createDate": {
+                "$date": {
+                    "$numberLong": "1598892351941"
+                }
+            },
+            "createdBy": "abir.roy@gmail.com",
+            "testFees": {
+            "createDate": "",
+            "createdBy": "",
+            "fees": ""
+        }, 
+"batches":[{"createDate": {
+                "$date": {
+                    "$numberLong": "1598892351941"
+                }
+            },
+            "createdBy": "abir.roy@gmail.com",
+			"studentCount":"4",
+			"fees":"200",
+			"status":"active"}],
+            "label": "COMPUTER SC",
+            "value": "computer"
+        }, {
+            "createDate": {
+                "$date": {
+                    "$numberLong": "1598892351941"
+                }
+            },
+            "createdBy": "abir.roy@gmail.com",
+            "testFees": {
+            "createDate": "",
+            "createdBy": "",
+            "fees": ""
+        }, 
+"batches":[{"createDate": {
+                "$date": {
+                    "$numberLong": "1598892351941"
+                }
+            },
+            "createdBy": "abir.roy@gmail.com",
+			"studentCount":"4",
+			"fees":"200",
+			"status":"active"}],
+            "label": "BIOLOGY",
+            "value": "biology"
+        }]
+    }]
+}

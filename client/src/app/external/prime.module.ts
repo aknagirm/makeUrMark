@@ -17,6 +17,8 @@ import {MessageModule} from 'primeng/message';
 import {ConfirmDialogModule} from 'primeng/confirmdialog';
 import {DynamicDialogModule} from 'primeng/dynamicdialog';
 import {DialogModule} from 'primeng/dialog';
+import {TreeTableModule} from 'primeng/treetable';
+import {RadioButtonModule} from 'primeng/radiobutton';
 
 @NgModule({
   declarations: [],
@@ -38,7 +40,9 @@ import {DialogModule} from 'primeng/dialog';
     MessageModule,
     ConfirmDialogModule,
     DynamicDialogModule,
-    DialogModule
+    DialogModule,
+    TreeTableModule,
+    RadioButtonModule
   ],
   exports: [
     CarouselModule,
@@ -57,7 +61,9 @@ import {DialogModule} from 'primeng/dialog';
     MessageModule,
     ConfirmDialogModule,
     DynamicDialogModule,
-    DialogModule
+    DialogModule,
+    TreeTableModule,
+    RadioButtonModule
   ]
 })
 export class PrimeModule { }

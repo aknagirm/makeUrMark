@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FacultyProfileEditForm } from './faculty-profile-edit'
+import { FacultyProfileEditForm } from '../../../../reusable/models/faculty-profile-edit'
 import { AuthService } from 'src/app/core/services/auth.service';
 import { environment } from '../../../../../environments/environment'
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';

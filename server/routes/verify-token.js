@@ -41,5 +41,5 @@ module.exports=function verifyToken(req,res, next) {
                 }
             }
         }
-    }, 5000)
+    }, 100)
     }

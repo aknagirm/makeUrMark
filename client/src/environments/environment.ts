@@ -14,7 +14,8 @@ export const environment = {
       captchaVerify: 'http://localhost:3010/verification/captcha'
     },
     home: {
-      getAllFaculties: 'http://localhost:3010/homeOptions/getAllFaculties'
+      getAllFaculties: 'http://localhost:3010/homeOptions/getAllFaculties',
+      getDetails: 'http://localhost:3010/homeOptions/getDetails',
     },
     auth: {
       login: 'http://localhost:3010/auth/login',
@@ -43,6 +44,12 @@ export const environment = {
       getTestIds: 'http://localhost:3010/facultyExplore/getTestIds',
       getTestDetailsWithId: 'http://localhost:3010/facultyExplore/getTestDetailsWithId',
       updateTestMarks: 'http://localhost:3010/facultyExplore/updateTestMarks'
+    },
+    adminOptions: {
+      getDetails: 'http://localhost:3010/adminExplore/getDetails',
+      addGradeSubBoard: 'http://localhost:3010/adminExplore/addGradeSubBoard',
+      deleteGradeSubBoard: 'http://localhost:3010/adminExplore/deleteGradeSubBoard',
+      updateTestFees: 'http://localhost:3010/adminExplore/updateTestFees'
     }
   }
   

@@ -49,16 +49,15 @@
                         <div class="col-6 my-4 each-form-field">
                             <mat-label class="my-2 mr-3"><strong>*Select Grade</strong></mat-label>
                             <p-dropdown autoWidth="false" [style]="{'width':'100%','z-index':'5'}" required
-                                [options]="allGradesSubjects?.grades" name="grade" [(ngModel)]="uploadMaterial.grade"
-                                placeholder="Select Grade" optionLabel="label" [showClear]="true">
+                                [options]="allGrades" name="grade" [(ngModel)]="uploadMaterial.grade"
+                                placeholder="Select Grade" [showClear]="true">
                             </p-dropdown>
                         </div>
                         <div class="col-6 my-4 each-form-field">
                             <mat-label class="my-2 mr-3"><strong>*Select Subject</strong></mat-label>
                             <p-dropdown autoWidth="false" [style]="{'width':'100%','z-index':'5'}" required
-                                [disabled]="!uploadMaterial.grade" [options]="uploadMaterial.grade?.subjects"
-                                name="subject" [(ngModel)]="uploadMaterial.subject" placeholder="Select Subject"
-                                optionLabel="label" [showClear]="true">
+                                [options]="allSubjects" name="subject" [(ngModel)]="uploadMaterial.subject" 
+                                placeholder="Select Subject" [showClear]="true">
                             </p-dropdown>
                         </div>
                         <div class="col-12 my-4 each-form-field">
@@ -97,12 +96,11 @@
                         <div class="col-12 mt-3">
                             <div *ngIf="allMaterial?.materialList.length<1">
                                 <p class="text-danger">
-                                    No upcoming test scheduled by you is found
+                                    No material uploaded by you is found
                                 </p>
                             </div>
                             <div class="mt-3" *ngIf="allMaterial?.materialList.length>=1">
-                                <p-table #materialtable [value]="allMaterial?.materialList"  [scrollable]="true"  scrollHeight="200px"
-                                [frozenColumns]="uploadMaterial.materialViewTable.frozenCols"  frozenWidth="140px"  
+                                <p-table #materialtable [value]="allMaterial?.materialList" [scrollable]="true"  scrollHeight="200px"
                                 [columns]="uploadMaterial.materialViewTable.moveableCols"
                                 [globalFilterFields]="['grade','subject','chapters','filename']">
                                     <ng-template pTemplate="caption">
@@ -165,16 +163,15 @@
                         <div class="col-6 my-4 each-form-field">
                             <mat-label class="my-2 mr-3"><strong>*Select Grade</strong></mat-label>
                             <p-dropdown autoWidth="false" [style]="{'width':'100%','z-index':'5'}" required
-                                [options]="allGradesSubjects?.grades" name="grade" [(ngModel)]="scheduleTest.grade"
-                                placeholder="Select Grade" optionLabel="label" [showClear]="true">
+                                [options]="allGrades" name="grade" [(ngModel)]="scheduleTest.grade"
+                                placeholder="Select Grade" [showClear]="true">
                             </p-dropdown>
                         </div>
                         <div class="col-6 my-4 each-form-field">
                             <mat-label class="my-2 mr-3"><strong>*Select Subject</strong></mat-label>
-                            <p-dropdown autoWidth="false" [style]="{'width':'100%', 'z-index':'5'}" required
-                                [disabled]="!scheduleTest.grade" [options]="scheduleTest.grade?.subjects" name="subject"
-                                [(ngModel)]="scheduleTest.subject" placeholder="Select Subject" optionLabel="label"
-                                [showClear]="true">
+                            <p-dropdown autoWidth="false" [style]="{'width':'100%', 'z-index':'5'}" required 
+                            [options]="allSubjects" name="subject" [(ngModel)]="scheduleTest.subject" 
+                            placeholder="Select Subject" [showClear]="true">
                             </p-dropdown>
                         </div>
                         <div class="col-12 my-4 each-form-field">
@@ -216,8 +213,7 @@
                             </div>
                             <div class="mt-3" *ngIf="allTests?.testsList.length>=1">
                                 <p-table #testScheduledTable [value]="allTests?.testsList" [scrollable]="true"  scrollHeight="200px"
-                                [columns]="scheduleTest.testViewTable.moveableCols" 
-                                scrollHeight="200px">
+                                [columns]="scheduleTest.testViewTable.moveableCols">
                                     <ng-template pTemplate="caption">
                                         <div class="table-caption row">
                                             <div class="table-caption-text col-md-7" style="text-align: left; font-size: 18px;">
@@ -270,17 +266,15 @@
                         <div class="col-6 my-4 each-form-field">
                             <mat-label class="my-2 mr-3"><strong>Select Grade</strong></mat-label>
                             <p-dropdown autoWidth="false" [style]="{'width':'100%','z-index':'5'}" name="selectGrade"
-                                [options]="allGradesSubjects?.grades" [(ngModel)]="recordMarks.grade"
-                                optionLabel="label" placeholder="Select Grade" [showClear]="true"
-                                (onChange)="getTestIdList()">
+                                [options]="allGrades" [(ngModel)]="recordMarks.grade" placeholder="Select Grade" 
+                                [showClear]="true" (onChange)="getTestIdList()">
                             </p-dropdown>
                         </div>
                         <div class="col-6 my-4 each-form-field">
                             <mat-label class="my-2 mr-3"><strong>Select Subject</strong></mat-label>
                             <p-dropdown autoWidth="false" [style]="{'width':'100%','z-index':'6'}" #subject
-                                [disabled]="!recordMarks.grade" [options]="recordMarks.grade?.subjects" name="subject"
-                                [(ngModel)]="recordMarks.subject" placeholder="Select Subject" optionLabel="label"
-                                [showClear]="true" (onChange)="getTestIdList()">
+                                [options]="allSubjects" name="subject" [(ngModel)]="recordMarks.subject" 
+                                placeholder="Select Subject" [showClear]="true" (onChange)="getTestIdList()">
                             </p-dropdown>
                         </div>
 
@@ -360,7 +354,8 @@
                                     <td pEditableColumn>
                                         <p-cellEditor>
                                             <ng-template pTemplate="input">
-                                                <input pInputText type="text" [(ngModel)]="student.marks">
+                                                <input pInputText type="text" name="marks" [(ngModel)]="student.marks" 
+                                                numberOnly numberType="float">
                                             </ng-template>
                                             <ng-template pTemplate="output">
                                                 {{student.marks}}

@@ -1,0 +1,545 @@
+<div class="container admin-explore-container">
+    <p-confirmDialog key="deleteConfirm" header="Delete Confirmation" icon="pi pi-exclamation-triangle">
+    </p-confirmDialog>
+    <p-toast position="center" key="deleteToast"></p-toast>
+    <div class="row px-0 mx-0">
+        <div class="col-md-3 order-md-1 context-menu">
+            <div class="context-menu position-fixed">
+                <p># CONTENTS</p>
+                <ul #context>
+                    <li (click)="scrollTo('structural-view')">Structural Details</li>
+                    <li (click)="scrollTo('fees-view')">Fees Details</li>
+                    <li (click)="scrollTo('fixed-discount-view')">Fixed Discount Details</li>
+                </ul>
+            </div>
+
+        </div>
+        <div class="col-md-9 order-md-0 col-md-9 main-menu-container border-right">
+
+            <div class="col-12 card each-card px-0 mb-5" id="structural-view">
+                <div class="card-header py-3" style="background-color: aliceblue;">
+                    <div>
+                        <h5>SELECT THE OPTION YOU WANT ADD/DELETE/VIEW</h5>
+                    </div>
+                    <div class="form-selection-bar">
+                        <ng-container *ngFor="let viewOption of viewOptionsFormat[0].formOptions">
+                            <span class="each-raadio-button">
+                                <p-radioButton name="viewOptionsFormat[0].name" value={{viewOption.value}}
+                                    label={{viewOption.label}} [(ngModel)]="viewOptionsFormat[0].value"></p-radioButton>
+                            </span>
+                        </ng-container>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="col-12" *ngIf="viewOptionsFormat[0].value == 'board'">
+                        <h2 class="admin-chapter-header">Add/Delete Board</h2>
+                        <form #addBoardForm="ngForm" ngNativeValidate>
+                            <div class="row">
+
+                                <div class="col-lg-5 each-form-field">
+                                    <mat-label class="my-2 px-0 mr-3"><strong>*Board Label</strong></mat-label>
+                                    <input required style="width:100%" type="text" name="label" pInputText capitalizeAll
+                                        ngModel #label="ngModel" />
+                                </div>
+                                <div class="col-lg-5 each-form-field">
+                                    <mat-label class="my-2 px-0 mr-3"><strong>*Board Value</strong></mat-label>
+                                    <input required style="width:100%" type="text" name="value" pInputText ngModel
+                                        #value="ngModel" />
+                                </div>
+                                <div class="col-lg-2 each-form-field">
+                                    <mat-label class="my-2 px-0 mr-3"><strong></strong></mat-label>
+                                    <button class="col-2 col-lg-12 btn btn-primary btn-sm"
+                                        [disabled]="addBoardForm.invalid"
+                                        (click)="addGradeSubBoard(addBoardForm, 'Board')">Add</button>
+                                </div>
+                            </div>
+                        </form>
+                        <div class="col-12 mt-3">
+
+                            <p-table [value]="allBoards" [columns]="allColumns[0].cols" [scrollable]="true"
+                                scrollHeight="200px">
+                                <ng-template pTemplate="caption">
+                                    ALL BOARD DETAILS LIST
+                                </ng-template>
+                                <ng-template pTemplate="colgroup" let-columns>
+                                    <colgroup>
+                                        <col *ngFor="let col of columns" [style.width.px]="col.width">
+                                    </colgroup>
+                                </ng-template>
+                                <ng-template pTemplate="header" let-columns>
+                                    <tr>
+                                        <th *ngFor="let col of columns">{{col.header}}</th>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-boards let-columns="columns" let-index="rowIndex">
+                                    <tr>
+                                        <ng-container *ngFor="let col of columns">
+                                            <td *ngIf="col.field == 'del'">
+                                                <i class="fa fa-window-close" (click)="deleteGradeSubBoard(boards)"></i>
+                                            </td>
+                                            <td *ngIf="col.field !== 'del'">
+                                                {{ col.pipeChk == 'date'? (boards[col.field] | date: 'short') : boards[col.field] }}
+                                            </td>
+                                        </ng-container>
+
+                                    </tr>
+                                </ng-template>
+                            </p-table>
+
+                        </div>
+                    </div>
+
+                    <div class="col-12" *ngIf="viewOptionsFormat[0].value == 'grade'">
+                        <h2 class="admin-chapter-header">Add/Delete Grade</h2>
+                        <form #addGradeForm="ngForm" ngNativeValidate>
+                            <div class="row">
+
+                                <div class="col-lg-5 each-form-field">
+                                    <mat-label class="my-2 px-0 mr-3"><strong>*Grade Label</strong></mat-label>
+                                    <input required style="width:100%" type="text" name="label" pInputText capitalizeAll
+                                        ngModel #label="ngModel" />
+                                </div>
+                                <div class="col-lg-5 each-form-field">
+                                    <mat-label class="my-2 px-0 mr-3"><strong>*Grade Value</strong></mat-label>
+                                    <input required style="width:100%" type="text" name="value" pInputText ngModel
+                                        #value="ngModel" />
+                                </div>
+                                <div class="col-lg-2 each-form-field">
+                                    <mat-label class="my-2 px-0 mr-3"><strong></strong></mat-label>
+                                    <button class="col-2 col-lg-12 btn btn-primary btn-sm"
+                                        [disabled]="addGradeForm.invalid"
+                                        (click)="addGradeSubBoard(addGradeForm, 'Grade')">Add</button>
+                                </div>
+                            </div>
+                        </form>
+                        <div class="col-12 mt-3">
+                            <p-table [value]="allGrades" [columns]="allColumns[0].cols" [scrollable]="true"
+                                scrollHeight="200px">
+                                <ng-template pTemplate="caption">
+                                    ALL GRADE DETAILS LIST
+                                </ng-template>
+                                <ng-template pTemplate="colgroup" let-columns>
+                                    <colgroup>
+                                        <col *ngFor="let col of columns" [style.width.px]="col.width">
+                                    </colgroup>
+                                </ng-template>
+                                <ng-template pTemplate="header" let-columns>
+                                    <tr>
+                                        <th *ngFor="let col of columns">{{col.header}}</th>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-grade let-columns="columns" let-index="rowIndex">
+                                    <tr>
+                                        <ng-container *ngFor="let col of columns">
+                                            <td *ngIf="col.field == 'del'">
+                                                <i class="fa fa-window-close" (click)="deleteGradeSubBoard(grade)"></i>
+                                            </td>
+                                            <td *ngIf="col.field !== 'del'">
+                                                {{ col.pipeChk == 'date'? (grade[col.field] | date: 'short') : grade[col.field] }}
+                                            </td>
+                                        </ng-container>
+
+                                    </tr>
+                                </ng-template>
+                            </p-table>
+                        </div>
+                    </div>
+
+                    <div class="col-12" *ngIf="viewOptionsFormat[0].value == 'subject'">
+                        <h2 class="admin-chapter-header">Add/Delete Subject</h2>
+                        <form #addSubjectForm="ngForm" ngNativeValidate>
+                            <div class="row">
+
+                                <div class="col-lg-5 each-form-field">
+                                    <mat-label class="my-2 px-0 mr-3"><strong>*Subject Label</strong></mat-label>
+                                    <input required style="width:100%" type="text" name="label" pInputText capitalizeAll
+                                        ngModel #label="ngModel" />
+                                </div>
+                                <div class="col-lg-5 each-form-field">
+                                    <mat-label class="my-2 px-0 mr-3"><strong>*Subject Value</strong></mat-label>
+                                    <input required style="width:100%" type="text" name="value" pInputText ngModel
+                                        #value="ngModel" />
+                                </div>
+                                <div class="col-lg-2 each-form-field">
+                                    <mat-label class="my-2 px-0 mr-3"><strong></strong></mat-label>
+                                    <button class="col-2 col-lg-12 btn btn-primary btn-sm"
+                                        [disabled]="addSubjectForm.invalid"
+                                        (click)="addGradeSubBoard(addSubjectForm, 'Subject')">Add</button>
+                                </div>
+                            </div>
+                        </form>
+                        <div class="col-12 mt-3">
+                            <p-table [value]="allSubjects" [columns]="allColumns[0].cols" [scrollable]="true"
+                                scrollHeight="200px">
+                                <ng-template pTemplate="caption">
+                                    ALL SUBJECT DETAILS LIST
+                                </ng-template>
+                                <ng-template pTemplate="colgroup" let-columns>
+                                    <colgroup>
+                                        <col *ngFor="let col of columns" [style.width.px]="col.width">
+                                    </colgroup>
+                                </ng-template>
+                                <ng-template pTemplate="header" let-columns>
+                                    <tr>
+                                        <th *ngFor="let col of columns">{{col.header}}</th>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-subject let-columns="columns" let-index="rowIndex">
+                                    <tr>
+                                        <ng-container *ngFor="let col of columns">
+                                            <td *ngIf="col.field == 'del'">
+                                                <i class="fa fa-window-close"
+                                                    (click)="deleteGradeSubBoard(subject)"></i>
+                                            </td>
+                                            <td *ngIf="col.field !== 'del'">
+                                                {{ col.pipeChk == 'date'? (subject[col.field] | date: 'short') : subject[col.field] }}
+                                            </td>
+                                        </ng-container>
+
+                                    </tr>
+                                </ng-template>
+                            </p-table>
+                        </div>
+                    </div>
+
+                    <div class="col-12" *ngIf="viewOptionsFormat[0].value == 'batchType'">
+                        <h2 class="admin-chapter-header">Add/Delete Batch Type</h2>
+                        <form #batchTypeForm="ngForm" ngNativeValidate>
+                            <div class="row">
+
+                                <div class="col-lg-5 each-form-field">
+                                    <mat-label class="my-2 px-0 mr-3"><strong>*Batch Label</strong></mat-label>
+                                    <input required style="width:100%" type="text" name="label" pInputText capitalizeAll
+                                        ngModel #label="ngModel" />
+                                </div>
+                                <div class="col-lg-5 each-form-field">
+                                    <mat-label class="my-2 px-0 mr-3"><strong>*Batch Value</strong></mat-label>
+                                    <input required style="width:100%" type="text" name="value" pInputText ngModel
+                                        #value="ngModel" />
+                                </div>
+                                <div class="col-lg-2 each-form-field">
+                                    <mat-label class="my-2 px-0 mr-3"><strong></strong></mat-label>
+                                    <button class="col-2 col-lg-12 btn btn-primary btn-sm"
+                                        [disabled]="batchTypeForm.invalid"
+                                        (click)="addGradeSubBoard(batchTypeForm, 'Batch Type')">Add</button>
+                                </div>
+                            </div>
+                        </form>
+                        <div class="col-12 mt-3">
+                            <p-table [value]="allBatchType" [columns]="allColumns[0].cols" [scrollable]="true"
+                                scrollHeight="200px">
+                                <ng-template pTemplate="caption">
+                                    ALL BATCH STRENGTH DETAILS LIST
+                                </ng-template>
+                                <ng-template pTemplate="colgroup" let-columns>
+                                    <colgroup>
+                                        <col *ngFor="let col of columns" [style.width.px]="col.width">
+                                    </colgroup>
+                                </ng-template>
+                                <ng-template pTemplate="header" let-columns>
+                                    <tr>
+                                        <th *ngFor="let col of columns">{{col.header}}</th>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-batch let-columns="columns" let-index="rowIndex">
+                                    <tr>
+                                        <ng-container *ngFor="let col of columns">
+                                            <td *ngIf="col.field == 'del'">
+                                                <i class="fa fa-window-close" (click)="deleteGradeSubBoard(batch)"></i>
+                                            </td>
+                                            <td *ngIf="col.field !== 'del'">
+                                                {{ col.pipeChk == 'date'? (batch[col.field] | date: 'short') : batch[col.field] }}
+                                            </td>
+                                        </ng-container>
+
+                                    </tr>
+                                </ng-template>
+                            </p-table>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <hr>
+
+            <div class="col-12 card each-card px-0 my-5" id="fees-view">
+                <div class="card-header py-3" style="background-color: aliceblue;">
+                    <div>
+                        <h5>SELECT THE OPTION YOU WANT ADD/DELETE/VIEW</h5>
+                    </div>
+                    <div class="form-selection-bar">
+                        <ng-container *ngFor="let viewOption of viewOptionsFormat[1].formOptions">
+                            <span class="each-raadio-button">
+                                <p-radioButton name="viewOptionsFormat[1].name" value={{viewOption.value}}
+                                    label={{viewOption.label}} [(ngModel)]="viewOptionsFormat[1].value"></p-radioButton>
+                            </span>
+                        </ng-container>
+                    </div>
+                </div>
+                <div class="card-body">
+
+                    <div class="col-12" *ngIf="viewOptionsFormat[1].value == 'tution'">
+                        <h2 class="admin-chapter-header">Add/Delete Tution Fees</h2>
+                        <form #addTutionFeesForm="ngForm" ngNativeValidate>
+                            <div class="row">
+
+                                <div class="col-6 my-4 each-form-field">
+                                    <mat-label class="my-2 mr-3"><strong>*Select Grade</strong></mat-label>
+                                    <p-dropdown autoWidth="false" [style]="{'width':'100%','z-index':'5'}" required
+                                        [options]="allGrades" name="grade" ngModel #grade="ngModel" value="grade.label"
+                                        placeholder="Select Grade" optionLabel="label" [showClear]="true">
+                                    </p-dropdown>
+                                </div>
+                                <div class="col-6 my-4 each-form-field">
+                                    <mat-label class="my-2 mr-3"><strong>*Select Batch Type</strong></mat-label>
+                                    <p-dropdown autoWidth="false" [style]="{'width':'100%','z-index':'5'}" required
+                                        [options]="allBatchType" name="batchType" ngModel #batchType="ngModel"
+                                        placeholder="Select Batch Type" optionLabel="label" [showClear]="true">
+                                    </p-dropdown>
+                                </div>
+                                <div class="col-6 each-form-field">
+                                    <mat-label class="my-2 px-0 mr-3"><strong>*Tuition Fees</strong></mat-label>
+                                    <input required style="width:100%" type="text" name="tutionFees" pInputText
+                                        numberOnly ngModel #tutionFees="ngModel" placeholder="0" />
+                                </div>
+                                <div class="col-12 each-form-field mx-auto mt-2">
+                                    <button class="col-2 mx-auto btn btn-primary btn-sm"
+                                        [disabled]="addTutionFeesForm.invalid"
+                                        (click)="addGradeSubBoard(addTutionFeesForm, 'Tution Fees')">Add</button>
+                                </div>
+                            </div>
+                        </form>
+                        <div class="col-12 mt-3">
+                            <p-table [value]="allTutionFees" [columns]="allColumns[1].cols" [scrollable]="true"
+                                scrollHeight="200px">
+                                <ng-template pTemplate="caption">
+                                    ALL TUTION FEES DETAILS LIST
+                                </ng-template>
+                                <ng-template pTemplate="colgroup" let-columns>
+                                    <colgroup>
+                                        <col *ngFor="let col of columns" [style.width.px]="col.width">
+                                    </colgroup>
+                                </ng-template>
+                                <ng-template pTemplate="header" let-columns>
+                                    <tr>
+                                        <th *ngFor="let col of columns">{{col.header}}</th>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-tutionFee let-columns="columns" let-index="rowIndex">
+                                    <tr>
+                                        <ng-container *ngFor="let col of columns">
+                                            <td *ngIf="col.field == 'del'">
+                                                <i class="fa fa-window-close"
+                                                    (click)="deleteGradeSubBoard(tutionFee)"></i>
+                                            </td>
+                                            <td *ngIf="col.field !== 'del'">
+                                                {{ col.pipeChk == 'date'? (tutionFee[col.field] | date: 'short') : tutionFee[col.field] }}
+                                            </td>
+                                        </ng-container>
+
+                                    </tr>
+                                </ng-template>
+                            </p-table>
+                        </div>
+                    </div>
+
+                    <div class="col-12" *ngIf="viewOptionsFormat[1].value == 'test'">
+                        <h2 class="admin-chapter-header">Add/Delete Test Fees</h2>
+                        <form #addTestFeesForm="ngForm" ngNativeValidate>
+                            <div class="row">
+
+                                <div class="col-6 my-4 each-form-field">
+                                    <mat-label class="my-2 mr-3"><strong>*Select Grade</strong></mat-label>
+                                    <p-dropdown autoWidth="false" [style]="{'width':'100%','z-index':'5'}" required
+                                        [options]="allGrades" name="grade" ngModel #grade="ngModel" value="grade.label"
+                                        placeholder="Select Grade" optionLabel="label" [showClear]="true">
+                                    </p-dropdown>
+                                </div>
+                                <div class="col-6 my-4 each-form-field">
+                                    <mat-label class="my-2 px-0 mr-3"><strong>*Test Fees</strong></mat-label>
+                                    <input required style="width:100%" type="text" name="testFees" pInputText numberOnly
+                                        ngModel #testFees="ngModel" placeholder="0" />
+                                </div>
+                                <div class="col-12 each-form-field mx-auto mt-2">
+                                    <button class="col-2 mx-auto btn btn-primary btn-sm"
+                                        [disabled]="addTestFeesForm.invalid"
+                                        (click)="addGradeSubBoard(addTestFeesForm, 'Test Fees')">Add</button>
+                                </div>
+                            </div>
+                        </form>
+                        <div class="col-12 mt-3">
+                            <p-table [value]="allTestFees" [columns]="allColumns[2].cols" [scrollable]="true"
+                                scrollHeight="200px">
+                                <ng-template pTemplate="caption">
+                                    ALL TEST FEES DETAILS LIST
+                                </ng-template>
+                                <ng-template pTemplate="colgroup" let-columns>
+                                    <colgroup>
+                                        <col *ngFor="let col of columns" [style.width.px]="col.width">
+                                    </colgroup>
+                                </ng-template>
+                                <ng-template pTemplate="header" let-columns>
+                                    <tr>
+                                        <th *ngFor="let col of columns">{{col.header}}</th>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-testFee let-columns="columns" let-index="rowIndex">
+                                    <tr>
+                                        <ng-container *ngFor="let col of columns">
+                                            <td *ngIf="col.field == 'del'">
+                                                <i class="fa fa-window-close"
+                                                    (click)="deleteGradeSubBoard(testFee)"></i>
+                                            </td>
+                                            <td *ngIf="col.field !== 'del'">
+                                                {{ col.pipeChk == 'date'? (testFee[col.field] | date: 'short') : testFee[col.field] }}
+                                            </td>
+                                        </ng-container>
+
+                                    </tr>
+                                </ng-template>
+                            </p-table>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+            <hr>
+
+            <div class="col-12 card each-card px-0 my-5" id="fixed-discount-view">
+                <div class="card-header py-3" style="background-color: aliceblue;">
+                    <div>
+                        <h5>SELECT THE OPTION YOU WANT ADD/DELETE/VIEW</h5>
+                    </div>
+                    <div class="form-selection-bar">
+                        <ng-container *ngFor="let viewOption of viewOptionsFormat[2].formOptions">
+                            <span class="each-raadio-button">
+                                <p-radioButton name="viewOptionsFormat[2].name" value={{viewOption.value}}
+                                    label={{viewOption.label}} [(ngModel)]="viewOptionsFormat[2].value"></p-radioButton>
+                            </span>
+                        </ng-container>
+                    </div>
+                </div>
+                <div class="card-body">
+
+                    <div class="col-12" *ngIf="viewOptionsFormat[2].value == 'subjectDiscount'">
+                        <h2 class="admin-chapter-header">Add/Delete Subject Discount</h2>
+                        <form #addDiscountSubject="ngForm" ngNativeValidate>
+                            <div class="row">
+
+                                <div class="col-lg-5 each-form-field">
+                                    <mat-label class="my-2 px-0 mr-3"><strong>*Subject Count</strong></mat-label>
+                                    <input required style="width:100%" type="text" name="countForDiscount" pInputText
+                                        numberOnly ngModel #countForDiscount="ngModel" />
+                                </div>
+                                <div class="col-lg-5 each-form-field">
+                                    <mat-label class="my-2 px-0 mr-3"><strong>*Discount(in %)</strong></mat-label>
+                                    <input required style="width:100%" type="text" name="discount" pInputText numberOnly
+                                        numberType="float" ngModel #discount="ngModel" />
+                                </div>
+                                <div class="col-lg-2 each-form-field">
+                                    <mat-label class="my-2 px-0 mr-3"><strong></strong></mat-label>
+                                    <button class="col-2 col-lg-12 btn btn-primary btn-sm"
+                                        [disabled]="addDiscountSubject.invalid"
+                                        (click)="addGradeSubBoard(addDiscountSubject, 'Subject Discount')">Add</button>
+                                </div>
+                            </div>
+                        </form>
+                        <div class="col-12 mt-3">
+                            <p-table [value]="allSubjectDiscount" [columns]="allColumns[3].cols" [scrollable]="true"
+                                scrollHeight="200px">
+                                <ng-template pTemplate="caption">
+                                    ALL FIXED DISCOUNT(SUBJECT) LIST
+                                </ng-template>
+                                <ng-template pTemplate="colgroup" let-columns>
+                                    <colgroup>
+                                        <col *ngFor="let col of columns" [style.width.px]="col.width">
+                                    </colgroup>
+                                </ng-template>
+                                <ng-template pTemplate="header" let-columns>
+                                    <tr>
+                                        <th *ngFor="let col of columns">{{col.header}}</th>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-subjectDiscount let-columns="columns"
+                                    let-index="rowIndex">
+                                    <tr>
+                                        <ng-container *ngFor="let col of columns">
+                                            <td *ngIf="col.field == 'del'">
+                                                <i class="fa fa-window-close"
+                                                    (click)="deleteGradeSubBoard(subjectDiscount)"></i>
+                                            </td>
+                                            <td *ngIf="col.field !== 'del'">
+                                                {{ col.pipeChk == 'date'? (subjectDiscount[col.field] | date: 'short') : subjectDiscount[col.field] }}
+                                            </td>
+                                        </ng-container>
+
+                                    </tr>
+                                </ng-template>
+                            </p-table>
+                        </div>
+                    </div>
+
+                    <div class="col-12" *ngIf="viewOptionsFormat[2].value == 'monthDiscount'">
+                        <h2 class="admin-chapter-header">Add/Delete Months Discount</h2>
+                        <form #addDiscountMonth="ngForm" ngNativeValidate>
+                            <div class="row">
+
+                                <div class="col-lg-5 each-form-field">
+                                    <mat-label class="my-2 px-0 mr-3"><strong>*Month Count</strong></mat-label>
+                                    <input required style="width:100%" type="text" name="countForDiscount" pInputText
+                                        numberOnly ngModel #countForDiscount="ngModel" />
+                                </div>
+                                <div class="col-lg-5 each-form-field">
+                                    <mat-label class="my-2 px-0 mr-3"><strong>*Discount(in %)</strong></mat-label>
+                                    <input required style="width:100%" type="text" name="discount" pInputText numberOnly
+                                        numberType="float" ngModel #discount="ngModel" />
+                                </div>
+                                <div class="col-lg-2 each-form-field">
+                                    <mat-label class="my-2 px-0 mr-3"><strong></strong></mat-label>
+                                    <button class="col-2 col-lg-12 btn btn-primary btn-sm"
+                                        [disabled]="addDiscountMonth.invalid"
+                                        (click)="addGradeSubBoard(addDiscountMonth, 'Month Discount')">Add</button>
+                                </div>
+                            </div>
+                        </form>
+                        <div class="col-12 mt-3">
+                            <p-table [value]="allMonthDiscount" [columns]="allColumns[3].cols" [scrollable]="true"
+                                scrollHeight="200px">
+                                <ng-template pTemplate="caption">
+                                    ALL FIXED DISCOUNT(MONTH) LIST
+                                </ng-template>
+                                <ng-template pTemplate="colgroup" let-columns>
+                                    <colgroup>
+                                        <col *ngFor="let col of columns" [style.width.px]="col.width">
+                                    </colgroup>
+                                </ng-template>
+                                <ng-template pTemplate="header" let-columns>
+                                    <tr>
+                                        <th *ngFor="let col of columns">{{col.header}}</th>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-monthDiscount let-columns="columns"
+                                    let-index="rowIndex">
+                                    <tr>
+                                        <ng-container *ngFor="let col of columns">
+                                            <td *ngIf="col.field == 'del'">
+                                                <i class="fa fa-window-close"
+                                                    (click)="deleteGradeSubBoard(monthDiscount)"></i>
+                                            </td>
+                                            <td *ngIf="col.field !== 'del'">
+                                                {{ col.pipeChk == 'date'? (monthDiscount[col.field] | date: 'short') : monthDiscount[col.field] }}
+                                            </td>
+                                        </ng-container>
+
+                                    </tr>
+                                </ng-template>
+                            </p-table>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ReferenceForm, MaterialUploadForm, ScheduleTestForm, RecordMarksForm } from './faculty-options'
+import { ReferenceForm, MaterialUploadForm, ScheduleTestForm, RecordMarksForm } from '../../../reusable/models/faculty-options'
 import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../../services/auth.service';
 import { NgForm } from '@angular/forms';
@@ -7,7 +7,8 @@ import { environment } from '../../../../environments/environment'
 import {MessageService, ConfirmationService} from 'primeng/api';
 import { StructuralService } from '../../services/structural.service';
 import { map } from 'rxjs/operators';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
+import { GradeBoardSubDetails } from 'src/app/reusable/models/grade-subject-fees-options';
 
 export interface EnrolledStudent {
   userName: string;
@@ -24,7 +25,8 @@ export interface EnrolledStudent {
 })
 export class FacultyOptionsComponent implements OnInit {
 
-  allGradesSubjects: any
+  allGrades: GradeBoardSubDetails[] =[]
+  allSubjects: GradeBoardSubDetails[] =[]
   refFaculty: ReferenceForm =new ReferenceForm()
   refStudent: ReferenceForm =new ReferenceForm()
   uploadMaterial: MaterialUploadForm =new MaterialUploadForm()
@@ -40,29 +42,31 @@ export class FacultyOptionsComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private auth:AuthService,
     private http: HttpClient,
     private struct: StructuralService,
     private messageService: MessageService,
-    private confirmationService: ConfirmationService
+    private confirmationService: ConfirmationService,
   ) { }
 
   ngOnInit() {
-    this.route.fragment.subscribe((fragment: string) => {
-      this.scrollTo(fragment)
-    })
-    this.getAllGradeSubs()
     this.getAllScheduledTest()
     this.getAllMaterial()
+    this.struct.getDetails({docType: 'Subject'})
+    this.struct.getDetails({docType: 'Grade'})
+    this.struct.allGrades.subscribe(data => {
+      this.allGrades=data
+    }, error=> { console.log(error)})
+  
+    this.struct.allSubjects.subscribe(data => {
+      this.allSubjects=data
+    }, error=> { console.log(error)})
   }
 
   scrollTo(someId: string){
-      document.getElementById(someId).scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"})
-  }
-
-  async getAllGradeSubs(){
-      let allDet= await this.struct.getAllGradeSubjects()
-      this.allGradesSubjects=allDet['gradeList'][0]
+    console.log(someId)
+    document.getElementById(someId).scrollIntoView({behavior: "smooth", block: "center", inline: "nearest"})
   }
 
   onReferenceSubmit(form: NgForm,referedRole: string, toastKey: string){
@@ -87,9 +91,9 @@ export class FacultyOptionsComponent implements OnInit {
   }
 
   onMaterialSubmit(form: NgForm){
-    let obj={ ...form.form.value}
+    let obj={ ...form.form.value}/* 
     obj['subject']=obj['subject']['value']
-    obj['grade']=obj['grade']['value']
+    obj['grade']=obj['grade']['value'] */
 
     var formData= new FormData()
     formData.append('selectedMaterial', this.selectedMaterial)
@@ -152,8 +156,8 @@ export class FacultyOptionsComponent implements OnInit {
 
   onScheduleTestSubmit(form: NgForm){
       let obj={ ...form.form.value}
-      obj['subject']=obj['subject']['value']
-      obj['grade']=obj['grade']['value']
+      /* obj['subject']=obj['subject']['value']
+      obj['grade']=obj['grade']['value'] */
       obj['result']=[]
 
       this.http.post(this.module_endpoint.facultyOptions.scheduleTest, obj)
@@ -175,6 +179,7 @@ export class FacultyOptionsComponent implements OnInit {
     this.http.get(this.module_endpoint.facultyOptions.getAllScheduledTest)
         .subscribe(data => {
           this.allTests=data
+          console.log(this.allTests)
         })
   }
 
@@ -183,7 +188,6 @@ export class FacultyOptionsComponent implements OnInit {
       key: 'deleteTestConfirm',
       message: 'Are you sure that you want to perform this action?',
       accept: () => {
-          //Actual logic to perform a confirmation
      
     this.http.post(this.module_endpoint.facultyOptions.deleteTestById, event)
         .subscribe(data => {
@@ -205,8 +209,8 @@ export class FacultyOptionsComponent implements OnInit {
     if(this.recordMarks.grade && this.recordMarks.subject 
           && this.recordMarks.testDate && this.recordMarks.testDate){
       let obj={ ...this.recordMarks}
-      obj['subject']=obj['subject']['value']
-      obj['grade']=obj['grade']['value']
+      /* obj['subject']=obj['subject']['value']
+      obj['grade']=obj['grade']['value'] */
 
       this.http.post(this.module_endpoint.facultyOptions.getTestIds, obj).pipe(
         map(data => {

@@ -29,10 +29,6 @@ router.post('/newReference',verifyRequest, (req,res) => {
         if(err) {
             res.status(500).send({msg:"Something is worng"})
         } else {
-            if(user.length>0) {
-                console.log(user)
-                res.status(500).send({msg:"This user is already referred"})
-            } else {
                 let reference =new Reference(refBody)
                 reference.refId=shortId.generate()
                 reference.save((err, ref)=>{
@@ -73,7 +69,6 @@ router.post('/newReference',verifyRequest, (req,res) => {
                         res.status(200).send({ref: ref})
                     }
                 })
-            }
 
         }
     })

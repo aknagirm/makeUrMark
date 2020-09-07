@@ -1,0 +1,87 @@
+
+.form-selection-bar {
+    display: flex;
+    /* justify-content: space-between; */
+    background-color: aliceblue;
+}
+
+.each-raadio-button {
+    margin-right: 15px
+}
+.admin-explore-container {
+    position: relative;
+    top:150px
+}
+
+.main-menu-container {
+    padding-bottom: 70px
+}
+
+:host ::ng-deep .ui-table {
+    font-size: 13px
+}
+
+:host ::ng-deep .ui-button{
+    font-size: 12px
+}
+
+.row {
+    margin: auto 0px;
+    padding: auto 0px;
+}
+
+.admin-chapter-header {
+    color: #063247
+}
+
+hr {
+    border: #063247 solid 2px;
+}
+
+.each-form-field {
+    display: grid;
+    margin: 5px 0px;
+}
+
+.context-menu ul {
+    list-style: circle;
+    color: royalblue;
+    line-height: 30px;
+}
+
+.context-menu ul>li:hover {
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.test-table{
+    font-size: 14px
+}
+
+.fa-window-close {
+    color: red;
+    font-size: 17px;
+    cursor: pointer;
+}
+
+.materialTable {
+    width: 100%
+}
+
+@media only screen and (max-width: 700px){
+    .context-menu {
+        position: relative !important;
+    }
+    .table-caption-text{
+        text-align: center !important;
+    }
+     .table-caption-search {
+        text-align: center !important;
+    }
+    .test-table{
+        font-size: 11px
+    }
+    .materialTable {
+        width: 600px
+    }
+}

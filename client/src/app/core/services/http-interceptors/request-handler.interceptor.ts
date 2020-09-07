@@ -14,11 +14,9 @@ export class RequestHandlerInterceptor implements HttpInterceptor{
   ) { }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>>{
-    console.log(req)
     this.loader.startLoader()
     return next.handle(req).pipe(
       tap(event=> {
-        console.log(event)
         if(event instanceof HttpResponse){
           this.loader.stopLoader()
         }

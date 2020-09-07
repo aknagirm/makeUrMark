@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import {CountdownTimerService} from '../../services/countdown-timer.service'
-import { EditCourseForm } from '../courses/edit-courses/edit-courses';
+import { EditCourseForm } from '../../../reusable/models/edit-courses';
 import { Form, NgForm } from '@angular/forms';
 import {SelectItem} from 'primeng/api';
 import { Router, ActivatedRoute } from '@angular/router';

@@ -11,6 +11,9 @@ import { FormsModule } from '@angular/forms';
 import { PrimeModule } from 'src/app/external/prime.module';
 import { MaterialModule } from 'src/app/external/material.module';
 import { ReusableModule } from 'src/app/reusable/reusable.module';
+import { AdminOptionsComponent } from './admin-options/admin-options.component';
+import { NumberOnlyDirective } from '../directives/number-only.directive';
+import { CapitalizeAllDirective } from '../directives/capitalize-all.directive';
 
 @NgModule({
   declarations: [
@@ -19,6 +22,8 @@ import { ReusableModule } from 'src/app/reusable/reusable.module';
     HomeComponent,
     PaymentComponent,
     StudentOptionsComponent,
+    AdminOptionsComponent,
+    CapitalizeAllDirective
   ],
   imports: [
     CommonModule,

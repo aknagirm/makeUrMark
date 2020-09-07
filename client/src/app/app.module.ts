@@ -16,11 +16,11 @@ import { AuthService } from './core/services/auth.service';
 import { MaterialModule } from './external/material.module';
 import { StructuralService } from './core/services/structural.service';
 import { MessageService } from 'primeng/api';
-import { NumberOnlyDirective } from './core/directives/number-only.directive';
 import { MainModule } from './core/main/main.module'
 import { ReusableModule } from './reusable/reusable.module';
 import { interceptorProviders } from './core/services/http-interceptors/interceptors';
 import { LoaderService } from './core/services/loader.service';
+import { HeaderComponent } from './core/header/header.component';
 
 
 @NgModule({
@@ -28,7 +28,7 @@ import { LoaderService } from './core/services/loader.service';
     AppComponent,
     HeaderUpdatedComponent,
     FooterComponent,
-    NumberOnlyDirective
+    HeaderComponent
   ],
   imports: [
     BrowserModule,

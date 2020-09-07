@@ -8,6 +8,7 @@ const reference= require('./routes/faculty-student-references')
 const subjectDet= require('./routes/subject-det')
 const facultyExplore= require('./routes/faculty-explore-options')
 const homeOptions= require('./routes/home-options')
+const adminExplore= require('./routes/admin-options')
 const mongoose= require('mongoose')
 require('dotenv').config()
 
@@ -37,6 +38,7 @@ app.use('/auth',auth)
 app.use('/homeOptions',homeOptions)
 app.use('/refer',reference)
 app.use('/facultyExplore',facultyExplore)
+app.use('/adminExplore',adminExplore)
 
 /* app.use(function(err, req, res, next) {
     console.log('This is the invalid field ->', err.field)
@@ -58,5 +60,5 @@ app.use(function (err, req, res, next) {
   })
 
   process.on('uncaughtException', function (err) {
-    console.log(error.stack);
+    console.log(err.stack);
   });
