@@ -66,6 +66,37 @@
 
       <!---------------------------------Form 2---------------------------------------------->
 
+      <p-accordionTab header="GRADE & SUBJECTS">
+        <div class="mx-4 my-2">
+          <form #facultyForm7="ngForm" ngNativeValidate>
+            <p-accordion>
+
+              <p-accordionTab header="Select Grades">
+                <p-multiSelect defaultLabel="Select Grades" [options]="allGrades" 
+                 name="facultyGrade" required styleClass="col-lg-6" placeholder="Select Grade"
+                 #facultyGrade="ngModel" [(ngModel)]="facultyProfileEdit.facultyGrade">
+                </p-multiSelect>
+              </p-accordionTab>
+
+              <p-accordionTab header="Select Subjects">
+                <p-multiSelect defaultLabel="Select Subjects" [options]="allSubjects" 
+                 name="subjects" required placeholder="Select Grade" styleClass="col-lg-6"
+                 #subjects="ngModel" [(ngModel)]="facultyProfileEdit.subjects">
+                </p-multiSelect>
+              </p-accordionTab>
+
+            </p-accordion>
+
+            <div class="row mt-4">
+              <button class="mx-auto col-3 btn btn-success" (click)="onSubmit(facultyForm7)"
+                [disabled]="facultyForm7.invalid">Update</button>
+            </div>
+          </form>
+        </div>
+      </p-accordionTab>
+
+      <!---------------------------------Form 3---------------------------------------------->
+
       <p-accordionTab header="PASSWORD CHANGE">
         <div class="mx-4 my-2">
           <form #facultyForm2="ngForm" ngNativeValidate>
@@ -125,7 +156,7 @@
         </div>
       </p-accordionTab>
 
-      <!---------------------------------Form 3---------------------------------------------->
+      <!---------------------------------Form 4---------------------------------------------->
 
       <p-accordionTab header="UPLOAD IMAGE">
         <div class="mx-4 my-2">
@@ -152,7 +183,7 @@
         </div>
       </p-accordionTab>
 
-      <!---------------------------------Form 4---------------------------------------------->
+      <!---------------------------------Form 5---------------------------------------------->
 
       <p-accordionTab header="EDUCATIONAL DETAILS">
         <div class="mx-4 my-2">
@@ -274,7 +305,7 @@
         </div>
       </p-accordionTab>
 
-      <!---------------------------------Form 5---------------------------------------------->
+      <!---------------------------------Form 6---------------------------------------------->
 
       <p-accordionTab header="INFRASTRUCTURE DETAILS">
         <div class="mx-4 my-2">
@@ -347,7 +378,7 @@
         </div>
       </p-accordionTab>
 
-      <!---------------------------------Form 6---------------------------------------------->
+      <!---------------------------------Form 7---------------------------------------------->
 
       <p-accordionTab header="LANGUAGE">
         <div class="mx-4 my-2">
@@ -366,37 +397,6 @@
                 [disabled]="facultyForm6.invalid  || facultyProfileEdit.language.length==0">Update</button>
             </div>
 
-          </form>
-        </div>
-      </p-accordionTab>
-
-      <!---------------------------------Form 7---------------------------------------------->
-
-      <p-accordionTab header="GRADE & SUBJECTS">
-        <div class="mx-4 my-2">
-          <form #facultyForm7="ngForm" ngNativeValidate>
-            <p-accordion>
-
-              <p-accordionTab header="Select Grades">
-                <p-multiSelect defaultLabel="Select Grades" [options]="allGradesSubjects.grades" 
-                 name="facultyGrade" required
-                 #facultyGrade="ngModel" [(ngModel)]="facultyProfileEdit.facultyGrade">
-                </p-multiSelect>
-              </p-accordionTab>
-
-              <p-accordionTab header="Select Subjects">
-                <p-multiSelect defaultLabel="Select Subjects" [options]="allGradesSubjects.subjects" 
-                 name="subjects" required
-                 #subjects="ngModel" [(ngModel)]="facultyProfileEdit.subjects">
-                </p-multiSelect>
-              </p-accordionTab>
-
-            </p-accordion>
-
-            <div class="row mt-4">
-              <button class="mx-auto col-3 btn btn-success" (click)="onSubmit(facultyForm7)"
-                [disabled]="facultyForm7.invalid">Update</button>
-            </div>
           </form>
         </div>
       </p-accordionTab>

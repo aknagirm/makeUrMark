@@ -129,7 +129,7 @@
               <mat-label>Select Class List </mat-label>
               <mat-select multiple name="facultyGrade" ngModel required #facultyGrade="ngModel">
                 <mat-option (click)="toggleAllSelection()" [value]="dummyAllVal" #allSelected>All</mat-option>
-                <mat-option (click)="tosslePerOne(allSelected.viewValue)" *ngFor="let grade of allGradesSubjects?.grades"
+                <mat-option (click)="tosslePerOne(allSelected.viewValue)" *ngFor="let grade of allGrades"
                   [value]="grade.value">{{grade.label}}</mat-option>
               </mat-select>
             </mat-form-field>
@@ -137,7 +137,7 @@
             <mat-form-field class="col-6">
               <mat-label>Select Subjects </mat-label>
               <mat-select multiple name="subjects" ngModel required #subjects="ngModel">
-                <mat-option *ngFor="let sub of allGradesSubjects?.subjects" [value]="sub.value">
+                <mat-option *ngFor="let sub of allSubjects" [value]="sub.value">
                   {{sub.label}}</mat-option>
               </mat-select>
             </mat-form-field>

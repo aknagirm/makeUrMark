@@ -8,6 +8,7 @@ import { FormsModule } from '@angular/forms';
 import { PrimeModule } from 'src/app/external/prime.module';
 import { MaterialModule } from 'src/app/external/material.module';
 import { RecaptchaModule } from 'ng-recaptcha';
+import { AllDirectivesModule } from '../../directives/all-directives.module';
 
 
 @NgModule({
@@ -23,6 +24,7 @@ import { RecaptchaModule } from 'ng-recaptcha';
     PrimeModule,
     MaterialModule,
     RecaptchaModule,
+    AllDirectivesModule
   ],
   exports: [
     LoginComponent,

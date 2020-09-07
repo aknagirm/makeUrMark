@@ -7,6 +7,7 @@ import { AuthService } from 'src/app/core/services/auth.service';
 import { HttpClient } from '@angular/common/http';
 import {SelectItem} from 'primeng/api';
 import { StructuralService } from 'src/app/core/services/structural.service';
+import { GradeBoardSubDetails } from 'src/app/reusable/models/grade-subject-fees-options';
 
 
 @Component({
@@ -27,6 +28,8 @@ export class FacultyRegistrationComponent implements OnInit {
                       {label:"Post Graduation Details(If any)",  value: "postgrads"}]
   @ViewChild('allSelected', {static:false}) allSelected: MatOption
   @ViewChild('facultyForm1', {static:false}) facultyForm1: NgForm
+  allGrades: GradeBoardSubDetails[] =[]
+  allSubjects: GradeBoardSubDetails[] =[]
   certificationList=[]
   certificationItem=''
   teachingExpList=[]
@@ -35,7 +38,6 @@ export class FacultyRegistrationComponent implements OnInit {
   selectedCVFile: File =null
   allLanguage: SelectItem[];
   language: string[] = [];
-  allGradesSubjects: any={grades:'',subjects: ''}
   dummyAllVal="0"
 
   constructor(
@@ -45,7 +47,16 @@ export class FacultyRegistrationComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.getAllGradeSubs()
+    this.struct.getDetails({docType: 'Subject'})
+    this.struct.getDetails({docType: 'Grade'})
+    this.struct.allGrades.subscribe(data => {
+      this.allGrades=data
+    }, error=> { console.log(error)})
+  
+    this.struct.allSubjects.subscribe(data => {
+      this.allSubjects=data
+    }, error=> { console.log(error)})
+  
     this.http.get('../assets/all-language.json')
         .subscribe(data => {
           let dummyList=[]
@@ -58,39 +69,21 @@ export class FacultyRegistrationComponent implements OnInit {
         
   }
 
-  async getAllGradeSubs(){
-    let allGradesSubsDet= await this.struct.getAllGradeSubjects()
-    //this.allGradesSubjects['grades']=allDet['gradeList'][0]['grades']
-    let allGrades=[]
-    let allSubs=[]
-    allGradesSubsDet['gradeList'][0]['grades'].forEach(element => {
-      allGrades.push({label: element.label, value: element.value})
-    });
-    allGradesSubsDet['gradeList'][0]['grades'].forEach(grades => {
-      allSubs=[...allSubs, ...grades.subjects]
-    });
-    this.allGradesSubjects['grades']=[...allGrades]
-    this.allGradesSubjects['subjects']=[...allSubs]
-    this.allGradesSubjects['subjects']= allSubs.filter((subs, index, self) =>
-    index === self.findIndex((t) => (
-    t.label === subs.label && t.value === subs.value
-      ))
-    )
-  }
+
 
   tosslePerOne(all){ 
    if (this.allSelected.selected) {  
     this.allSelected.deselect();
     return false;
       }
-   if(this.facultyForm1.controls.facultyGrade.value.length==this.allGradesSubjects.grades.length)
+   if(this.facultyForm1.controls.facultyGrade.value.length==this.allGrades)
     this.allSelected.select();
   }
 
   toggleAllSelection() {
     if (this.allSelected.selected) {
       this.facultyForm1.controls.facultyGrade
-        .patchValue([...this.allGradesSubjects.grades.map(item => item.value), "0"]);
+        .patchValue([...this.allGrades.map(item => item.value), "0"]);
     } else {
       this.facultyForm1.controls.facultyGrade.patchValue([]);
     }

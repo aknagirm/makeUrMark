@@ -10,6 +10,7 @@ import { SelectItem } from 'primeng/api';
 import { map } from 'rxjs/operators';
 import { MessageService } from 'primeng/api';
 import {ConfirmationService} from 'primeng/api';
+import { GradeBoardSubDetails } from 'src/app/reusable/models/grade-subject-fees-options';
 
 @Component({
   selector: 'app-faculty-profile-edit',
@@ -22,7 +23,8 @@ export class FacultyProfileEditComponent implements OnInit {
   hide1 = true
   hide2 = true
   hide3 = true
-  allGradesSubjects: any = { grades: '', subjects: '' }
+  allGrades: GradeBoardSubDetails[] =[]
+  allSubjects: GradeBoardSubDetails[] =[]
   facultyProfileEdit: FacultyProfileEditForm
   newFacultyProfile: any
   contactNumberOld: string = null
@@ -70,7 +72,16 @@ export class FacultyProfileEditComponent implements OnInit {
       }
     )
 
-    this.getAllGradeSubs()
+    this.struct.getDetails({docType: 'Subject'})
+    this.struct.getDetails({docType: 'Grade'})
+    this.struct.allGrades.subscribe(data => {
+      this.allGrades=data
+      console.log(this.allGrades)
+    }, error=> { console.log(error)})
+  
+    this.struct.allSubjects.subscribe(data => {
+      this.allSubjects=data
+    }, error=> { console.log(error)})
 
     this.http.get('../assets/all-language.json')
       .subscribe(data => {
@@ -81,26 +92,6 @@ export class FacultyProfileEditComponent implements OnInit {
         });
         this.allLanguage = [...dummyList]
       })
-  }
-
-  async getAllGradeSubs() {
-    let allGradesSubsDet = await this.struct.getAllGradeSubjects()
-    //this.allGradesSubjects['grades']=allDet['gradeList'][0]['grades']
-    let allGrades = []
-    let allSubs = []
-    allGradesSubsDet['gradeList'][0]['grades'].forEach(element => {
-      allGrades.push({ label: element.label, value: element.value })
-    });
-    allGradesSubsDet['gradeList'][0]['grades'].forEach(grades => {
-      allSubs = [...allSubs, ...grades.subjects]
-    });
-    this.allGradesSubjects['grades'] = [...allGrades]
-    this.allGradesSubjects['subjects'] = [...allSubs]
-    this.allGradesSubjects['subjects'] = allSubs.filter((subs, index, self) =>
-      index === self.findIndex((t) => (
-        t.label === subs.label && t.value === subs.value
-      ))
-    )
   }
 
   addCertificate() {
