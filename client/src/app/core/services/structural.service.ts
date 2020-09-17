@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment'
-import { Subject } from 'rxjs';
+import { Subject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -36,7 +36,6 @@ export class StructuralService {
   getDetails(obj:any) {
     this.http.post(this.module_endpoint.home.getDetails,obj)
         .subscribe(data => {
-          console.log(obj)
           if(obj.docType == 'Board') {this.allBoards.next(data['details'])}
           if(obj.docType == 'Grade') {this.allGrades.next(data['details'])}
           if(obj.docType == 'Subject') {this.allSubjects.next(data['details'])}
@@ -49,4 +48,5 @@ export class StructuralService {
           console.log(error)
         })
   }
+
 }

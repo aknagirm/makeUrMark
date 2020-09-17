@@ -10,7 +10,7 @@
 }
 .admin-explore-container {
     position: relative;
-    top:150px
+    top:150px;
 }
 
 .main-menu-container {
@@ -18,7 +18,7 @@
 }
 
 :host ::ng-deep .ui-table {
-    font-size: 13px
+    font-size: 11px
 }
 
 :host ::ng-deep .ui-button{

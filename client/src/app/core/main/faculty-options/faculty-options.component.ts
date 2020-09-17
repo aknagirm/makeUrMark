@@ -91,9 +91,9 @@ export class FacultyOptionsComponent implements OnInit {
   }
 
   onMaterialSubmit(form: NgForm){
-    let obj={ ...form.form.value}/* 
-    obj['subject']=obj['subject']['value']
-    obj['grade']=obj['grade']['value'] */
+    let obj={ ...form.form.value} 
+    obj['subject']=obj['subject']['label']
+    obj['grade']=obj['grade']['label'] 
 
     var formData= new FormData()
     formData.append('selectedMaterial', this.selectedMaterial)
@@ -156,8 +156,8 @@ export class FacultyOptionsComponent implements OnInit {
 
   onScheduleTestSubmit(form: NgForm){
       let obj={ ...form.form.value}
-      /* obj['subject']=obj['subject']['value']
-      obj['grade']=obj['grade']['value'] */
+      obj['subject']=obj['subject']['label']
+      obj['grade']=obj['grade']['label']
       obj['result']=[]
 
       this.http.post(this.module_endpoint.facultyOptions.scheduleTest, obj)
@@ -209,9 +209,9 @@ export class FacultyOptionsComponent implements OnInit {
     if(this.recordMarks.grade && this.recordMarks.subject 
           && this.recordMarks.testDate && this.recordMarks.testDate){
       let obj={ ...this.recordMarks}
-      /* obj['subject']=obj['subject']['value']
-      obj['grade']=obj['grade']['value'] */
-
+      obj['subject']=obj['subject']['label']
+      obj['grade']=obj['grade']['label'] 
+            console.log(obj)
       this.http.post(this.module_endpoint.facultyOptions.getTestIds, obj).pipe(
         map(data => {
           data['details'].forEach(element => {

@@ -6,13 +6,13 @@ import { CoursesComponent } from './courses/courses.component';
 import { DummyComponent } from './dummy/dummy.component';
 import { HomeComponent } from './home/home.component';
 import { PaymentComponent } from './payment/payment.component';
-import { StudentOptionsComponent } from './student-options/student-options.component';
 import { FormsModule } from '@angular/forms';
 import { PrimeModule } from 'src/app/external/prime.module';
 import { MaterialModule } from 'src/app/external/material.module';
 import { ReusableModule } from 'src/app/reusable/reusable.module';
 import { AdminOptionsComponent } from './admin-options/admin-options.component';
 import { AllDirectivesModule } from '../directives/all-directives.module';
+import { StudentOptionsModule } from './student-options/student-options.module';
 
 @NgModule({
   declarations: [
@@ -20,7 +20,6 @@ import { AllDirectivesModule } from '../directives/all-directives.module';
     DummyComponent,
     HomeComponent,
     PaymentComponent,
-    StudentOptionsComponent,
     AdminOptionsComponent
   ],
   imports: [
@@ -31,14 +30,16 @@ import { AllDirectivesModule } from '../directives/all-directives.module';
     PrimeModule,
     MaterialModule,
     ReusableModule,
-    AllDirectivesModule
+    AllDirectivesModule,
+    StudentOptionsModule
   ],
   exports: [
     FacultyOptionsModule,
     LoginRegistrationModule,
     CommonModule,
     FormsModule,
-    AllDirectivesModule
+    AllDirectivesModule,
+    StudentOptionsModule
   ]
 
 })

@@ -1,6 +1,6 @@
 <app-login-registration [callFor]=openLoginPopUp  (isVisisbleFromLogin)="loginPopUpClose($event)"></app-login-registration>
 <p-confirmDialog key="logoutConfirm" header="Logout" icon="pi pi-exclamation-triangle"></p-confirmDialog>
-<div class="container-fluid row py-1 mx-0" style="background: #94CAC5; top: 0px;position: fixed; overflow: hidden; z-index: 10; width: 100%">
+<div class="container-fluid row mx-0" style="background: #94CAC5; top: 0px;position: fixed; overflow: hidden; z-index: 10; width: 100%">
     <div class="upper-header col-12" >
         <p class="pt-2">
             <span class="info info-mail"><i class="fa fa-envelope" style="font-size:18px;"></i>mrigXXXXX@abc.com</span>
@@ -15,20 +15,34 @@
 <nav>
     <i (click)="openSideNav()" class="fa fa-bars pl-3 sidenav-open" aria-hidden="true" ></i>
     <div>
-
         <a class="navbar-brand ml-3" [routerLink]="['./home']" >
             <img src="../../assets/HPSLogo.png" alt="logo.png" id="makeUrMark-logo">
         </a>
     </div>
     <ul class="nav-dropdown1">
         <li *ngFor="let menu1 of headerMenuList.menuList">
-            <a [routerLink]="menu1.link" fragment={{menu1.fragment}}>{{menu1.menuName}}<i *ngIf="menu1.menuList && menu1.menuList.length!='0'" class="fa fa-caret-down" aria-hidden="true"></i></a>
+            <ng-container *ngIf="menu1.fragment">
+                <a [routerLink]="menu1.link" [queryParams]="menu1.queryParams" fragment={{menu1.fragment}}>{{menu1.menuName}}<i *ngIf="menu1.menuList && menu1.menuList.length!='0'" class="fa fa-caret-down" aria-hidden="true"></i></a>
+            </ng-container>
+            <ng-container *ngIf="!menu1.fragment">
+                <a [routerLink]="menu1.link" [queryParams]="menu1.queryParams">{{menu1.menuName}}<i *ngIf="menu1.menuList && menu1.menuList.length!='0'" class="fa fa-caret-down" aria-hidden="true"></i></a>
+            </ng-container>
             <ul class="nav-dropdown2" *ngIf="menu1.menuList && menu1.menuList.length!='0'">
                 <li  *ngFor="let menu2 of menu1.menuList">
-                    <a [routerLink]="menu2.link" fragment={{menu2.fragment}}>{{menu2.menuName}}<i *ngIf="menu2.menuList && menu2.menuList.length!='0'" class="fa fa-caret-right" aria-hidden="true"></i></a>
+                    <ng-container *ngIf="menu2.fragment">
+                        <a [routerLink]="menu2.link" [queryParams]="menu2.queryParams" fragment={{menu2.fragment}}>{{menu2.menuName}}<i *ngIf="menu2.menuList && menu2.menuList.length!='0'" class="fa fa-caret-right" aria-hidden="true"></i></a>
+                    </ng-container>
+                    <ng-container *ngIf="!menu2.fragment">
+                        <a [routerLink]="menu2.link" [queryParams]="menu2.queryParams" >{{menu2.menuName}}<i *ngIf="menu2.menuList && menu2.menuList.length!='0'" class="fa fa-caret-right" aria-hidden="true"></i></a>
+                    </ng-container>
                     <ul class="nav-dropdown3" *ngIf="menu2.menuList && menu2.menuList.length!='0'">
                         <li  *ngFor="let menu3 of menu2.menuList">
-                            <a [routerLink]="[menu3.link]" fragment={{menu3.fragment}}>{{menu3.menuName}}<i *ngIf="menu3.menuList && menu3.menuList.length!='0'" class="fa fa-caret-right" aria-hidden="true"></i></a>
+                            <ng-container *ngIf="menu3.fragment">
+                                <a [routerLink]="menu3.link" [queryParams]="menu3.queryParams" [state]="menu3.state" fragment={{menu3.fragment}}>{{menu3.menuName}}<i *ngIf="menu3.menuList && menu3.menuList.length!='0'" class="fa fa-caret-right" aria-hidden="true"></i></a>
+                            </ng-container>
+                            <ng-container *ngIf="!menu3.fragment">
+                                <a [routerLink]="menu3.link" [queryParams]="menu3.queryParams" [state]="menu3.state">{{menu3.menuName}}<i *ngIf="menu3.menuList && menu3.menuList.length!='0'" class="fa fa-caret-right" aria-hidden="true"></i></a>
+                            </ng-container>
                         </li>
                     </ul>
                 </li>
@@ -36,9 +50,12 @@
         </li>
     </ul>
 
-    <a *ngIf="!userName"><button class="logout-button py-1 px-4" (click)="loginPopUp()">Login</button></a>
-    <div class="dropdown logout-button" *ngIf="userName">
-        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    <!-- <a ></a> -->
+    <div class="logout-button mr-3" *ngIf="!userName" >
+        <button class="btn px-4 my-3 btn-secondary" (click)="loginPopUp()">Login</button>
+    </div>
+    <div class="dropdown logout-button mr-3" *ngIf="userName">
+        <button class="btn btn-secondary dropdown-toggle my-3" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           Hello, {{userName | titlecase}}
         </button>
         <div class="dropdown-menu account-btn-menu" aria-labelledby="dropdownMenuButton">

@@ -1,7 +1,6 @@
 .faculty-explore-container {
     position: relative;
-    top:170px;
-
+    top:150px;
 }
 
 
@@ -40,6 +39,10 @@ hr {
 
 .materialTable {
     width: 100%
+}
+
+:host ::ng-deep .ui-table .ui-table-tbody > tr > td {
+    font-size: 12px;
 }
 
 @media only screen and (max-width: 700px){

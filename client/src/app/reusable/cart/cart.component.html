@@ -1,0 +1,38 @@
+<div>
+    <span class="fa fa-shopping-cart" style="font-size: 30px;font-weight: 700;" (click)="displayCartItem()"></span>
+    <p class="total-items">{{itemList.length}}</p>
+</div>
+<p-dialog header="ITEM DETAILS" [(visible)]="display" [style]="{width: '40vw'}" 
+            [baseZIndex]="10000" [modal]="true">
+            <div class="row col-12">
+
+                
+                <table class="table mt-2 mx-3" style="font-size:13px">
+                    <thead>
+                        <tr>
+                            <td *ngFor="let column of columns">{{column.label}}</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <ng-container *ngFor="let item of itemListChanged">
+                            <tr>
+                            <ng-container *ngFor="let column of columns">
+                                <td>{{item[column.value]}}</td>
+                            </ng-container>
+                            </tr>
+                        </ng-container>
+                        
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td *ngFor="let column of columns"></td>
+                            <td colspan="2">Total:</td>
+                            <td>{{total1}}</td>
+                        </tr>
+                    </tfoot>
+                </table>
+                <div class="col-12">
+                    <button class="btn-primary mx-auto">Pay</button>
+                </div>
+            </div>
+        </p-dialog>

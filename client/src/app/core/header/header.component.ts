@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
 import { DynamicDialogRef, DialogService } from 'primeng/dynamicdialog';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AuthService } from '../services/auth.service';
@@ -19,7 +19,7 @@ import { StructuralService } from '../services/structural.service';
     globalAnimation.animationList.slideLeftRight
   ]
 })
-export class HeaderComponent implements OnInit, OnDestroy {
+export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
 
   headerMenuList= HeaderMenuList
   openLoginPopUp= {open: false, form: ""}
@@ -40,31 +40,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
     private confirmationService: ConfirmationService) { }
 
   ngOnInit() {
-    this.headerMenuList.menuList.forEach(item => {
-      if(item.menuName =="Tuition"){
-        item.menuList.splice(0, item.menuList.length)
-      }
-    })
-    this.struct.allBoards.subscribe(boardList => {
-      this.struct.allGrades.subscribe(gradeList => {
-        boardList.forEach(board => {
-          let boardObj={menuName: board.label, menuList:[]}
-          gradeList.forEach(grade => {
-            boardObj.menuList.push({menuName: grade.label})
-          });
-          this.headerMenuList.menuList.forEach(item => {
-            if(item.menuName =="Tuition"){
-              item.menuList.push(boardObj)
-            }
-          })
-        });
-      })
-    })
-    
-    this.struct.allGrades.subscribe(data => {
-      this.allGrades=data
-    }, error=> { console.log(error)})
-    
+    this.struct.getDetails({docType: 'Board'})
+    this.struct.getDetails({docType: 'Grade'})
     this.auth.loggedInUserObj
         .subscribe(data => {
           if(data instanceof HttpErrorResponse || data == null || data == undefined) {
@@ -77,6 +54,31 @@ export class HeaderComponent implements OnInit, OnDestroy {
         })
         this.auth.getCurrentUser()
   }
+
+  ngAfterViewInit(){
+    this.getBoardGradeCall()
+  }
+
+
+  getBoardGradeCall(){
+    let arr=[]
+    this.struct.allBoards.subscribe((boardList:GradeBoardSubDetails[]) => {
+      this.struct.allGrades.subscribe((gradeList:GradeBoardSubDetails[]) => {
+        boardList.forEach(board => {
+        let boardObj={menuName: board.label, menuList:[]}
+        gradeList.forEach(grade => {
+          let obj ={menuName: grade.label, link: 'courses', 
+              queryParams: {board: board.value, grade: grade.value}, state: {gradeObj: grade}}
+          boardObj.menuList.push(obj)
+        });
+        var index= arr.findIndex(item => item.menuName == boardObj.menuName)
+        index == -1? arr.push(boardObj): ''
+        this.headerMenuList.menuList[0].menuList =[...arr]
+        })
+      })
+    })
+  }
+  
 
   openSideNav(){
     this.sideNavBarOpen= !this.sideNavBarOpen

@@ -9,7 +9,7 @@ import { StructuralService } from './core/services/structural.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent{
+export class AppComponent implements OnInit {
   title = 'fifth-project';
 
   constructor(
@@ -17,6 +17,10 @@ export class AppComponent{
     private router: Router,
     private struct: StructuralService
   ){}
+
+  ngOnInit(){
+    
+  }
 
   onActivate() {
     this.router.events.subscribe(event => {

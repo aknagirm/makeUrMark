@@ -37,6 +37,7 @@ const structureSchema =new Schema({
     label: String,
     value: String,
     grade: String,
+    subject: String,
     batchType: String,
     testFees: String,
     tutionFees: String,

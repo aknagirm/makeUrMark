@@ -11,6 +11,7 @@ export interface TestTutionFeesDetails {
     createdDate: Date,
     createdBy: string,
     grade?: string,
+    subject?: string,
     batchType?: string,
     tutionFees?: string,
     testFees?: string,
@@ -20,31 +21,28 @@ export interface TestTutionFeesDetails {
 
 export const headerList= [
     {cols: [
-        {field: 'del', header: '', width: 40},
         {field: 'createdDate', header: 'Created Date', width: 120, pipeChk: 'date'},
         {field: 'createdBy', header: 'Created By', width: 160},
         {field: 'label', header: 'Label', width: 90},
         {field: 'value', header: 'Value', width: 90}]
     },
     {cols: [
-        {field: 'del', header: '', width: 40},
         {field: 'createdDate', header: 'Created Date', width: 120, pipeChk: 'date'},
         {field: 'createdBy', header: 'Created By', width: 160},
-        {field: 'grade', header: 'Grade', width: 90},
+        {field: 'grade', header: 'Grade', width: 70},
+        {field: 'subject', header: 'Subject', width: 70},
         {field: 'batchType', header: 'Batch Type', width: 90},
         {field: 'tutionFees', header: 'Tution Fees', width: 90}
         ]
     },
     {cols: [
-        {field: 'del', header: '', width: 40},
         {field: 'createdDate', header: 'Created Date', width: 120, pipeChk: 'date'},
         {field: 'createdBy', header: 'Created By', width: 160},
         {field: 'grade', header: 'Grade', width: 90},
-        {field: 'testFees', header: 'Test Fees', width: 90}
+        {field: 'testFees', header: 'Test Fees', width: 70}
         ]
     },
     {cols: [
-        {field: 'del', header: '', width: 40},
         {field: 'createdDate', header: 'Created Date', width: 120, pipeChk: 'date'},
         {field: 'createdBy', header: 'Created By', width: 160},
         {field: 'countForDiscount', header: 'Count', width: 90},

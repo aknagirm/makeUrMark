@@ -7,6 +7,7 @@ import { FacultyRegistrationComponent } from './core/main/login-registration/fac
 import { FacultyOptionsComponent } from './core/main/faculty-options/faculty-options.component';
 import { ViewAllFacultyComponent } from './core/main/faculty-options/view-all-faculty/view-all-faculty.component';
 import { AdminOptionsComponent } from './core/main/admin-options/admin-options.component';
+import { TestRegisterComponent } from './core/main/student-options/test-register/test-register.component';
 
 
 const routes: Routes = [
@@ -17,12 +18,15 @@ const routes: Routes = [
   {path: 'securePay',component: PaymentComponent},
   {path: 'explore/faculty',component: FacultyOptionsComponent},
   {path: 'facultyView',component: ViewAllFacultyComponent},
-  {path: 'explore/admin',component: AdminOptionsComponent}
+  {path: 'explore/admin',component: AdminOptionsComponent},
+  {path: 'explore/student',children:[
+    {path: 'registerTest', component:TestRegisterComponent}
+  ]}
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes, {initialNavigation: 'enabled',
-  scrollPositionRestoration: 'enabled'})],
+  scrollPositionRestoration: 'enabled', onSameUrlNavigation: 'reload'})],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

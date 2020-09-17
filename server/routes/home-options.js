@@ -22,7 +22,6 @@ router.post('/getDetails', (req,res) => {
         if(err){
             res.status(500).send({msg:"something is wrong"})
         } else {
-            console.log(details)
             res.status(200).send({details})
         }
     })

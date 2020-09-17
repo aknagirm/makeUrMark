@@ -57,10 +57,10 @@
 [baseZIndex]="10000" [modal]="true">
 
     <div class="row" *ngIf="clickedFaculty">
-        <div class="col-md-2">
+        <div class="col-md-4">
             <img [src]="clickedFaculty.selectedImageFile" style="width:100%; height:100%" alt="">
         </div>
-        <div class="col-md-9">
+        <div class="col-md-8">
             <p class="diag-p-name">
                 <strong>
                     <span class="">Full Name:  </span>
@@ -86,7 +86,7 @@
                 <span>{{clickedFaculty.language.join(", ") | titlecase}}</span>
             </p>
         </div>
-        <table class="table mt-2 mx-3">
+        <table class="table mt-2 mx-3" style="font-size:13px">
             <thead>
             <tr >
                 <th class="" colspan="2">Educational Details</th>
@@ -115,7 +115,7 @@
         </tbody>
         </table>
 
-        <table class="table mt-2 mx-3">
+        <table class="table mt-2 mx-3" style="font-size:13px">
             <thead>
             <tr>
                 <th class="" colspan="2">Teaching Experience</th>

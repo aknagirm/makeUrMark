@@ -81,6 +81,8 @@ router.post('/scheduleTest',verifyRequest, (req,res) => {
     details=req.body
     details.userName=req.userName
     details.userRole=req.userRole
+    details.firstName=req.firstName
+    details.lastName=req.lastName
     if(req.userRole === 'faculty') {
         searchedDay= new Date(details.testDateTime)
         let testObj=new TestResult(details)

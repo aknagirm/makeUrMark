@@ -13,6 +13,7 @@ import interactionPlugin from '@fullcalendar/interaction';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import listPlugin from '@fullcalendar/list';
 import { LoadingScreenComponent } from './loading-screen/loading-screen.component';
+import { CartComponent } from './cart/cart.component';
 
 FullCalendarModule.registerPlugins([ // register FullCalendar plugins
   dayGridPlugin,
@@ -28,6 +29,7 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
     ProductCardComponent,
     FullCalenderComponent,
     LoadingScreenComponent,
+    CartComponent,
   ],
   imports: [
     CommonModule,
@@ -40,6 +42,7 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
     TabViewComponent,
     BusinessCardComponent,
     ProductCardComponent,
+    CartComponent,
     CommonModule,
     FormsModule,
     FullCalendarModule,

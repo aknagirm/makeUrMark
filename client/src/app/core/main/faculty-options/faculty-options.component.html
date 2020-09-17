@@ -20,7 +20,7 @@
 
             <div class="col-12 mb-5" id="introduction">
                 <h1 class="faculty-chapter-header">Introduction</h1>
-                <div style="font-size: 18px; line-height: 30px;">
+                <div style="font-size: 14px; line-height: 24px;">
                     <p>
                         Welcome to MakeUrMark Faculty Explore! Here you can do required task using below portal.
                         You can use the context menu to skip to the specific location. You can do the below mentioned
@@ -50,14 +50,14 @@
                             <mat-label class="my-2 mr-3"><strong>*Select Grade</strong></mat-label>
                             <p-dropdown autoWidth="false" [style]="{'width':'100%','z-index':'5'}" required
                                 [options]="allGrades" name="grade" [(ngModel)]="uploadMaterial.grade"
-                                placeholder="Select Grade" [showClear]="true">
+                                placeholder="Select Grade" [showClear]="true" optionLabel="label">
                             </p-dropdown>
                         </div>
                         <div class="col-6 my-4 each-form-field">
                             <mat-label class="my-2 mr-3"><strong>*Select Subject</strong></mat-label>
                             <p-dropdown autoWidth="false" [style]="{'width':'100%','z-index':'5'}" required
                                 [options]="allSubjects" name="subject" [(ngModel)]="uploadMaterial.subject" 
-                                placeholder="Select Subject" [showClear]="true">
+                                placeholder="Select Subject" [showClear]="true" optionLabel="label"> 
                             </p-dropdown>
                         </div>
                         <div class="col-12 my-4 each-form-field">
@@ -105,7 +105,7 @@
                                 [globalFilterFields]="['grade','subject','chapters','filename']">
                                     <ng-template pTemplate="caption">
                                         <div class="table-caption row">
-                                            <div class="table-caption-text col-md-6" style="text-align: left; font-size: 18px;">
+                                            <div class="table-caption-text col-md-6" style="text-align: left; font-size: 16px;">
                                                ALL UPLOADED MATERIALS BY YOU
                                             </div>
                                             <div class="table-caption-search col-md-6" style="text-align: right;">
@@ -164,14 +164,14 @@
                             <mat-label class="my-2 mr-3"><strong>*Select Grade</strong></mat-label>
                             <p-dropdown autoWidth="false" [style]="{'width':'100%','z-index':'5'}" required
                                 [options]="allGrades" name="grade" [(ngModel)]="scheduleTest.grade"
-                                placeholder="Select Grade" [showClear]="true">
+                                placeholder="Select Grade" [showClear]="true" optionLabel="label">
                             </p-dropdown>
                         </div>
                         <div class="col-6 my-4 each-form-field">
                             <mat-label class="my-2 mr-3"><strong>*Select Subject</strong></mat-label>
                             <p-dropdown autoWidth="false" [style]="{'width':'100%', 'z-index':'5'}" required 
                             [options]="allSubjects" name="subject" [(ngModel)]="scheduleTest.subject" 
-                            placeholder="Select Subject" [showClear]="true">
+                            placeholder="Select Subject" [showClear]="true" optionLabel="label">
                             </p-dropdown>
                         </div>
                         <div class="col-12 my-4 each-form-field">
@@ -216,7 +216,7 @@
                                 [columns]="scheduleTest.testViewTable.moveableCols">
                                     <ng-template pTemplate="caption">
                                         <div class="table-caption row">
-                                            <div class="table-caption-text col-md-7" style="text-align: left; font-size: 18px;">
+                                            <div class="table-caption-text col-md-7" style="text-align: left; font-size: 16px;">
                                                 ALL UPCOMING SCHEDULED TEST BY YOU
                                             </div>
                                         </div>
@@ -267,14 +267,15 @@
                             <mat-label class="my-2 mr-3"><strong>Select Grade</strong></mat-label>
                             <p-dropdown autoWidth="false" [style]="{'width':'100%','z-index':'5'}" name="selectGrade"
                                 [options]="allGrades" [(ngModel)]="recordMarks.grade" placeholder="Select Grade" 
-                                [showClear]="true" (onChange)="getTestIdList()">
+                                [showClear]="true" (onChange)="getTestIdList()" optionLabel="label">
                             </p-dropdown>
                         </div>
                         <div class="col-6 my-4 each-form-field">
                             <mat-label class="my-2 mr-3"><strong>Select Subject</strong></mat-label>
                             <p-dropdown autoWidth="false" [style]="{'width':'100%','z-index':'6'}" #subject
                                 [options]="allSubjects" name="subject" [(ngModel)]="recordMarks.subject" 
-                                placeholder="Select Subject" [showClear]="true" (onChange)="getTestIdList()">
+                                placeholder="Select Subject" [showClear]="true" (onChange)="getTestIdList()"
+                                optionLabel="label">
                             </p-dropdown>
                         </div>
 
@@ -324,7 +325,7 @@
                             [showCurrentPageReport]="true" [globalFilterFields]="['userName','name','marks']">
                             <ng-template pTemplate="caption">
                                 <div class="table-caption row">
-                                    <div class="table-caption-text col-md-6" style="text-align: left; font-size: 18px;">
+                                    <div class="table-caption-text col-md-6" style="text-align: left; font-size: 16px;">
                                         UPDATE STUDENTS' MARKS HERE
                                     </div>
                                     <div class="table-caption-search col-md-6" style="text-align: right;">
@@ -349,8 +350,8 @@
                             </ng-template>
                             <ng-template pTemplate="body" let-student>
                                 <tr>
-                                    <td>{{student.userName}}</td>
-                                    <td>{{student.fullName}}</td>
+                                    <td>{{student.userName | titlecase}}</td>
+                                    <td>{{student.fullName | titlecase}}</td>
                                     <td pEditableColumn>
                                         <p-cellEditor>
                                             <ng-template pTemplate="input">
@@ -366,7 +367,7 @@
                             </ng-template>
                             <ng-template pTemplate="summary">
                                 <div class="row">
-                                    <div class="table-caption-text col-md-6" style="text-align: left; font-size: 18px;">
+                                    <div class="table-caption-text col-md-6" style="text-align: left; font-size: 16px;">
                                         Full Marks: {{enrolledStudentList.fullMarks}}
                                     </div>
                                     <div class="table-caption-search col-md-6" style="text-align: right;">

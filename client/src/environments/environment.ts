@@ -19,7 +19,7 @@ export const environment = {
     },
     auth: {
       login: 'http://localhost:3010/auth/login',
-      register: 'http://localhost:3010/auth/register',
+      studentRegister: 'http://localhost:3010/auth/studentRegister',
       facultyCVUpload: 'http://localhost:3010/auth/uploadCV',
       facultyRegister: 'http://localhost:3010/auth/facultyRegister',
       getUserDetail: 'http://localhost:3010/auth/getUserDetail',
@@ -48,8 +48,12 @@ export const environment = {
     adminOptions: {
       getDetails: 'http://localhost:3010/adminExplore/getDetails',
       addGradeSubBoard: 'http://localhost:3010/adminExplore/addGradeSubBoard',
-      deleteGradeSubBoard: 'http://localhost:3010/adminExplore/deleteGradeSubBoard',
-      updateTestFees: 'http://localhost:3010/adminExplore/updateTestFees'
+      updateTestFees: 'http://localhost:3010/adminExplore/updateTestFees',
+      commonDelete: 'http://localhost:3010/adminExplore/commonDelete',
+    },
+    studentOptions: {
+      getTestForGradeSub:'http://localhost:3010/studentExplore/getTestForGradeSub',
+      registerForTest:'http://localhost:3010/studentExplore/registerForTest'
     }
   }
   

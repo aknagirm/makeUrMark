@@ -152,6 +152,6 @@ export class RegistrationComponent implements OnInit {
 }
 
   onSubmit(){
-    this.auth.registerUser(this.userObj)
+    //this.auth.registerUser(this.userObj)
   }
 }

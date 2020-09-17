@@ -26,6 +26,8 @@ module.exports=function verifyToken(req,res, next) {
                             if(user.userName == payload.userName){
                                 req.userName= payload.userName
                                 req.userRole= payload.userRole
+                                req.firstName= payload.firstName
+                                req.lastName= payload.lastName
                                 next()
                             } else {
                                 return res.status(401).send('Unauthorized request')

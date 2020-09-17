@@ -29,7 +29,7 @@ export class AdminOptionsComponent implements OnInit {
       'Subject Discount','Month Discount']
   allColumns=headerList
   viewOptionsFormat=FormViewOptions
-  
+  selectedDataForDel  
   user: any
   module_endpoint=environment.server_endpoint
 
@@ -53,13 +53,8 @@ export class AdminOptionsComponent implements OnInit {
   getDetails(obj:any) {
     
     if(obj.docType == 'Board'){
-      
-    console.log(obj)
       this.struct.allBoards.subscribe(data => {
-        
-    console.log(obj)
         this.allBoards=data
-        console.log(this.allBoards)
       }, error=> { console.log(error)})
     }
     if(obj.docType == 'Grade'){
@@ -70,6 +65,7 @@ export class AdminOptionsComponent implements OnInit {
     if(obj.docType == 'Subject'){
       this.struct.allSubjects.subscribe(data => {
         this.allSubjects=data
+        console.log(data)
       }, error=> { console.log(error)})
     }
     if(obj.docType == 'Batch Type'){
@@ -81,6 +77,15 @@ export class AdminOptionsComponent implements OnInit {
       this.struct.allTutionFees.subscribe(data => {
         console.log(data)
         this.allTutionFees=data
+        this.allTutionFees.sort((a,b)=>{
+          if(a.grade == b.grade) {
+            if(a.subject == b.subject){
+              return a.batchType > b.batchType ? 1 : -1;
+            }
+            return a.subject > b.subject ? 1 : -1;
+          }
+          return a.grade > b.grade ? 1 : -1;
+        })
       }, error=> { console.log(error)})
     }
     if(obj.docType == 'Test Fees') {
@@ -116,7 +121,7 @@ export class AdminOptionsComponent implements OnInit {
   }
 
   async addGradeSubBoard(addBoardForm: NgForm, type: string) {
-    if( type == 'Tution Fees' || type == 'Test Fees') {
+    if( type == 'Test Fees') {
       addBoardForm.form.value.grade=addBoardForm.form.value.grade.label
       addBoardForm.form.value.batchType? 
           addBoardForm.form.value.batchType=addBoardForm.form.value.batchType.label: ''
@@ -136,15 +141,43 @@ export class AdminOptionsComponent implements OnInit {
           });
       })
   }
+
+  addFees(testTutionform: NgForm, type: string) {
+    console.log(testTutionform.form.value)
+    testTutionform.form.value.grade=testTutionform.form.value.grade.label
+    testTutionform.form.value.batchType? 
+        testTutionform.form.value.batchType=testTutionform.form.value.batchType.label: ''
+    let formDetails=testTutionform.form.value
+    formDetails.subject.forEach(sub => {
+      let details={...formDetails}
+      details.subject=sub.label
+    details.docType=type
+    this.http.post(this.module_endpoint.adminOptions.addGradeSubBoard, details)
+      .subscribe(data => {
+        this.struct.getDetails({docType: type})
+        testTutionform.reset()
+      }, error=> {
+        console.log(error)
+        this.messageService.add(
+          {
+            key: 'deleteToast', severity: 'error', summary: 'Failed', life: 2000,
+            detail: error['error']['msg']
+          });
+      }) 
+      
+    });
+  }
   
-  deleteGradeSubBoard(selectedDoc){
-     this.confirmationService.confirm({
+  commonDelete(type: string){
+    let selectedDoc=this.selectedDataForDel.filter(doc => doc.docType==type)
+    console.log(this.selectedDataForDel,selectedDoc)
+    this.confirmationService.confirm({
       key: 'deleteConfirm',
       message: 'Are you sure that you want to perform this action?',
       accept: () => {
-    this.http.post(this.module_endpoint.adminOptions.deleteGradeSubBoard, selectedDoc)
+        this.http.post(this.module_endpoint.adminOptions.commonDelete, selectedDoc)
         .subscribe(data => {
-          this.struct.getDetails({docType: selectedDoc.docType})
+          this.struct.getDetails({docType: type})
             this.messageService.add(
               {
                 key: 'deleteToast', severity: 'success', summary: 'Successfull', life: 1000,
@@ -159,7 +192,7 @@ export class AdminOptionsComponent implements OnInit {
             });
         })
       }
-    }) 
+    })
   }
 
 }

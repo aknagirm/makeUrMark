@@ -9,6 +9,7 @@ import { PrimeModule } from 'src/app/external/prime.module';
 import { MaterialModule } from 'src/app/external/material.module';
 import { RecaptchaModule } from 'ng-recaptcha';
 import { AllDirectivesModule } from '../../directives/all-directives.module';
+import { StudentRegistrationComponent } from './student-registration/student-registration.component';
 
 
 @NgModule({
@@ -16,7 +17,8 @@ import { AllDirectivesModule } from '../../directives/all-directives.module';
     LoginComponent,
     LoginRegistrationComponent,
     FacultyRegistrationComponent,
-    RegistrationComponent
+    RegistrationComponent,
+    StudentRegistrationComponent
   ],
   imports: [
     CommonModule,
@@ -30,7 +32,8 @@ import { AllDirectivesModule } from '../../directives/all-directives.module';
     LoginComponent,
     LoginRegistrationComponent,
     FacultyRegistrationComponent,
-    RegistrationComponent
+    RegistrationComponent,
+    StudentRegistrationComponent
   ]
 })
 export class LoginRegistrationModule { }

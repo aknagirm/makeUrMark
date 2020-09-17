@@ -3,6 +3,7 @@ import { WindowRefService, ICustomWindow } from '../../services/window-ref.servi
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { globalAnimation } from '../../../reusable/animation/global-animation'
+import {Location} from '@angular/common';
 
 @Component({
   selector: 'app-payment',
@@ -21,7 +22,8 @@ export class PaymentComponent implements OnInit {
   constructor(
     private router: Router,
     private http: HttpClient,
-    private winRef: WindowRefService
+    private winRef: WindowRefService,
+    private location: Location
   ) {
     this._window = this.winRef.nativeWindow;
     this.paymentDet=this.router.getCurrentNavigation().extras.state
@@ -57,15 +59,16 @@ export class PaymentComponent implements OnInit {
       "description": "Thank you for the payment",
       "image": '../../../assets/HPSLogo.png', 
       "handler": function (response){
+        console.log(response)
           alert(response.razorpay_payment_id);
           alert(response.razorpay_order_id);
           alert(response.razorpay_signature)
       },
-      "prefill": {
+      /* "prefill": {
           "name": "Gaurav Kumar",
           "email": "gaurav.kumar@example.com",
           "contact": "9999999999"
-      },
+      }, */
       "notes": {
           "address": "MakeUrMark Payment"
       },
@@ -79,6 +82,7 @@ export class PaymentComponent implements OnInit {
   }
  
   paymentPopUpClose() {
-    this.router.navigate(['./courses'])
+    //this.router.navigate(['./courses'])
+    this.location.back();
   }
 }

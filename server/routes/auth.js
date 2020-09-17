@@ -55,7 +55,8 @@ router.post('/login',(req,res) => {
             if (user.password !== userData.password){
                 res.status(401).send({msg:"Invalid Password"})
               } else {
-                let payload ={_id: user._id, userName: user.userName, userRole: user.userRole}
+                let payload ={_id: user._id, userName: user.userName, userRole: user.userRole,
+                                firstName: user.firstName, lastName: user.lastName}
                 let token =jwt.sign(payload, secretKey)
                 res.status(200).send({token})
               }
@@ -65,17 +66,25 @@ router.post('/login',(req,res) => {
 
 /********************************** Register a User ***********************************/
 
-router.post('/register', (req,res)=>{
+router.post('/studentRegister', (req,res)=>{
     let userData =req.body
-    userData.secretKey=shortId.generate()
-    let user =new User(userData)
-    user.save((err, user)=>{
+    userData.userName= userData.email
+    userData.creationDate= new Date()
+    userData.updateDate=null
+    let newUser =new User(userData)
+    newUser.facultyGrade=undefined
+    newUser.certification=undefined
+    newUser.educationalDet=undefined
+    newUser.teachingExp=undefined
+    newUser.reference=undefined
+    
+    newUser.save((err, user)=>{
         if(err){
             res.status(500).send({msg:"Input not valid"})
         } else {
-            let payload={userId: user._id}
-            let secret =user.secretKey
-            let token =jwt.sign(payload, secret)
+            let payload={_id: user._id, userName: user.userName, userRole: user.userRole,
+                        firstName: user.firstName, lastName: user.lastName}
+            let token =jwt.sign(payload, secretKey)
             res.status(200).send({msg:"new user created", token: token, name:user.firstName, userRole: user.userRole})
         }
     })
@@ -97,7 +106,8 @@ router.post('/facultyRegister', uploadFacultyCv.single('selectedCVFile'), (req,r
             console.log(err)
             res.status(500).send({msg:"Input not valid"})
         } else {
-            let payload={_id: user._id, userName: user.userName, userRole: user.userRole}
+            let payload={_id: user._id, userName: user.userName, userRole: user.userRole,
+                        firstName: user.firstName, lastName: user.lastName}
             let token =jwt.sign(payload, secretKey)
             res.status(200).send({msg:"new user created", token: token, name:user.firstName, userRole: user.userRole})
         }
@@ -107,6 +117,7 @@ router.post('/facultyRegister', uploadFacultyCv.single('selectedCVFile'), (req,r
 
 router.get('/getUserDetail',verifyRequest, (req,res) => {
     let details={userName: req.userName, userRole: req.userRole}
+    console.log(details)
     User.findOne({userName: details.userName}, (err, user)=> {
         if(err){
             res.status(401).send("User is not authorized")
@@ -126,7 +137,6 @@ router.post('/updateProfilePicture', verifyRequest, uploadUserProfilePic.single(
         if(err){
             res.status(500).send({msg: "Please check inputs"})
         } else {
-            console.log(req.file)
             let oldImage=user.selectedImageFile
             if(oldImage){
                 fs.unlink(oldImage, (err) =>{
@@ -149,7 +159,6 @@ router.post('/updateProfilePicture', verifyRequest, uploadUserProfilePic.single(
 
 router.post('/removeProfilePicture', verifyRequest, (req,res) => {
     fileName = req.body.filePath
-    console.log(fileName)
     User.findOne({userName: req.userName}, (err,user) => {
         if(err){
             res.status(500).send({msg: "Something is wrong"})
@@ -169,7 +178,6 @@ router.post('/removeProfilePicture', verifyRequest, (req,res) => {
                     if(err) {
                         res.status(500).send({msg: "Something is wrong"})
                     } else {
-                        console.log("updated")
                         res.status(200).send({user})
                     }
                 })

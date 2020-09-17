@@ -30,7 +30,7 @@ export class AuthService {
   }
 
 
-   registerUser(userObj){
+   /* registerUser(userObj){
     var obj
     return obj=this.http.post(this.module_endpoint.auth.register, userObj)
       .subscribe(data=>{
@@ -40,6 +40,21 @@ export class AuthService {
         console.log(error)
         return null
       })
+    } */
+
+    registerStudent(userObj): Promise<any>{
+      let promise =new Promise((res,rej) => {
+        this.http.post(this.module_endpoint.auth.studentRegister, userObj)
+        .subscribe(data=> {
+          localStorage.setItem("token", data['token'])
+          this.getCurrentUser()
+          return res({name: data['name'], userRole: data['userRole']})
+        }, error=> {
+          console.log(error)
+          return rej(error)
+        })
+      })
+      return promise
     }
 
     registerFaculty(facultyObj): Promise<any>{

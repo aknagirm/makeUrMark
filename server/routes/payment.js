@@ -35,7 +35,6 @@ const razorpayInstance=new razorpay({
   
   router.post('/pay',async (req,res)=>{
     console.log(req.body.amount.toString())
-    const amount=500
     const currency='INR'
     const payment_capture=1
     const notes=null

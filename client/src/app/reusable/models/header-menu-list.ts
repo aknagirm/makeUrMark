@@ -1,6 +1,6 @@
 export const HeaderMenuList = {'menuList': [
     {
-        'menuName': "Tuition", 
+        'menuName': "Tution", 
         'menuList': []
     },
     {
@@ -14,7 +14,7 @@ export const HeaderMenuList = {'menuList': [
                 'menuList':[
                     {'menuName':"View Recorded Sessions"},
                     {'menuName':"Question Bank"},
-                    {'menuName':"Resister for Practice test"},
+                    {'menuName':"Resister for Test", 'link': "explore/student/registerTest"},
                     {'menuName':"Refer a Friend"},
                     {'menuName':"View Results"},
                     {'menuName':"Pay Fees"},

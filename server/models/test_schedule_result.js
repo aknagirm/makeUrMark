@@ -5,6 +5,8 @@ const schema =mongoose.Schema
 const subjectDetSchema =new schema({    
     userName: String,
     userRole: String,
+    firstName: String,
+    lastName: String,
     testId: String,
     grade: String,
     subject: String,

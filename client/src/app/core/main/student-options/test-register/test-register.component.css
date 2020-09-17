@@ -1,0 +1,66 @@
+.test-register-container {
+    position: relative;
+    top:150px;
+    margin-bottom: 25vh;
+    padding: 0px;
+}
+
+.student-chapter-header {
+    color: #063247
+}
+
+.each-form-field {
+    display: grid;
+}
+
+.fa-calendar {
+    font-size: 37px;
+    color: #063247;
+}
+
+.scheduled-by-txt{
+    text-decoration: underline;
+    font-style: italic;
+    font-size: 17px;
+}
+
+.fees {
+    font-weight: 600;font-size: 20px;border-top: 1px solid black;
+}
+
+.test-details-table tfoot {
+    border: 1px solid black;
+    background: aliceblue;
+}
+
+.total-items {
+    position: absolute;
+    right: 8px;
+    font-size: 13px;
+    text-align: center;
+    width: 20px;
+    border-radius: 50%;
+    background: red;
+    margin: 0px;
+    top: 6px;
+}
+
+:host ::ng-deep .ui-dialog .ui-dialog-titlebar {
+    padding:10px 15px;
+    font-size: 20px;
+    color: white;
+    background: #063247;
+}
+
+@media screen and (max-width: 768px) {
+    :host ::ng-deep .ui-dialog {
+        width: 70vw !important
+    }
+}
+
+@media screen and (max-width: 1024px) {
+
+    :host ::ng-deep .ui-dialog {
+        width: 80vw !important
+    }
+}

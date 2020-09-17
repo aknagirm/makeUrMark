@@ -1,41 +1,33 @@
-<p-virtualScroller [value]="subjectList" scrollHeight="600px">
-    <ng-template pTemplate="item" let-subject>
-<div class="card shadow my-3 mx-2" >
-  <div class="card-header py-0" style="background: #063247;">
-      <span style="font-size: 28px;font-weight: 500;color: cyan; text-transform: uppercase;">
-        {{subject.subjectName}}
-      </span>
-      <span style="margin-left: 8px;font-size: 11px;color: white;">ID: {{subject.batchId}}</span>
-      <span style="float: right;color: white;font-family: Candara;font-size: 28px;">
-        ₹  {{subject.cost}}/- <span style="font-size: 12px;">Per Month</span>
-      </span>
-      
-     
-  </div>
-  <div class="row card-body py-1">
-      <div class="card-body-label col-md-2" style="height: 10px; width:10px">
-          <img src="" alt="" >
-      </div>
-      <div class="card-body-label col-md-9 form-group">
-          <p class="my-0" style="font-weight: 600">
-              <span style="font-size: 25px;">{{subject.facultyFullName}}</span>
-              <span style="margin-left: 8px;font-size: 12px;">{{subject.facultyQualification}}</span>
-          </p>
-          <p>
-              <span style="font-weight: 600;">Timing: </span>
-              <span style="background: yellow;text-transform: uppercase;text-decoration: underline;font-size: 15px;">
-                {{subject.day}} {{subject.startTime}} - {{subject.endTime}}</span>
-          </p>
-      </div>
-      <div class="col-md-1 form-check">
-          <p-checkbox name="groupname" (onChange)="subjectSelectionChange($event,subject)" value={{subject._id}}></p-checkbox>
-      </div>
-  </div>
-  <div class="py-0 card-footer" style="background: #7ac7bf;">
-      <p>
-          <span style="float: right;font-weight: 600;margin: 4px;font-size: 20px;">Rating: </span>
-      </p>
-  </div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="card col-lg-4 col-md-5 my-3" *ngFor="let subject of subTutionFees; let i =index">
+            <div class="card-header py-1">
+                <span>{{subject.subject}}</span>
+                <span style="float: right;" *ngIf="subject.feesSelected?.tutionFees">
+                    {{subject.feesSelected.tutionFees}}/-
+                    <span style="font-size: 10px;font-style: italic;">per month</span>
+                </span>
+            </div>
+            <div class="card-body">
+                <div class="my-4 mx-2">
+                    <div class="batch-type-text">
+                        <strong>Choose Batch Type:</strong>
+                    </div>
+                    <div class="row justify-content-around">
+                        <div *ngFor="let fees of subject.batch">
+                            <p-radioButton [value]="fees" label={{fees.batchType}} [(ngModel)]="subject.feesSelected"
+                                (onClick)="feesChange($event,subject)">
+                            </p-radioButton>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <div style="float: right;">Add this item to cart
+                    <p-checkbox [(ngModel)]="subjectTypeSelected" [value]="subject" (onChange)="addToCart()">
+                    </p-checkbox>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-</ng-template>
-</p-virtualScroller>

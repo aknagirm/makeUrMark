@@ -21,7 +21,7 @@ export class MaterialUploadForm {
             moveableCols: [
                 { field: 'del', header: 'Del', width: 40 },
                 { field: 'newFileName', header: 'Filename', width: 100 },
-                { field: 'grade', header: 'Grade', width: 60 },
+                { field: 'grade', header: 'Grade', width: 60, pipeChk: 'title' },
                 { field: 'subject', header: 'Subject', width: 120, pipeChk: 'title' },
                 { field: 'materialType', header: 'Type', width: 100, pipeChk: 'title' },
                 { field: 'chapters', header: 'Chapters', width: 250 }
@@ -43,7 +43,7 @@ export class ScheduleTestForm {
                 
                 { field: 'del', header: 'Del', width: 40},
                 { field: 'testId', header: 'Test Id', width: 90 },
-                { field: 'grade', header: 'Grade', width: 60},
+                { field: 'grade', header: 'Grade', width: 60, pipeChk: 'title'},
                 { field: 'subject', header: 'Subject', width: 90, pipeChk: 'title'},
                 { field: 'syllabus', header: 'Syllabus', width: 250},
                 { field: 'testDateTime', header: 'Date-Time', width: 100, pipeChk: 'date'},

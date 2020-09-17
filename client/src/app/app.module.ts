@@ -21,6 +21,7 @@ import { ReusableModule } from './reusable/reusable.module';
 import { interceptorProviders } from './core/services/http-interceptors/interceptors';
 import { LoaderService } from './core/services/loader.service';
 import { HeaderComponent } from './core/header/header.component';
+import { PaymentService } from './core/services/payment.service';
 
 
 @NgModule({
@@ -44,7 +45,8 @@ import { HeaderComponent } from './core/header/header.component';
     MainModule
   ],
   providers: [ExternalFilesService,WindowRefService, MessageService, LoaderService,
-        CountdownTimerService,AuthService,StructuralService,interceptorProviders
+        CountdownTimerService,AuthService,StructuralService,interceptorProviders,
+        PaymentService
   ],
   bootstrap: [AppComponent]
 })

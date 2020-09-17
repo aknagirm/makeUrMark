@@ -1,4 +1,6 @@
 import { Component, OnInit, Input, OnChanges, Output, EventEmitter } from '@angular/core';
+import { StructuralService } from 'src/app/core/services/structural.service';
+import { GradeBoardSubDetails, TestTutionFeesDetails } from '../models/grade-subject-fees-options';
 
 @Component({
   selector: 'app-tab-view',
@@ -7,21 +9,65 @@ import { Component, OnInit, Input, OnChanges, Output, EventEmitter } from '@angu
 })
 export class TabViewComponent implements OnInit, OnChanges {
 
-  @Input() subjectList
+  feesSelected=[]
+  subjectTypeSelected=[]
+  subTutionFees: any[]
+  @Input() tutionFeesList: TestTutionFeesDetails[]
+  @Input() boardSubject: any
   @Output() selectedItems =new EventEmitter()
   
-  subjectSelected: string[]=[]
-  constructor() { }
+  constructor(
+    private struct: StructuralService,
+  ) { }
 
   ngOnChanges(){
+    
+    
+    if(this.subjectTypeSelected.length>0){
+      this.subjectTypeSelected=[]
+      this.addToCart()
+    }
+    if(this.tutionFeesList){
+      
+      let uniqueSubList=[]
+      this.tutionFeesList.forEach(fees=> {
+        let sub=uniqueSubList.find(sub=>sub.subject == fees.subject)
+        !sub?uniqueSubList.push({subject: fees.subject}): ''
+      })
+      this.subTutionFees=[]
+      uniqueSubList.forEach(sub=> {
+        let fees=this.tutionFeesList.filter(fees=>fees.subject ==sub.subject)
+        if(fees){
+          let obj={ subject:sub.subject, batch:[]}
+          obj.batch=[...fees]
+          this.subTutionFees.push(obj)
+        }
+      })
+
+      console.log(this.subTutionFees)
+
+        this.subTutionFees.forEach(sub => {
+          let generalFees=sub.batch.find(type=>type.batchType=='GENERAL')
+          sub.feesSelected=generalFees
+        })
+    }
   }
 
   ngOnInit() {
   }
 
-  subjectSelectionChange(event,id){
-    event.checked? this.subjectSelected.push(id)
-              : this.subjectSelected.splice(this.subjectSelected.indexOf(id),1)
-    this.selectedItems.emit(this.subjectSelected)
+  feesChange(event,subject){
+    this.subjectTypeSelected.forEach(sub => {
+      console.log(sub)
+        if(sub.value == subject.value){
+          this.selectedItems.emit(this.subjectTypeSelected)
+        }
+    })
   }
+
+  addToCart(){
+    console.log(this.subjectTypeSelected)
+    this.selectedItems.emit(this.subjectTypeSelected)
+  }
+
 }
