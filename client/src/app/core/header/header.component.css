@@ -32,6 +32,27 @@
     }
 }
 
+:host ::ng-deep .ui-dialog .ui-dialog-titlebar {
+  padding:10px 15px;
+  font-size: 20px;
+  color: white;
+  background: #063247;
+}
+
+@media screen and (max-width: 768px) {
+  :host ::ng-deep .ui-dialog {
+      width: 70vw !important
+  }
+}
+
+@media screen and (max-width: 1024px) {
+
+  :host ::ng-deep .ui-dialog {
+      width: 80vw !important
+  }
+}
+
+
 .info {
     margin-right: 9vw;   
 }
@@ -44,7 +65,7 @@
   color: white;
 }
 .btn-secondary{
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     background: #212121;
     color: white;
     border: #37c386 1px solid;
@@ -66,6 +87,7 @@
 .account-btn {
   color: white;
   cursor: pointer;
+  font-size: 14px;
 }
 
 .account-btn:hover {

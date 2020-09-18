@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { CalendarOptions } from '@fullcalendar/core';
 import { MessageService, ConfirmationService } from 'primeng/api';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
@@ -31,6 +32,21 @@ export class TestRegisterComponent implements OnInit {
   feesTotal=0
   cartColumns=[{label:'Test Id',value:'testId'},{label:'Subject',value:'subject'},{label:'Fees',value:'testFees'}]
   module_endpoint= environment.server_endpoint
+  testEventClick='slotEvent'
+  calendarOptions: CalendarOptions = {
+    initialView: 'dayGridMonth',
+    headerToolbar: {
+      left: 'prev', //'prev today',
+      center: 'title',
+      right: 'next'//'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
+    },
+    //eventClick: this.handleDateClick.bind(this), // bind is important!
+    events: [
+      //{ title: 'event 1', start: '2020-09-03T12:30:00', end: '2020-08-04T06:30:00',color:'red', className:'dummy' },
+      //{ title: 'event 2', start: '2020-09-03T06:00:00' }
+      //...this.testList
+    ]
+  };
   
   constructor(
     private messageService: MessageService,
@@ -109,7 +125,6 @@ export class TestRegisterComponent implements OnInit {
       } 
     })
     this.testList=[...arr]
-    console.log(selectedTest,this.testList)
     selectedTest.testFees=this.selectedTestFees.testFees
     this.testFeesCartList.push(selectedTest)
     this.testFeesCartList.forEach(test=> {

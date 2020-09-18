@@ -3,12 +3,14 @@ import { DynamicDialogRef, DialogService } from 'primeng/dynamicdialog';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { ConfirmationService } from 'primeng/api';
-import { HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { FacultyProfileEditComponent } from '../main/faculty-options/faculty-profile-edit/faculty-profile-edit.component';
 import { globalAnimation } from 'src/app/reusable/animation/global-animation';
 import { HeaderMenuList } from '../../reusable/models/header-menu-list';
 import { GradeBoardSubDetails } from 'src/app/reusable/models/grade-subject-fees-options';
 import { StructuralService } from '../services/structural.service';
+import { environment } from 'src/environments/environment';
+import { CalendarOptions } from '@fullcalendar/core';
 
 @Component({
   selector: 'app-header',
@@ -30,10 +32,25 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
   allBoards: GradeBoardSubDetails[] =[]
   allGrades: GradeBoardSubDetails[] =[]
   editProfileRef: DynamicDialogRef;
-
+  module_endpoint=environment.server_endpoint
+  holidayCalDisplay:boolean= false
+  holidayList=[]
+  holidayEventClick='none'
+  holidayCalendarOptions: CalendarOptions = {
+    initialView: 'dayGridMonth',
+    headerToolbar: {
+      left: 'prev',
+      center: 'title',
+      right: 'next'
+    },
+    events: [],
+    eventColor: '#378006'
+  };
+  
   constructor(
     private router: Router,
     private route: ActivatedRoute,
+    private http: HttpClient,
     private auth: AuthService,
     private struct: StructuralService,
     public dialogService: DialogService,
@@ -111,6 +128,24 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
       contentStyle: {"overflow": "auto","background-color": "aliceblue"},
       baseZIndex: 10000
   })
+  }
+
+  getHolidayList(){
+    this.holidayCalDisplay=true
+    setTimeout(()=> {
+    let arr=[]
+    this.http.get(this.module_endpoint.adminOptions.getHolidayList)
+      .subscribe(data=> {
+        let list=data['holidayList']
+        list.forEach(holiday => {
+          holiday.title=holiday.event
+          holiday.start=holiday.holidayDate
+          holiday.allDay=true
+          arr.push(holiday)
+        });
+        this.holidayList=[...arr]
+      })
+    },100)
   }
 
   logoutCalled(){

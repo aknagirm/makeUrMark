@@ -117,7 +117,6 @@ router.post('/facultyRegister', uploadFacultyCv.single('selectedCVFile'), (req,r
 
 router.get('/getUserDetail',verifyRequest, (req,res) => {
     let details={userName: req.userName, userRole: req.userRole}
-    console.log(details)
     User.findOne({userName: details.userName}, (err, user)=> {
         if(err){
             res.status(401).send("User is not authorized")

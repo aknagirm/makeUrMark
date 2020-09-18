@@ -61,6 +61,8 @@
         <div class="dropdown-menu account-btn-menu" aria-labelledby="dropdownMenuButton">
           <a class="dropdown-item account-btn" (click)="editProfileCalled()">Edit Profile</a>
           <hr class="my-2" style="width: 90%;">
+          <a class="dropdown-item account-btn" (click)="getHolidayList()">View Holidays</a>
+          <hr class="my-2" style="width: 90%;">
           <a class="dropdown-item account-btn" (click)="logoutCalled()">Logout</a>
         </div>
       </div>
@@ -94,3 +96,9 @@
     </ul>
     
 </div>
+
+<p-dialog header="HOLIDAY CALENDAR" [(visible)]="holidayCalDisplay" [style]="{width: '40vw'}" [baseZIndex]="10000" [modal]="true">
+    <app-full-calender [calendarOptions]="holidayCalendarOptions" [eventClick]="holidayEventClick"
+        [eventList]="holidayList">
+    </app-full-calender>
+</p-dialog>

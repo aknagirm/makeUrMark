@@ -15,7 +15,7 @@ router.post('/getTestForGradeSub',verifyRequest, (req,res) => {
     if(details.userRole && details.userRole=='student'){
         if(details.subject){
             TestResult.find({testDateTime: {$gt:new Date()}, grade:details.grade, 
-            subject:details.subject}, (err, testsList) => {
+            subject:details.subject}, (err, list) => {
                 if(err){
                     res.status(500).send({msg: "Input not valid"})
                 } else{

@@ -10,6 +10,7 @@
                     <li (click)="scrollTo('structural-view')">Structural Details</li>
                     <li (click)="scrollTo('fees-view')">Fees Details</li>
                     <li (click)="scrollTo('fixed-discount-view')">Fixed Discount Details</li>
+                    <li (click)="scrollTo('roster-holiday-view')">Roster Holiday View</li>
                 </ul>
             </div>
 
@@ -30,7 +31,7 @@
                         </ng-container>
                     </div>
                 </div>
-                <div class="card-body">
+                <div class="card-body px-0">
                     <div class="col-12" *ngIf="viewOptionsFormat[0].value == 'board'">
                         <h2 class="admin-chapter-header">Add/Delete Board</h2>
                         <form #addBoardForm="ngForm" ngNativeValidate>
@@ -264,7 +265,7 @@
                         </ng-container>
                     </div>
                 </div>
-                <div class="card-body">
+                <div class="card-body px-0">
                     <div class="col-12" *ngIf="viewOptionsFormat[1].value == 'tution'">
                         <h2 class="admin-chapter-header">Add/Delete Tution Fees</h2>
                         <form #addTutionFeesForm="ngForm" ngNativeValidate>
@@ -407,7 +408,7 @@
                         </ng-container>
                     </div>
                 </div>
-                <div class="card-body">
+                <div class="card-body px-0">
 
                     <div class="col-12" *ngIf="viewOptionsFormat[2].value == 'subjectDiscount'">
                         <h2 class="admin-chapter-header">Add/Delete Subject Discount</h2>
@@ -521,6 +522,111 @@
 
                 </div>
             </div>
+
+            <hr>
+
+            <div class="col-12 card each-card px-0 my-5 shadow rounded" id="roster-holiday-view">
+                <div class="card-header py-3" style="background-color: aliceblue;">
+                    <div>
+                        <h5>SELECT THE OPTION YOU WANT ADD/DELETE/VIEW</h5>
+                    </div>
+                    <div class="form-selection-bar">
+                        <ng-container *ngFor="let viewOption of viewOptionsFormat[3].formOptions">
+                            <span class="each-raadio-button">
+                                <p-radioButton name="viewOptionsFormat[3].name" value={{viewOption.value}}
+                                    label={{viewOption.label}} [(ngModel)]="viewOptionsFormat[3].value"></p-radioButton>
+                            </span>
+                        </ng-container>
+                    </div>
+                </div>
+                <div class="card-body">
+
+                    <!-- <div class="col-12" *ngIf="viewOptionsFormat[3].value == 'batchRoster'">
+                        <h2 class="admin-chapter-header">Add/Remove Student to Batch</h2>
+                        <form #addStudentBatch="ngForm" ngNativeValidate>
+                            <div class="row">
+
+                                <div class="col-lg-5 each-form-field">
+                                    <mat-label class="my-2 px-0 mr-3"><strong>*Subject Count</strong></mat-label>
+                                    <input required style="width:100%" type="text" name="countForDiscount" pInputText
+                                        numberOnly ngModel #countForDiscount="ngModel" />
+                                </div>
+                                <div class="col-lg-5 each-form-field">
+                                    <mat-label class="my-2 px-0 mr-3"><strong>*Discount(in %)</strong></mat-label>
+                                    <input required style="width:100%" type="text" name="discount" pInputText numberOnly
+                                        numberType="float" ngModel #discount="ngModel" />
+                                </div>
+                                <div class="col-lg-2 each-form-field">
+                                    <mat-label class="my-2 px-0 mr-3"><strong></strong></mat-label>
+                                    <button class="col-2 col-lg-12 btn btn-primary btn-sm"
+                                        [disabled]="addDiscountSubject.invalid"
+                                        (click)="addGradeSubBoard(addDiscountSubject, 'Subject Discount')">Add</button>
+                                </div>
+                            </div>
+                        </form>
+                        <div class="col-12 mt-3">
+                            <p-table [value]="allSubjectDiscount" [columns]="allColumns[3].cols" [scrollable]="true"
+                                scrollHeight="200px" [(selection)]="selectedDataForDel" dataKey="_id">
+                                <ng-template pTemplate="caption">
+                                    ALL FIXED DISCOUNT(SUBJECT) LIST
+                                </ng-template>
+                                <ng-template pTemplate="header" let-columns>
+                                    <tr>
+                                        <th style="width: 2rem">
+                                            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                                        </th>
+                                        <th *ngFor="let col of columns" [style.width.px]="col.width">{{col.header}}</th>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-subjectDiscount let-columns="columns"
+                                    let-index="rowIndex">
+                                    <tr>
+                                        <td style="width: 2rem">
+                                            <p-tableCheckbox [value]="subjectDiscount"></p-tableCheckbox>
+                                        </td>
+                                        <td *ngFor="let col of columns" [style.width.px]="col.width">
+                                            {{ col.pipeChk == 'date'? (subjectDiscount[col.field] | date: 'short') : subjectDiscount[col.field] }}
+                                        </td>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="summary">
+                                    <button class="btn btn-primary" (click)="commonDelete('Subject Discount')">Delete</button>
+                                </ng-template>
+                            </p-table>
+                        </div>
+                    </div> -->
+
+                    <div class="col-12 px-0" *ngIf="viewOptionsFormat[3].value == 'holidayRoster'">
+                        <h2 class="admin-chapter-header px-2">Add/Delete Holiday</h2>
+                        <app-full-calender [calendarOptions]="holidayCalendarOptions" [eventClick]="holidayEventClick"
+                         [eventList]="holidayList" (clickedItem)="displayDate($event)">
+                        </app-full-calender>
+                    </div>
+
+                </div>
+            </div>
+            
         </div>
     </div>
 </div>
+
+<p-dialog header="HOLIDAY LIST" (onHide)="clearDialogInput()" [(visible)]="holidayCalDisplay" [style]="{width: '40vw'}" [baseZIndex]="10000" [modal]="true">
+    <div class="row">
+        <div class="col-12">
+            <h5><strong>{{selectedDate?.date| date:'fullDate'}}</strong></h5>
+        </div>
+        <mat-form-field class="col-12">
+            <mat-label>Holiday Event</mat-label>
+            <input matInput name="holidayInput" [(ngModel)]="holidayInput">
+        </mat-form-field>
+        <div class="col-12">
+            <button class="mr-1 col-5 col-md-4 btn btn-success" (click)="addHoliday(selectedDate)"
+                [disabled]="!holidayInput">
+                Add Event
+            </button> 
+            <button class="ml-1 col-5 col-md-4 btn btn-danger" (click)="deleteHoliday(selectedDate)">
+                Delete Event
+            </button> 
+        </div>
+    </div>
+</p-dialog>

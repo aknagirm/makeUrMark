@@ -53,18 +53,22 @@ export const headerList= [
 
 export const FormViewOptions = [
     {name: 'structure', value: 'board', formOptions: [
-        {value: 'grade', label: 'Grade Options'},
-        {value: 'board', label: 'Board Options'},
-        {value: 'subject', label: 'Subject Options'},
-        {value: 'batchType', label: 'Batch Type Options'}
+        {value: 'grade', label: 'Grade'},
+        {value: 'board', label: 'Board'},
+        {value: 'subject', label: 'Subject'},
+        {value: 'batchType', label: 'Batch Type'}
     ]},
     {name: 'fees', value: 'tution', formOptions: [
-        {value: 'test', label: 'Test Fees Options'},
-        {value: 'tution', label: 'Tution Fess Options'}
+        {value: 'test', label: 'Test Fees'},
+        {value: 'tution', label: 'Tution Fess'}
     ]},
     {name: 'fixedDiscount', value: 'subjectDiscount', formOptions: [
-        {value: 'subjectDiscount', label: 'Subject Discount Options'},
-        {value: 'monthDiscount', label: 'Months Discount Options'}
-    ]}
+        {value: 'subjectDiscount', label: 'Subject Discount'},
+        {value: 'monthDiscount', label: 'Months Discount'}
+    ]},
+    {name: 'roster', value: 'batchRoster', formOptions: [
+        {value: 'batchRoster', label: 'Batch Roster'},
+        {value: 'holidayRoster', label: 'Holiday Roster'}
+    ]},
 ]
     

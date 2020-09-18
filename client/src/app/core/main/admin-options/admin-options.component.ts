@@ -8,6 +8,7 @@ import { StructuralService } from '../../services/structural.service';
 import { AuthService } from '../../services/auth.service';
 import {TreeNode} from 'primeng/api';
 import { GradeBoardSubDetails, headerList, TestTutionFeesDetails, FormViewOptions } from '../../../reusable/models/grade-subject-fees-options';
+import { CalendarOptions } from '@fullcalendar/core';
 
 @Component({
   selector: 'app-admin-options',
@@ -25,13 +26,30 @@ export class AdminOptionsComponent implements OnInit {
   allTestFees: TestTutionFeesDetails[] =[]
   allSubjectDiscount: TestTutionFeesDetails[] =[]
   allMonthDiscount: TestTutionFeesDetails[] =[]
+  holidayList=[]
+  holidayInput: string=''
   docType=['Board','Grade','Subject','Batch Type','Tution Fees','Test Fees',
       'Subject Discount','Month Discount']
   allColumns=headerList
   viewOptionsFormat=FormViewOptions
   selectedDataForDel  
   user: any
+  holidayEventClick='dateEvent'
   module_endpoint=environment.server_endpoint
+  selectedDate: Date
+  holidayCalDisplay:boolean= false
+  currDate=new Date()
+  holidayCalendarOptions: CalendarOptions = {
+    initialView: 'dayGridMonth',
+    headerToolbar: {
+      left: 'prev',
+      center: 'title',
+      right: 'next'
+    },
+    //eventClick: this.handleDateClick.bind(this), // bind is important!
+    events: [],
+    eventColor: '#378006'
+  };
 
   constructor(
     private route: ActivatedRoute,
@@ -48,6 +66,8 @@ export class AdminOptionsComponent implements OnInit {
       this.struct.getDetails({docType: doc})
       this.getDetails({docType: doc})
     })
+    
+    this.getHolidayList()
   }
 
   getDetails(obj:any) {
@@ -65,7 +85,6 @@ export class AdminOptionsComponent implements OnInit {
     if(obj.docType == 'Subject'){
       this.struct.allSubjects.subscribe(data => {
         this.allSubjects=data
-        console.log(data)
       }, error=> { console.log(error)})
     }
     if(obj.docType == 'Batch Type'){
@@ -75,7 +94,6 @@ export class AdminOptionsComponent implements OnInit {
     }
     if(obj.docType == 'Tution Fees'){
       this.struct.allTutionFees.subscribe(data => {
-        console.log(data)
         this.allTutionFees=data
         this.allTutionFees.sort((a,b)=>{
           if(a.grade == b.grade) {
@@ -195,4 +213,69 @@ export class AdminOptionsComponent implements OnInit {
     })
   }
 
+  displayDate(event){
+    this.holidayCalDisplay=true
+    this.holidayList.forEach(holiday=> {
+     let dt1 =new Date(holiday.holidayDate)
+     let dt2 =new Date(event.date)
+     if(dt1.getTime()==dt2.getTime()){
+       this.holidayInput=holiday.event
+     }
+    })
+    this.selectedDate=event
+  }
+
+  clearDialogInput(){
+      this.holidayInput=null
+  }
+
+  getHolidayList(){
+    let arr=[]
+    this.http.get(this.module_endpoint.adminOptions.getHolidayList)
+      .subscribe(data=> {
+        let list=data['holidayList']
+        list.forEach(holiday => {
+          holiday.title=holiday.event
+          holiday.start=holiday.holidayDate
+          holiday.allDay=true
+          arr.push(holiday)
+        });
+        this.holidayList=[...arr]
+      })
+  }
+
+  addHoliday(selectedDate){
+    this.holidayCalDisplay=false
+    let arr=[...this.holidayList]
+    let obj={holidayDate:selectedDate.date,event:this.holidayInput}
+    this.http.post(this.module_endpoint.adminOptions.addHoliday, obj)
+      .subscribe(data => {
+        console.log(data)
+        let holiday=data['holiday']
+        holiday.title=holiday.event
+        holiday.start=holiday.holidayDate
+        holiday.allDay=true
+        const index=arr.findIndex(el=>el.start==holiday.start)
+        index==-1?arr.push(holiday):arr[index].title=holiday.event
+        this.holidayList=[...arr]
+      })
+  }
+
+  deleteHoliday(selectedDate){
+    this.holidayCalDisplay=false
+    let arr=[...this.holidayList]
+    const obj=arr.find(el=>(new Date(el.start)).getTime()==selectedDate.date.getTime())
+    console.log(obj)
+    this.http.post(this.module_endpoint.adminOptions.holidayDelete, obj)
+        .subscribe(data=> {
+          this.getHolidayList()
+        }, error=> {
+            console.log(error)
+            this.messageService.add(
+            {
+              key: 'deleteToast', severity: 'error', summary: 'Failed', life: 2000,
+              detail: error['error']['msg']
+            });
+        })
+  }
 }

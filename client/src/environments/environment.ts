@@ -47,8 +47,11 @@ export const environment = {
     },
     adminOptions: {
       getDetails: 'http://localhost:3010/adminExplore/getDetails',
+      getHolidayList: 'http://localhost:3010/adminExplore/getHolidayList',
       addGradeSubBoard: 'http://localhost:3010/adminExplore/addGradeSubBoard',
+      addHoliday: 'http://localhost:3010/adminExplore/addHoliday',
       updateTestFees: 'http://localhost:3010/adminExplore/updateTestFees',
+      holidayDelete: 'http://localhost:3010/adminExplore/holidayDelete',
       commonDelete: 'http://localhost:3010/adminExplore/commonDelete',
     },
     studentOptions: {
