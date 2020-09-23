@@ -133,7 +133,7 @@ export class FacultyOptionsComponent implements OnInit {
 
   deleteMaterial(material) {
     this.confirmationService.confirm({
-      key: 'deleteTestConfirm',
+      key: 'deleteConfirm',
       message: 'Are you sure that you want to perform this action?',
       accept: () => {
     this.http.post(this.module_endpoint.facultyOptions.deleteMaterialById, material)

@@ -43,9 +43,6 @@ export class TabViewComponent implements OnInit, OnChanges {
           this.subTutionFees.push(obj)
         }
       })
-
-      console.log(this.subTutionFees)
-
         this.subTutionFees.forEach(sub => {
           let generalFees=sub.batch.find(type=>type.batchType=='GENERAL')
           sub.feesSelected=generalFees
@@ -58,7 +55,6 @@ export class TabViewComponent implements OnInit, OnChanges {
 
   feesChange(event,subject){
     this.subjectTypeSelected.forEach(sub => {
-      console.log(sub)
         if(sub.value == subject.value){
           this.selectedItems.emit(this.subjectTypeSelected)
         }
@@ -66,7 +62,6 @@ export class TabViewComponent implements OnInit, OnChanges {
   }
 
   addToCart(){
-    console.log(this.subjectTypeSelected)
     this.selectedItems.emit(this.subjectTypeSelected)
   }
 

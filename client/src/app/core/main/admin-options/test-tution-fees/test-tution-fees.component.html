@@ -1,0 +1,140 @@
+<div class="col-12 card each-card px-0 my-5 shadow rounded" id="fees-view">
+    <div class="card-header py-3" style="background-color: aliceblue;">
+        <div>
+            <h5>SELECT THE OPTION YOU WANT ADD/DELETE/VIEW</h5>
+        </div>
+        <div class="form-selection-bar">
+            <ng-container *ngFor="let viewOption of viewOptionsFormat[1].formOptions">
+                <span class="each-raadio-button">
+                    <p-radioButton name="viewOptionsFormat[1].name" value={{viewOption.value}}
+                        label={{viewOption.label}} [(ngModel)]="viewOptionsFormat[1].value"></p-radioButton>
+                </span>
+            </ng-container>
+        </div>
+    </div>
+    <div class="card-body px-0">
+        <div class="col-12" *ngIf="viewOptionsFormat[1].value == 'tution'">
+            <h4 class="admin-chapter-header">Add/Delete Tution Fees</h4>
+            <form #addTutionFeesForm="ngForm" ngNativeValidate>
+                <div class="row">
+                    <div class="col-lg-6 my-4 each-form-field">
+                        <mat-label class="my-2 mr-3"><strong>*Select Grade</strong></mat-label>
+                        <p-dropdown autoWidth="false" [style]="{'width':'100%','z-index':'6'}" required
+                            [options]="allGrades" name="grade" ngModel #grade="ngModel" value="grade.label"
+                            placeholder="Select Grade" optionLabel="label" [showClear]="true">
+                        </p-dropdown>
+                    </div>
+                    <div class="col-lg-6 my-4 each-form-field">
+                        <mat-label class="my-2 mr-3"><strong>*Select Subject</strong></mat-label>
+                        <p-multiSelect defaultLabel="Select Grades" [options]="allSubjects" ngModel
+                            name="subject" required styleClass="col-lg-6" placeholder="Select Subject" [style]="{'z-index':'6'}"
+                            #subject="ngModel" optionLabel="label" autoWidth="false" styleClass="col-12">
+                        </p-multiSelect>
+                    </div>
+                    <div class="col-lg-6 my-4 each-form-field">
+                        <mat-label class="my-2 mr-3"><strong>*Select Batch Type</strong></mat-label>
+                        <p-dropdown autoWidth="false" [style]="{'width':'100%','z-index':'5'}" required
+                            [options]="allBatchType" name="batchType" ngModel #batchType="ngModel"
+                            placeholder="Select Batch Type" optionLabel="label" [showClear]="true">
+                        </p-dropdown>
+                    </div>
+                    <div class="col-lg-6 my-4 each-form-field">
+                        <mat-label class="my-2 px-0 mr-3"><strong>*Tution Fees</strong></mat-label>
+                        <input required style="width:100%" type="text" name="tutionFees" pInputText
+                            numberOnly ngModel #tutionFees="ngModel" placeholder="0" />
+                    </div>
+                    <div class="col-12 each-form-field mx-auto mt-2">
+                        <button class="col-2 mx-auto btn btn-primary btn-sm"
+                            [disabled]="addTutionFeesForm.invalid"
+                            (click)="addFees(addTutionFeesForm, 'Tution Fees')">Add</button>
+                    </div>
+                </div>
+            </form>
+            <div class="col-12 mt-3">
+                <p-table [value]="allTutionFees" [columns]="allColumns[1].cols" [scrollable]="true"
+                    scrollHeight="200px" [(selection)]="selectedDataForDel" dataKey="_id">
+                    <ng-template pTemplate="caption">
+                        ALL TUTION FEES DETAILS LIST
+                    </ng-template>
+                    <ng-template pTemplate="header" let-columns>
+                        <tr>
+                            <th style="width: 2rem">
+                                <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                            </th>
+                            <th *ngFor="let col of columns" [style.width.px]="col.width">{{col.header}}</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-tutionFee let-columns="columns" let-index="rowIndex">
+                        <tr>
+                            <td style="width: 2rem">
+                                <p-tableCheckbox [value]="tutionFee"></p-tableCheckbox>
+                            </td>
+                            <td *ngFor="let col of columns" [style.width.px]="col.width">
+                                {{ col.pipeChk == 'date'? (tutionFee[col.field] | date: 'short') : tutionFee[col.field] }}
+                            </td>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="summary">
+                        <button class="btn btn-primary" (click)="commonDelete('Tution Fees')">Delete</button>
+                    </ng-template>
+                </p-table>
+            </div>
+        </div>
+
+        <div class="col-12" *ngIf="viewOptionsFormat[1].value == 'test'">
+            <h4 class="admin-chapter-header">Add/Delete Test Fees</h4>
+            <form #addTestFeesForm="ngForm" ngNativeValidate>
+                <div class="row">
+                    <div class="col-6 my-4 each-form-field">
+                        <mat-label class="my-2 mr-3"><strong>*Select Grade</strong></mat-label>
+                        <p-dropdown autoWidth="false" [style]="{'width':'100%','z-index':'5'}" required
+                            [options]="allGrades" name="grade" ngModel #grade="ngModel" value="grade.label"
+                            placeholder="Select Grade" optionLabel="label" [showClear]="true">
+                        </p-dropdown>
+                    </div>
+                    <div class="col-6 my-4 each-form-field">
+                        <mat-label class="my-2 px-0 mr-3"><strong>*Test Fees</strong></mat-label>
+                        <input required style="width:100%" type="text" name="testFees" pInputText numberOnly
+                            ngModel #testFees="ngModel" placeholder="0" />
+                    </div>
+                    <div class="col-12 each-form-field mx-auto mt-2">
+                        <button class="col-2 mx-auto btn btn-primary btn-sm"
+                            [disabled]="addTestFeesForm.invalid"
+                            (click)="addGradeSubBoard(addTestFeesForm, 'Test Fees')">Add</button>
+                    </div>
+                </div>
+            </form>
+            <div class="col-12 mt-3">
+                <p-table [value]="allTestFees" [columns]="allColumns[2].cols" [scrollable]="true"
+                    scrollHeight="200px" [(selection)]="selectedDataForDel" dataKey="_id">
+                    <ng-template pTemplate="caption">
+                        ALL TEST FEES DETAILS LIST
+                    </ng-template>
+                    <ng-template pTemplate="header" let-columns>
+                        <tr>
+                            <th style="width: 2rem">
+                                <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                            </th>
+                            <th *ngFor="let col of columns" [style.width.px]="col.width">{{col.header}}</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-testFee let-columns="columns" let-index="rowIndex">
+                        <tr>
+                            <td style="width: 2rem">
+                                <p-tableCheckbox [value]="testFee"></p-tableCheckbox>
+                            </td>
+                            <td *ngFor="let col of columns" [style.width.px]="col.width">
+                                {{ col.pipeChk == 'date'? (testFee[col.field] | date: 'short') : testFee[col.field] }}
+                            </td>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="summary">
+                        <button class="btn btn-primary" (click)="commonDelete('Test Fees')">Delete</button>
+                    </ng-template>
+                </p-table>
+            </div>
+        </div>
+
+
+    </div>
+</div>

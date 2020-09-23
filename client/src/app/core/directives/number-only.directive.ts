@@ -14,7 +14,6 @@ export class NumberOnlyDirective {
   ) { }
 
   @HostListener('input', ['$event']) onInputChange(event) {
-    console.log("hi")
     const initialValue= this._el.nativeElement.value;
     let numbersOnlyValue=null
     if(this.numberType && this.numberType=='float'){

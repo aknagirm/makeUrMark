@@ -44,7 +44,7 @@
                 </div>
                 <div class="card-body" style="padding:0">
                     <app-full-calender [calendarOptions]="calendarOptions" [eventList]="testList" 
-                      [eventClick]='testEventClick' (clickedItem)="displayTestDetails($event)">
+                    eventClick="true" (clickedItem)="displayTestDetails($event)">
                     </app-full-calender>
                 </div>
             </div>

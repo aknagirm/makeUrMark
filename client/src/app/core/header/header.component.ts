@@ -64,7 +64,6 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
           if(data instanceof HttpErrorResponse || data == null || data == undefined) {
             this.userName=null
           } else {
-            console.log(data)
             this.userName=data['firstName']
             this.userRole=data['userRole']
           }

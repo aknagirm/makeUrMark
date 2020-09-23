@@ -8,7 +8,8 @@ import { CalendarOptions } from '@fullcalendar/angular';
 })
 export class FullCalenderComponent implements OnInit,OnChanges {
   @Input() calendarOptions: CalendarOptions
-  @Input() eventClick: string
+  @Input() eventClick: boolean
+  @Input() dateClick: boolean
   calendarVisible = true;
   @Input() eventList: any[]
   @Output() clickedItem: EventEmitter<any>=new EventEmitter<any>()
@@ -18,14 +19,18 @@ export class FullCalenderComponent implements OnInit,OnChanges {
   ) { }
 
   ngOnChanges(){
-    
-    console.log(this.calendarOptions)
-    if(this.eventClick=='dateEvent'){
+    if(this.dateClick){
+      this.calendarOptions.dateClick=this.handleDateClick.bind(this)
+    }
+    if(this.eventClick){
+      this.calendarOptions.eventClick=this.handleEventClick.bind(this)
+    }
+   /*  if(this.eventClick=='dateEvent'){
       this.calendarOptions.dateClick=this.handleDateClick.bind(this)
     }
     if(this.eventClick=='slotEvent'){
       this.calendarOptions.eventClick=this.handleEventClick.bind(this)
-    }
+    } */
     this.calendarOptions.events=this.eventList?[...this.eventList]:[]
   }
 
@@ -36,12 +41,11 @@ export class FullCalenderComponent implements OnInit,OnChanges {
   handleEventClick(info) {
     var eventObj = info.event;
     let obj=eventObj._def.title
-    this.clickedItem.emit({title:obj})
+    this.clickedItem.emit({title:obj,event:eventObj})
   }
   
   handleDateClick(arg) {
-    /* console.log(arg)
-    alert('date click! ' + arg.dateStr) */
+    /* alert('date click! ' + arg.dateStr) */
     this.clickedItem.emit(arg)
   }
 }

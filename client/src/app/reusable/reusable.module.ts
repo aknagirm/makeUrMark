@@ -14,6 +14,7 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 import listPlugin from '@fullcalendar/list';
 import { LoadingScreenComponent } from './loading-screen/loading-screen.component';
 import { CartComponent } from './cart/cart.component';
+import { TimeTableComponent } from './time-table/time-table.component';
 
 FullCalendarModule.registerPlugins([ // register FullCalendar plugins
   dayGridPlugin,
@@ -30,6 +31,7 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
     FullCalenderComponent,
     LoadingScreenComponent,
     CartComponent,
+    TimeTableComponent,
   ],
   imports: [
     CommonModule,
@@ -47,7 +49,8 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
     FormsModule,
     FullCalendarModule,
     FullCalenderComponent,
-    LoadingScreenComponent
+    LoadingScreenComponent,
+    TimeTableComponent
   ]
 })
 export class ReusableModule { }

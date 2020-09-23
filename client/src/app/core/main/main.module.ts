@@ -10,17 +10,16 @@ import { FormsModule } from '@angular/forms';
 import { PrimeModule } from 'src/app/external/prime.module';
 import { MaterialModule } from 'src/app/external/material.module';
 import { ReusableModule } from 'src/app/reusable/reusable.module';
-import { AdminOptionsComponent } from './admin-options/admin-options.component';
 import { AllDirectivesModule } from '../directives/all-directives.module';
 import { StudentOptionsModule } from './student-options/student-options.module';
+import { AdminOptionsModule } from './admin-options/admin-options.module';
 
 @NgModule({
   declarations: [
     CoursesComponent,
     DummyComponent,
     HomeComponent,
-    PaymentComponent,
-    AdminOptionsComponent
+    PaymentComponent
   ],
   imports: [
     CommonModule,
@@ -31,7 +30,8 @@ import { StudentOptionsModule } from './student-options/student-options.module';
     MaterialModule,
     ReusableModule,
     AllDirectivesModule,
-    StudentOptionsModule
+    StudentOptionsModule,
+    AdminOptionsModule
   ],
   exports: [
     FacultyOptionsModule,
@@ -39,7 +39,8 @@ import { StudentOptionsModule } from './student-options/student-options.module';
     CommonModule,
     FormsModule,
     AllDirectivesModule,
-    StudentOptionsModule
+    StudentOptionsModule,
+    AdminOptionsModule
   ]
 
 })

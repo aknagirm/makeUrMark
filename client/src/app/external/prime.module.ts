@@ -19,6 +19,7 @@ import {DynamicDialogModule} from 'primeng/dynamicdialog';
 import {DialogModule} from 'primeng/dialog';
 import {TreeTableModule} from 'primeng/treetable';
 import {RadioButtonModule} from 'primeng/radiobutton';
+import {ButtonModule} from 'primeng/button';
 
 @NgModule({
   declarations: [],
@@ -42,7 +43,8 @@ import {RadioButtonModule} from 'primeng/radiobutton';
     DynamicDialogModule,
     DialogModule,
     TreeTableModule,
-    RadioButtonModule
+    RadioButtonModule,
+    ButtonModule
   ],
   exports: [
     CarouselModule,
@@ -63,7 +65,8 @@ import {RadioButtonModule} from 'primeng/radiobutton';
     DynamicDialogModule,
     DialogModule,
     TreeTableModule,
-    RadioButtonModule
+    RadioButtonModule,
+    ButtonModule
   ]
 })
 export class PrimeModule { }

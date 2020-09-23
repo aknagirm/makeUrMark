@@ -32,7 +32,6 @@ export class TestRegisterComponent implements OnInit {
   feesTotal=0
   cartColumns=[{label:'Test Id',value:'testId'},{label:'Subject',value:'subject'},{label:'Fees',value:'testFees'}]
   module_endpoint= environment.server_endpoint
-  testEventClick='slotEvent'
   calendarOptions: CalendarOptions = {
     initialView: 'dayGridMonth',
     headerToolbar: {
@@ -102,7 +101,7 @@ export class TestRegisterComponent implements OnInit {
         obj['start']=dt1
         let dt2=new Date(dt1.getTime()+test.duration*60000)
         obj['end']=dt2
-        obj['status']=='enrolled'?obj['color']='springgreen':obj['color']=''
+        obj['status']=='enrolled'?obj['color']='yellow':obj['color']=''
         this.testList.push(obj)
       })
     })
@@ -121,7 +120,7 @@ export class TestRegisterComponent implements OnInit {
     arr.find(test=>{
       if(test.testId==selectedTest.testId){
         test.status='cart'
-        test.color='yellow'
+        test.color='springgreen'
       } 
     })
     this.testList=[...arr]

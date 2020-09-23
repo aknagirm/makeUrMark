@@ -17,6 +17,7 @@ export class StructuralService {
   allTestFees=new Subject<any>()
   allSubjectDiscount=new Subject<any>()
   allMonthDiscount=new Subject<any>()
+  allScheduledBatch=new Subject<any>()
 
   constructor(
     private http: HttpClient
@@ -47,6 +48,10 @@ export class StructuralService {
         }, error => {
           console.log(error)
         })
+  }
+
+  getAllScheduledBatch(){
+    return this.http.get(this.module_endpoint.adminOptions.allScheduledBatch)
   }
 
 }

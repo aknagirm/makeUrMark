@@ -42,6 +42,8 @@ const structureSchema =new Schema({
     testFees: String,
     tutionFees: String,
     countForDiscount: String,
-    discount: String
+    discount: String,
+    minCount: Number,
+    maxCount: Number
 })
 module.exports =mongoose.model('struct_misc_others_details',structureSchema,'struct_misc_others_details')

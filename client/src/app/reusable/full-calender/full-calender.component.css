@@ -11,6 +11,10 @@
     margin: 0.5em
 }
 
+/* :host ::ng-deep  .fc-scroller-harness {
+    display: none;
+} */
+
 @media only screen and (max-width: 700px) {
     .full-calendar-container {
         font-size: 12px;

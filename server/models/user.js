@@ -26,6 +26,8 @@ const userSchema =new schema({
         mothersLastName: String,
         mothersEmail: String,
         mothersContactNumber: String,
+        courses: [{admissionDate:Date,board:String,grade:String,subject:String,duration:Number,
+                batchType:String,status:String}],
 
         subjects: Array,
         language: Array,

@@ -1,0 +1,251 @@
+<p-confirmDialog key="deleteConfirm" header="Delete" icon="pi pi-exclamation-triangle"></p-confirmDialog>
+<div class="col-12 card each-card px-0 my-5 shadow rounded" id="roster-holiday-view">
+    <div class="card-header py-3" style="background-color: aliceblue;">
+        <div>
+            <h5>SELECT THE OPTION YOU WANT ADD/DELETE/VIEW</h5>
+        </div>
+        <div class="form-selection-bar">
+            <ng-container *ngFor="let viewOption of viewOptionsFormat[3].formOptions">
+                <span class="each-raadio-button">
+                    <p-radioButton name="viewOptionsFormat[3].name" value={{viewOption.value}}
+                        label={{viewOption.label}} [(ngModel)]="viewOptionsFormat[3].value"></p-radioButton>
+                </span>
+            </ng-container>
+        </div>
+    </div>
+    <div class="card-body">
+
+    <div class="col-12 px-0" *ngIf="viewOptionsFormat[3].value == 'batchRoster'">
+        <div class="row justify-content-between">
+            <h4 class="admin-chapter-header px-2">Roster Edit</h4>
+            <button class="btn btn-sm btn-link" (click)="showWaitingStudent()">Waiting List({{studentWaitingList.length}})</button>
+        </div>  
+            <app-full-calender [calendarOptions]="batchCalendarOptions" [eventList]="batchList"
+            (clickedItem)="batchRosterOpen($event)" dateClick="true" eventClick="true">
+            </app-full-calender>
+        </div>
+
+        <div class="col-12 px-0" *ngIf="viewOptionsFormat[3].value == 'holidayRoster'">
+            <h4 class="admin-chapter-header px-2">Add/Delete Holiday</h4>
+            <app-full-calender [calendarOptions]="holidayCalendarOptions"
+            [eventList]="holidayList">
+            </app-full-calender>
+        </div>
+
+    </div>
+</div>
+
+
+<!------------------------------------DIALOG BOXES-------------------------------------------->
+
+<p-dialog header="HOLIDAY LIST" (onHide)="clearDialogInput()" [(visible)]="holidayCalDisplay" [style]="{width: '40vw'}" [baseZIndex]="10000" [modal]="true">
+    <div class="row">
+        <div class="col-12">
+            <h5><strong>{{selectedDate?.date| date:'fullDate'}}</strong></h5>
+        </div>
+        <mat-form-field class="col-12">
+            <mat-label>Holiday Event</mat-label>
+            <input matInput name="holidayInput" [(ngModel)]="holidayInput">
+        </mat-form-field>
+        <div class="col-12">
+            <button class="mr-1 col-5 col-md-4 btn btn-success" (click)="addHoliday(selectedDate)"
+                [disabled]="!holidayInput">
+                Add Event
+            </button> 
+            <button class="ml-1 col-5 col-md-4 btn btn-danger" (click)="deleteHoliday(selectedDate)">
+                Delete Event
+            </button> 
+        </div>
+    </div>
+</p-dialog>
+
+<p-dialog header="CREATE NEW BATCH" [(visible)]="batchDayShow" [style]="{width: '40vw'}" [baseZIndex]="10000" [modal]="true">
+    <form #addBatchTiming="ngForm" ngNativeValidate>
+        <div class="row">
+            <div class="col-lg-6 my-1 each-form-field">
+                <mat-label class="my-2 mr-3"><strong>*Select Grade</strong></mat-label>
+                <p-dropdown autoWidth="false" [style]="{'width':'100%','z-index':'6'}" required
+                    [options]="allGrades" name="grade" [(ngModel)]="newBatch.grade" 
+                    placeholder="Select Grade" optionLabel="label">
+                </p-dropdown>
+            </div>
+            <div class="col-lg-6 my-1 each-form-field">
+                <mat-label class="my-2 mr-3"><strong>*Select Subject</strong></mat-label>
+                <p-dropdown [options]="allSubjects" autoWidth="false" [style]="{'width':'100%','z-index':'6'}"
+                    name="subject" required placeholder="Select Subject" [(ngModel)]="newBatch.subject" 
+                    optionLabel="label">
+                </p-dropdown>
+            </div>
+            <div class="col-lg-6 my-1 each-form-field">
+                <mat-label class="my-2 mr-3"><strong>*Select Batch Type</strong></mat-label>
+                <p-dropdown autoWidth="false" [style]="{'width':'100%','z-index':'5'}" required
+                    [options]="allBatchType" name="batchType" [(ngModel)]="newBatch.batchType"
+                    placeholder="Select Batch Type" optionLabel="label">
+                </p-dropdown>
+            </div>
+            <div class="col-12 mx-0 px-0">
+                <mat-form-field class="col-6">
+                    <mat-label>Start Time</mat-label>
+                    <input matInput name="startTime" disabled [(ngModel)]="newBatch.startTime">
+                </mat-form-field>
+                <mat-form-field class="col-6">
+                    <mat-label>End Time</mat-label>
+                    <input matInput name="endTime" [(ngModel)]="newBatch.endTime">
+                </mat-form-field>
+            </div>
+            <div class="col-12 row">
+                <button class="btn btn-success mx-auto" (click)="scheduleBatch()"
+                [disabled]="addBatchTiming.invalid">Create Batch</button>
+            </div>
+        </div>
+    </form>
+</p-dialog>
+
+<p-dialog header="ALL UNALLOCATED STUDENT" [(visible)]="allStudentWaitingTable" [style]="{width: '60vw', height: '60vh'}" [baseZIndex]="10000" [modal]="true">
+    <p-table [value]="studentWaitingList" [columns]="allColumns[6].cols" [scrollable]="true"
+    scrollHeight="600px" [resizableColumns]="true" styleClass="p-datatable-gridlines">
+    <ng-template pTemplate="colgroup" let-columns>
+        <colgroup>
+            <col *ngFor="let col of columns" [style.width.px]="col.width">
+        </colgroup>
+    </ng-template>
+    <ng-template pTemplate="header" let-columns>
+        <tr>
+            <th *ngFor="let col of columns" pResizableColumn>{{col.header}}</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-user let-columns="columns"
+        let-index="rowIndex">
+        <tr>
+            <td *ngFor="let col of columns" [style.width.px]="col.width">
+                {{ col.pipeChk == 'date'? (user[col.field] | date: 'short') : user[col.field] }}
+            </td>
+        </tr>
+    </ng-template>
+</p-table>
+</p-dialog>
+
+<p-dialog header="MAP/REMOVE STUDENT" [(visible)]="batchStudentShow" [style]="{width: '60vw', height: '60vh'}" [baseZIndex]="10000" [modal]="true">
+    <div class="row mb-2" style="display: flow-root;">
+        <button class="btn btn-sm btn-primary mr-1" (click)="studentWaitingTable=true">Unallocated Student</button>
+        <button class="btn btn-sm btn-warning mr-1" (click)="studentWaitingTable=false">Allocated Student</button>
+        <button class="btn btn-sm btn-danger mr-1" (click)="deleteBatch()">Delete Batch</button>
+        <div style="float:right">
+            <strong>
+                Batch Size: {{selectedBatchForMap?.userList.length}}/{{selectedBatchForMap?.maxStudent}}
+            </strong>
+        </div>
+    </div> 
+    <div *ngIf="studentWaitingTable">
+        <p-table [value]="studentWaitingList" [columns]="allColumns[6].cols" [scrollable]="true"
+            scrollHeight="600px" [(selection)]="selectedStudentForBatch" dataKey="courseObjId" [resizableColumns]="true" styleClass="p-datatable-gridlines">
+            <ng-template pTemplate="caption">
+               USER TO BATCH MAP
+            </ng-template>
+            <ng-template pTemplate="colgroup" let-columns>
+                <colgroup>
+                    <col style="width: 2rem">
+                    <col *ngFor="let col of columns" [style.width.px]="col.width">
+                </colgroup>
+            </ng-template>
+            <ng-template pTemplate="header" let-columns>
+                <tr>
+                    <th style="width: 2rem">
+                        <p-tableHeaderCheckbox [disabled]="true"></p-tableHeaderCheckbox>
+                    </th>
+                    <th *ngFor="let col of columns" pResizableColumn>{{col.header}}</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-waitingList let-columns="columns"
+                let-index="rowIndex">
+                <tr>
+                    <td style="width: 2rem">
+                        <p-tableCheckbox [value]="waitingList" [disabled]="!waitingList.canAllocate"></p-tableCheckbox>
+                    </td>
+                    <td *ngFor="let col of columns" [style.width.px]="col.width">
+                        {{ col.pipeChk == 'date'? (waitingList[col.field] | date: 'short') : waitingList[col.field] }}
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="summary">
+                <button class="btn btn-primary" (click)="allocateToBatch()">Map</button>
+            </ng-template>
+        </p-table>
+    </div>
+
+    <div *ngIf="!studentWaitingTable">
+        <p-table [value]="studentInBatchList?.userList" [columns]="allColumns[7].cols" [scrollable]="true"
+            scrollHeight="600px" [(selection)]="selectedStudentForRemove" dataKey="_id" [resizableColumns]="true" styleClass="p-datatable-gridlines">
+            <ng-template pTemplate="caption">
+                USER REMOVE FROM BATCH
+            </ng-template>
+            <ng-template pTemplate="colgroup" let-columns>
+                <colgroup>
+                    <col style="width: 2rem">
+                    <col *ngFor="let col of columns" [style.width.px]="col.width">
+                </colgroup>
+            </ng-template>
+            <ng-template pTemplate="header" let-columns>
+                <tr>
+                    <th style="width: 2rem">
+                        <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                    </th>
+                    <th *ngFor="let col of columns" pResizableColumn>{{col.header}}</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-user let-columns="columns"
+                let-index="rowIndex">
+                <tr>
+                    <td style="width: 2rem">
+                        <p-tableCheckbox [value]="user"></p-tableCheckbox>
+                    </td>
+                    <td *ngFor="let col of columns" [style.width.px]="col.width">
+                        {{ col.pipeChk == 'date'? (user[col.field] | date: 'short') : user[col.field] }}
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="summary">
+                <button class="btn btn-danger" (click)="removeFromBatch()">Remove</button>
+            </ng-template>
+        </p-table>
+    </div>
+</p-dialog>
+
+<p-dialog header="FILTER BATCH" [(visible)]="batchFilterShow" [style]="{width: '60vw'}" [baseZIndex]="10000" [modal]="true">
+    <form #batchFilterForm="ngForm" ngNativeValidate>
+        <div class="row">
+            <div class="col-4 my-4">
+                <mat-label class="my-2 mr-3"><strong>Select Grades</strong></mat-label>
+                <div *ngFor="let grade of allGrades">
+                    <p-checkbox name="gradeList" value="grade.label" [value]="grade.label" [(ngModel)]="scheduledBatchFilter.gradeList" [inputId]="grade.label"></p-checkbox>
+                    <label [for]="grade.label">{{grade.label}}</label>
+                </div>
+            </div>
+            <div class="col-lg-4 my-4">
+                <mat-label class="my-2 mr-3"><strong>Select Subjects</strong></mat-label>
+                <div *ngFor="let subjects of allSubjects">
+                    <p-checkbox name="subject" [value]="subjects.label" [(ngModel)]="scheduledBatchFilter.subjectList" [inputId]="subjects.label"></p-checkbox>
+                    <label [for]="subjects.label">{{subjects.label}}</label>
+                </div>
+            </div>
+            <div class="col-lg-4 my-4">
+                <mat-label class="my-2 mr-3"><strong>Select Batch Type</strong></mat-label>
+                <div *ngFor="let types of allBatchType">
+                    <p-checkbox name="batchType" [value]="types.label" [(ngModel)]="scheduledBatchFilter.batchTypeList" [inputId]="types.label"></p-checkbox>
+                    <label [for]="types.label">{{types.label}}</label>
+                </div>
+            </div>
+            <div class="col-12 mx-0 px-0">
+                <mat-form-field class="col-6">
+                    <mat-label>Start Time</mat-label>
+                    <input matInput name="startTime" [(ngModel)]="scheduledBatchFilter.startTime">
+                </mat-form-field>
+                <mat-form-field class="col-6">
+                    <mat-label>End Time</mat-label>
+                    <input matInput name="endTime" [(ngModel)]="scheduledBatchFilter.endTime">
+                </mat-form-field>
+            </div>
+            <button class="btn btn-success mx-auto" (click)="schedledBatchFilter()">Apply</button>
+        </div>
+    </form>
+</p-dialog>

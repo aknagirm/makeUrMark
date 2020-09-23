@@ -16,10 +16,11 @@ import { PaymentService } from '../../services/payment.service';
 })
 export class CoursesComponent implements OnInit {
 
-  module_endpoint = environment.server_endpoint.subjectDet
+  module_endpoint = environment.server_endpoint
   itemSelected=[]
   totalAllCost=0
   selectedBoardSubject: any
+  selectedBoard: any
   subjectList: GradeBoardSubDetails[]
   tutionFeesList: TestTutionFeesDetails[]
   totalMonths: number=1
@@ -69,15 +70,18 @@ export class CoursesComponent implements OnInit {
   getGradeSubjectBatchType(){
     const param$: Observable<any>=this.route.queryParams
     const grade$: Observable<GradeBoardSubDetails[]>=this.struct.allGrades
+    const board$: Observable<GradeBoardSubDetails[]>=this.struct.allBoards
     const tutionFees$: Observable<TestTutionFeesDetails[]>=this.struct.allTutionFees
-    combineLatest(grade$,param$,tutionFees$).pipe(
-      map(([grades,params,tutionFees]) => {
+    combineLatest(board$,grade$,param$,tutionFees$).pipe(
+      map(([boards,grades,params,tutionFees]) => {
+        const selectedBoard= boards.find(board=>board.value == params.board)
         const selectedGrade= grades.find(grade=>grade.value == params.grade)
         const selectedTutionFees= tutionFees.filter(fees=>fees.grade==selectedGrade.label)
-        return({grade:selectedGrade,feeList:selectedTutionFees})
+        return({board:selectedBoard,grade:selectedGrade,feeList:selectedTutionFees})
       })
     ).subscribe(data=> {
-      console.log(data.feeList)
+      console.log(data)
+      this.selectedBoard=data.board
       this.selectedBoardSubject=data.grade
       this.tutionFeesList=data.feeList
     })
@@ -156,13 +160,33 @@ export class CoursesComponent implements OnInit {
 
   async securePay(){
     this.payment.paymentDet={amount: this.totalDiscountedCost*100}
-    /*let obj=await this.payment.pay()
-     this.payment.response.subscribe(data => {
-      if(data){
-
-      }
-    }) */
+    //let obj=await this.payment.pay()
+     //this.payment.response.subscribe(data => {
+     // if(data){
+        let arr=[]
+        let mon=+this.totalMonths
+        let today=new Date()
+        let endDate=new Date(today.setMonth(today.getMonth()+mon))
+        endDate.setHours(0,0,0)
+        let startDate=new Date()
+        startDate.setHours(0,0,0)
+        this.itemSelected.forEach(sub=> {
+          let courseObj={board:this.selectedBoard.label,grade:sub.feesSelected.grade,
+             subject:sub.feesSelected.subject, duration: this.totalMonths*30,
+             batchType:sub.feesSelected.batchType, status: 'waiting'}
+          arr.push(courseObj)
+        })
+        console.log(arr)
+        this.http.post(this.module_endpoint.studentOptions.addCourses, {courseList: arr})
+            .subscribe(data=> {
+              console.log(data)
+            }, error=> {
+              console.log(error)
+            })
+      //}
+    //}) 
   }
+
 
   displayCartItem(){
     this.display=true

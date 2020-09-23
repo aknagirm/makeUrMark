@@ -25,7 +25,8 @@ export const environment = {
       getUserDetail: 'http://localhost:3010/auth/getUserDetail',
       updateUserProfile: 'http://localhost:3010/auth/updateUserProfile',
       updateProfilePicture: 'http://localhost:3010/auth/updateProfilePicture',
-      removeProfilePicture: 'http://localhost:3010/auth/removeProfilePicture'
+      removeProfilePicture: 'http://localhost:3010/auth/removeProfilePicture',
+      getAllStudents: 'http://localhost:3010/auth/getAllStudents'
     },
     subjectDet: {
       subjectDetails: 'http://localhost:3010/subjectDet/subjectDetails',
@@ -53,9 +54,15 @@ export const environment = {
       updateTestFees: 'http://localhost:3010/adminExplore/updateTestFees',
       holidayDelete: 'http://localhost:3010/adminExplore/holidayDelete',
       commonDelete: 'http://localhost:3010/adminExplore/commonDelete',
+      scheduleBatch: 'http://localhost:3010/adminExplore/scheduleBatch',
+      allScheduledBatch: 'http://localhost:3010/adminExplore/allScheduledBatch',
+      addStudentToBatch: 'http://localhost:3010/adminExplore/addStudentToBatch',
+      removeFromBatch: 'http://localhost:3010/adminExplore/removeFromBatch',
+      deleteBatch: 'http://localhost:3010/adminExplore/deleteBatch'
     },
     studentOptions: {
       getTestForGradeSub:'http://localhost:3010/studentExplore/getTestForGradeSub',
+      addCourses: 'http://localhost:3010/studentExplore/addCourses',
       registerForTest:'http://localhost:3010/studentExplore/registerForTest'
     }
   }

@@ -7,11 +7,12 @@ import { AllDirectivesModule } from '../../directives/all-directives.module';
 import { FormsModule } from '@angular/forms';
 import { FullCalendarComponent } from '@fullcalendar/angular';
 import { ReusableModule } from 'src/app/reusable/reusable.module';
+import { MaterialComponent } from './material/material.component';
 
 
 
 @NgModule({
-  declarations: [TestRegisterComponent],
+  declarations: [TestRegisterComponent, MaterialComponent],
   imports: [
     CommonModule,
     PrimeModule,

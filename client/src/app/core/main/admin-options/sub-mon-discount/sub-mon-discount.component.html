@@ -1,0 +1,128 @@
+<div class="col-12 card each-card px-0 my-5 shadow rounded" id="fixed-discount-view">
+    <div class="card-header py-3" style="background-color: aliceblue;">
+        <div>
+            <h5>SELECT THE OPTION YOU WANT ADD/DELETE/VIEW</h5>
+        </div>
+        <div class="form-selection-bar">
+            <ng-container *ngFor="let viewOption of viewOptionsFormat[2].formOptions">
+                <span class="each-raadio-button">
+                    <p-radioButton name="viewOptionsFormat[2].name" value={{viewOption.value}}
+                        label={{viewOption.label}} [(ngModel)]="viewOptionsFormat[2].value"></p-radioButton>
+                </span>
+            </ng-container>
+        </div>
+    </div>
+    <div class="card-body px-0">
+
+        <div class="col-12" *ngIf="viewOptionsFormat[2].value == 'subjectDiscount'">
+            <h4 class="admin-chapter-header">Add/Delete Subject Discount</h4>
+            <form #addDiscountSubject="ngForm" ngNativeValidate>
+                <div class="row">
+
+                    <div class="col-lg-5 each-form-field">
+                        <mat-label class="my-2 px-0 mr-3"><strong>*Subject Count</strong></mat-label>
+                        <input required style="width:100%" type="text" name="countForDiscount" pInputText
+                            numberOnly ngModel #countForDiscount="ngModel" />
+                    </div>
+                    <div class="col-lg-5 each-form-field">
+                        <mat-label class="my-2 px-0 mr-3"><strong>*Discount(in %)</strong></mat-label>
+                        <input required style="width:100%" type="text" name="discount" pInputText numberOnly
+                            numberType="float" ngModel #discount="ngModel" />
+                    </div>
+                    <div class="col-lg-2 each-form-field">
+                        <mat-label class="my-2 px-0 mr-3"><strong></strong></mat-label>
+                        <button class="col-2 col-lg-12 btn btn-primary btn-sm"
+                            [disabled]="addDiscountSubject.invalid"
+                            (click)="addGradeSubBoard(addDiscountSubject, 'Subject Discount')">Add</button>
+                    </div>
+                </div>
+            </form>
+            <div class="col-12 mt-3">
+                <p-table [value]="allSubjectDiscount" [columns]="allColumns[3].cols" [scrollable]="true"
+                    scrollHeight="200px" [(selection)]="selectedDataForDel" dataKey="_id">
+                    <ng-template pTemplate="caption">
+                        ALL FIXED DISCOUNT(SUBJECT) LIST
+                    </ng-template>
+                    <ng-template pTemplate="header" let-columns>
+                        <tr>
+                            <th style="width: 2rem">
+                                <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                            </th>
+                            <th *ngFor="let col of columns" [style.width.px]="col.width">{{col.header}}</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-subjectDiscount let-columns="columns"
+                        let-index="rowIndex">
+                        <tr>
+                            <td style="width: 2rem">
+                                <p-tableCheckbox [value]="subjectDiscount"></p-tableCheckbox>
+                            </td>
+                            <td *ngFor="let col of columns" [style.width.px]="col.width">
+                                {{ col.pipeChk == 'date'? (subjectDiscount[col.field] | date: 'short') : subjectDiscount[col.field] }}
+                            </td>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="summary">
+                        <button class="btn btn-primary" (click)="commonDelete('Subject Discount')">Delete</button>
+                    </ng-template>
+                </p-table>
+            </div>
+        </div>
+
+        <div class="col-12" *ngIf="viewOptionsFormat[2].value == 'monthDiscount'">
+            <h4 class="admin-chapter-header">Add/Delete Months Discount</h4>
+            <form #addDiscountMonth="ngForm" ngNativeValidate>
+                <div class="row">
+
+                    <div class="col-lg-5 each-form-field">
+                        <mat-label class="my-2 px-0 mr-3"><strong>*Month Count</strong></mat-label>
+                        <input required style="width:100%" type="text" name="countForDiscount" pInputText
+                            numberOnly ngModel #countForDiscount="ngModel" />
+                    </div>
+                    <div class="col-lg-5 each-form-field">
+                        <mat-label class="my-2 px-0 mr-3"><strong>*Discount(in %)</strong></mat-label>
+                        <input required style="width:100%" type="text" name="discount" pInputText numberOnly
+                            numberType="float" ngModel #discount="ngModel" />
+                    </div>
+                    <div class="col-lg-2 each-form-field">
+                        <mat-label class="my-2 px-0 mr-3"><strong></strong></mat-label>
+                        <button class="col-2 col-lg-12 btn btn-primary btn-sm"
+                            [disabled]="addDiscountMonth.invalid"
+                            (click)="addGradeSubBoard(addDiscountMonth, 'Month Discount')">Add</button>
+                    </div>
+                </div>
+            </form>
+            <div class="col-12 mt-3">
+                <p-table [value]="allMonthDiscount" [columns]="allColumns[3].cols" [scrollable]="true"
+                    scrollHeight="200px" [(selection)]="selectedDataForDel" dataKey="_id">
+                    <ng-template pTemplate="caption">
+                        ALL FIXED DISCOUNT(MONTH) LIST
+                    </ng-template>
+                    <ng-template pTemplate="header" let-columns>
+                        <tr>
+                            <th style="width: 2rem">
+                                <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                            </th>
+                            <th *ngFor="let col of columns" [style.width.px]="col.width">{{col.header}}</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-monthDiscount let-columns="columns"
+                        let-index="rowIndex">
+                        <tr>
+                            <td style="width: 2rem">
+                                <p-tableCheckbox [value]="monthDiscount"></p-tableCheckbox>
+                            </td>
+                            <td *ngFor="let col of columns" [style.width.px]="col.width">
+                                {{ col.pipeChk == 'date'? (monthDiscount[col.field] | date: 'short') : monthDiscount[col.field] }}
+                            </td>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="summary">
+                        <button class="btn btn-primary" (click)="commonDelete('Month Discount')">Delete</button>
+                    </ng-template>
+                </p-table>
+            </div>
+        </div>
+
+    </div>
+</div>

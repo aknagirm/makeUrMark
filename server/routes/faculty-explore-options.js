@@ -180,7 +180,7 @@ router.post('/updateTestMarks',verifyRequest, (req,res) => {
                 if(err){
                     res.status(500).send({msg: "Check Input or check with admin"})
                 } else {
-                    res.status(200).send()
+                    res.status(200).send({msg: "Marks Updated"})
                 }
             })
         });

@@ -77,6 +77,7 @@ router.post('/studentRegister', (req,res)=>{
     newUser.educationalDet=undefined
     newUser.teachingExp=undefined
     newUser.reference=undefined
+    newUser.subjects=undefined
     
     newUser.save((err, user)=>{
         if(err){
@@ -100,6 +101,7 @@ router.post('/facultyRegister', uploadFacultyCv.single('selectedCVFile'), (req,r
     facultyDet.userName= facultyDet.email
     facultyDet.creationDate= new Date()
     facultyDet.updateDate=null
+    facultyDet.courses=undefined
     let faculty =new User(facultyDet)
      faculty.save((err, user)=>{
         if(err){
@@ -136,6 +138,7 @@ router.post('/updateProfilePicture', verifyRequest, uploadUserProfilePic.single(
         if(err){
             res.status(500).send({msg: "Please check inputs"})
         } else {
+            facultyDet.courses=undefined
             let oldImage=user.selectedImageFile
             if(oldImage){
                 fs.unlink(oldImage, (err) =>{
@@ -165,6 +168,7 @@ router.post('/removeProfilePicture', verifyRequest, (req,res) => {
             if(user == {}){
                 res.status(401).send({msg: "Unauthorized"})
             } else {
+                facultyDet.courses=undefined
                 let oldImage=user.selectedImageFile
                 if(oldImage){
                 fs.unlink(oldImage, (err) =>{
@@ -220,5 +224,14 @@ router.post('/getFaculties', (req,res) => {
     
 })
 
+router.get('/getAllStudents',(req,res)=>{
+    User.find({userRole:'student'},(err,studentList)=>{
+        if(err){
+            res.status(500).send({msg:'No Student found'})
+        } else {
+            res.status(200).send({studentList})
+        }
+    })
+})
 
 module.exports = router
