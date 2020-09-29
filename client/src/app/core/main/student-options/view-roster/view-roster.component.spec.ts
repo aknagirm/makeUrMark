@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TimeTableComponent } from './time-table.component';
+import { ViewRosterComponent } from './view-roster.component';
 
-describe('TimeTableComponent', () => {
-  let component: TimeTableComponent;
-  let fixture: ComponentFixture<TimeTableComponent>;
+describe('ViewRosterComponent', () => {
+  let component: ViewRosterComponent;
+  let fixture: ComponentFixture<ViewRosterComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TimeTableComponent ]
+      declarations: [ ViewRosterComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(TimeTableComponent);
+    fixture = TestBed.createComponent(ViewRosterComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

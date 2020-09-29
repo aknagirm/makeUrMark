@@ -1,4 +1,5 @@
 <div class="container student-registration" style="box-sizing: border-box;">
+  <p-toast position="center" key="studentRegister"></p-toast>
     <div class="row" style="justify-content: center;">
   
       <div class="col-12 form-container">
@@ -17,23 +18,23 @@
             <div class="row my-2">
               <mat-form-field class="col-4">
                 <mat-label>First Name</mat-label>
-                <input matInput required name="firstName" ngModel #firstName="ngModel">
+                <input matInput required name="firstName" ngModel #firstName="ngModel" [(ngModel)]="studentUserProfile.firstName">
               </mat-form-field>
   
               <mat-form-field class="col-4">
                 <mat-label>Middle Name</mat-label>
-                <input matInput name="middleName" ngModel #middleName="ngModel" placeholder="Not mandatory">
+                <input matInput name="middleName" ngModel #middleName="ngModel" [(ngModel)]="studentUserProfile.middleName" placeholder="Not mandatory">
               </mat-form-field>
   
               <mat-form-field class="col-4">
                 <mat-label>last Name</mat-label>
-                <input matInput name="lastName" ngModel required #lastName="ngModel">
+                <input matInput name="lastName" ngModel required #lastName="ngModel" [(ngModel)]="studentUserProfile.lastName">
               </mat-form-field>
             </div>
   
             <div class="row my-2">
               <mat-radio-group class="col-12" aria-label="Select an option" name="gender" ngModel required
-                #gender="ngModel">
+                #gender="ngModel" [(ngModel)]="studentUserProfile.gender">
                 <mat-radio-button class="mr-4" value="male">Male</mat-radio-button>
                 <mat-radio-button class="mr-4" value="female">Female</mat-radio-button>
                 <mat-radio-button class="mr-4" value="others">Others</mat-radio-button>
@@ -43,7 +44,8 @@
             <div class="row my-2">
               <mat-form-field class="col-12">
                 <mat-label>Email Id</mat-label>
-                <input matInput type="email" name="email" ngModel required #email="ngModel" placeholder="test@test.com">
+                <input matInput type="email" name="email" ngModel required #email="ngModel" placeholder="test@test.com"
+                [(ngModel)]="studentUserProfile.email">
                 <mat-hint *ngIf="email.touched && email.valid">Email Id needs to be verified! <a href="#">verify</a>
                 </mat-hint>
               </mat-form-field>
@@ -53,7 +55,8 @@
               <mat-form-field class="col-6">
                 <mat-label>Enter your password</mat-label>
                 <input matInput [type]="hide1 ? 'password' : 'text'" name="password1"
-                  pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" ngModel required #password1="ngModel">
+                  pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" ngModel required #password1="ngModel"
+                  [(ngModel)]="studentUserProfile.password">
   
                 <button mat-icon-button matSuffix (click)="hide1 = !hide1" [attr.aria-label]="'Hide password'"
                   [attr.aria-pressed]="hide">
@@ -85,15 +88,26 @@
             <div class="row my-2 justify-content-between">
               <mat-form-field class="col-6">
                 <mat-label>Contact Number</mat-label>
-                <input matInput type="tel" placeholder="+91-9062500811" pattern="[+]{1}[0-9]{2}-[0-9]{10}" required
-                  name="contactNumber" ngModel required #contactNumber="ngModel" placeholder="+91-9876543210">
+                <input matInput type="tel" placeholder="+91-9062500811" pattern="[+]{1}[0-9]{2}[0-9]{10}" required
+                  name="contactNumber" ngModel required #contactNumber="ngModel" placeholder="+91-9876543210"
+                  [(ngModel)]="studentUserProfile.contactNumber">
                 <mat-hint *ngIf="contactNumber.touched && contactNumber.valid">
-                  Contact number needs to be verified! <a href="#">verify</a>
+                  Contact number needs to be verified! <a (click)="mobileOTPGenerate()">verify</a>
                 </mat-hint>
   
                 <mat-hint class="text-danger" *ngIf="contactNumber.touched && contactNumber.invalid">
                   Contact Number is not in proper format
                 </mat-hint>
+              </mat-form-field>
+
+              <mat-form-field class="col-6">
+                <mat-label>Medium of Instruction</mat-label>
+                <mat-select multiple name="language" ngModel required #language="ngModel" [(ngModel)]="studentUserProfile.language">
+                    <mat-option value="bengali">Bengali</mat-option>
+                    <mat-option value="hindi">Hindi</mat-option>
+                    <mat-option value="english">English</mat-option>
+                    <mat-option value="others">Others</mat-option>
+                </mat-select>
               </mat-form-field>
             </div>
   
@@ -121,30 +135,35 @@
                 <h6 class="col-12">Father's Details</h6>
                 <mat-form-field class="col-4">
                   <mat-label>First Name</mat-label>
-                  <input matInput required name="fathersFirstName" ngModel #fathersFirstName="ngModel">
+                  <input matInput required name="fathersFirstName" ngModel #fathersFirstName="ngModel"
+                  [(ngModel)]="studentUserProfile.fathersFirstName">
                 </mat-form-field>
     
                 <mat-form-field class="col-4">
                   <mat-label>Middle Name</mat-label>
-                  <input matInput name="fathersMiddleName" ngModel #fathersMiddleName="ngModel" placeholder="Not mandatory">
+                  <input matInput name="fathersMiddleName" ngModel #fathersMiddleName="ngModel" placeholder="Not mandatory"
+                  [(ngModel)]="studentUserProfile.fathersMiddleName">
                 </mat-form-field>
     
                 <mat-form-field class="col-4">
                   <mat-label>last Name</mat-label>
-                  <input matInput name="fathersLastName" ngModel required #fathersLastName="ngModel">
+                  <input matInput name="fathersLastName" ngModel required #fathersLastName="ngModel"
+                  [(ngModel)]="studentUserProfile.fathersLastName">
                 </mat-form-field>
     
                 <mat-form-field class="col-12">
                   <mat-label>Email Id</mat-label>
-                  <input matInput type="email" name="fathersEmail" ngModel #fathersEmail="ngModel" placeholder="test@test.com">
+                  <input matInput type="email" name="fathersEmail" ngModel #fathersEmail="ngModel" placeholder="test@test.com"
+                  [(ngModel)]="studentUserProfile.fathersEmail">
                 </mat-form-field>
                 
                 <div class="col-12 mx-0 px-0">
 
                     <mat-form-field class="col-6">
                         <mat-label>Contact Number</mat-label>
-                        <input matInput type="tel" placeholder="+91-9062500811" pattern="[+]{1}[0-9]{2}-[0-9]{10}" required
-                          name="fathersContactNumber" ngModel required #fathersContactNumber="ngModel" placeholder="+91-9876543210">
+                        <input matInput type="tel" placeholder="+91-9062500811" pattern="[+]{1}[0-9]{2}[0-9]{10}" required
+                          name="fathersContactNumber" ngModel required #fathersContactNumber="ngModel" placeholder="+919876543210"
+                          [(ngModel)]="studentUserProfile.fathersContactNumber">
           
                         <mat-hint class="text-danger" *ngIf="fathersContactNumber.touched && fathersContactNumber.invalid">
                           Contact Number is not in proper format
@@ -154,28 +173,29 @@
                 <h6 class="col-12">Mother's Details</h6>
                 <mat-form-field class="col-4">
                     <mat-label>First Name</mat-label>
-                    <input matInput required name="mothersFirstName" ngModel #mothersFirstName="ngModel">
+                    <input matInput required name="mothersFirstName" ngModel #mothersFirstName="ngModel" [(ngModel)]="studentUserProfile.mothersFirstName">
                   </mat-form-field>
       
                   <mat-form-field class="col-4">
                     <mat-label>Middle Name</mat-label>
-                    <input matInput name="mothersMiddleName" ngModel #mothersMiddleName="ngModel" placeholder="Not mandatory">
+                    <input matInput name="mothersMiddleName" ngModel #mothersMiddleName="ngModel" placeholder="Not mandatory" [(ngModel)]="studentUserProfile.mothersMiddleName">
                   </mat-form-field>
       
                   <mat-form-field class="col-4">
                     <mat-label>last Name</mat-label>
-                    <input matInput name="mothersLastName" ngModel required #mothersLastName="ngModel">
+                    <input matInput name="mothersLastName" ngModel required #mothersLastName="ngModel" [(ngModel)]="studentUserProfile.mothersLastName">
                   </mat-form-field>
       
                   <mat-form-field class="col-12">
                     <mat-label>Email Id</mat-label>
-                    <input matInput type="email" name="mothersEmail" ngModel #mothersEmail="ngModel" placeholder="test@test.com">
+                    <input matInput type="email" name="mothersEmail" ngModel #mothersEmail="ngModel" placeholder="test@test.com" [(ngModel)]="studentUserProfile.mothersEmail">
                   </mat-form-field>
                   
                   <mat-form-field class="col-6">
                     <mat-label>Contact Number</mat-label>
-                    <input matInput type="tel" placeholder="+91-9062500811" pattern="[+]{1}[0-9]{2}-[0-9]{10}" required
-                      name="mothersContactNumber" ngModel required #mothersContactNumber="ngModel" placeholder="+91-9876543210">
+                    <input matInput type="tel" placeholder="+919062500811" pattern="[+]{1}[0-9]{2}[0-9]{10}" required
+                      name="mothersContactNumber" ngModel required #mothersContactNumber="ngModel" placeholder="+91-9876543210"
+                      [(ngModel)]="studentUserProfile.mothersContactNumber">
       
                     <mat-hint class="text-danger" *ngIf="mothersContactNumber.touched && mothersContactNumber.invalid">
                       Contact Number is not in proper format
@@ -205,7 +225,8 @@
   
               <mat-form-field class="col-12">
                 <mat-label>Do you have Laptop or Desktop at home</mat-label>
-                <mat-select multiple name="homeSystem" ngModel required #homeSystem="ngModel">
+                <mat-select multiple name="homeSystem" ngModel required #homeSystem="ngModel"
+                [(ngModel)]="studentUserProfile.homeSystem">
                   <mat-option value="laptop">Laptop</mat-option>
                   <mat-option value="desktop">Desktop</mat-option>
                   <mat-option value="none">None</mat-option>
@@ -215,7 +236,7 @@
   
             <div class="row my-2">
               <mat-radio-group class="col-12 pl-0" aria-label="Do you have a smart phone" name="smartPhone" ngModel
-                required #smartPhone="ngModel">
+                required #smartPhone="ngModel" [(ngModel)]="studentUserProfile.smartPhone">
                 <mat-radio-button class="col-6" value="yes">I have a Smart Phone</mat-radio-button>
                 <mat-radio-button class="col-6" value="no">I do not have a Smart Phone</mat-radio-button>
               </mat-radio-group>
@@ -225,7 +246,7 @@
               <mat-form-field class="col-12">
                 <mat-label>If you have smart phone, please provide the make and model</mat-label>
                 <input matInput type="text" name="makeAndModel" ngModel required #makeAndModel="ngModel"
-                  [disabled]="smartPhone.value == 'no' || smartPhone.value == ''">
+                [(ngModel)]="studentUserProfile.makeAndModel" [disabled]="smartPhone.value == 'no' || smartPhone.value == ''">
               </mat-form-field>
             </div>
   
@@ -233,7 +254,7 @@
             <div class="row my-2">
               <mat-form-field class="col-6">
                 <mat-label>Broadband details at home</mat-label>
-                <mat-select multiple name="broadBand" ngModel required #broadBand="ngModel">
+                <mat-select multiple name="broadBand" ngModel required #broadBand="ngModel" [(ngModel)]="studentUserProfile.broadBand">
                   <mat-option value="cable">Cable</mat-option>
                   <mat-option value="dongle">Dongle</mat-option>
                   <mat-option value="fibre">Fibre Optics</mat-option>
@@ -243,19 +264,13 @@
   
               <mat-form-field class="col-6">
                 <mat-label>Mention Bandwidth (in Mbps)</mat-label>
-                <input matInput type="text" name="bandWidth" ngModel numberOnly #bandWidth="ngModel" placeholder="100">
+                <input matInput type="text" name="bandWidth" ngModel numberOnly #bandWidth="ngModel" placeholder="100"
+                [(ngModel)]="studentUserProfile.bandWidth">
               </mat-form-field>
 
-              <mat-form-field class="col-6">
-                <mat-label>Medium of Instruction</mat-label>
-                <mat-select multiple name="language" ngModel required #language="ngModel">
-                    <mat-option value="bengali">Bengali</mat-option>
-                    <mat-option value="hindi">Hindi</mat-option>
-                    <mat-option value="english">English</mat-option>
-                    <mat-option value="others">Others</mat-option>
-                </mat-select>
-              </mat-form-field>
-  
+              <div class="col-10 mt-3 px-auto" *ngIf="!captchaCompleted">
+                <re-captcha (resolved)="resolved($event)" siteKey="6LcwNbQZAAAAAPgoFn0b-768IApYKvpIjDBD7U5i"></re-captcha>
+              </div>
             </div>
   
             <div class="row mt-4">
@@ -270,3 +285,31 @@
       </div>
     </div>
   </div>
+
+
+  <p-dialog [(visible)]="verifyPhoneNumberOpen" [style]="{width:'40vw'}" [baseZIndex]="10000" [modal]="true">
+    <div class="row">
+      <div class="form-group col-10 mx-auto mb-0" style="margin-top: 30px;">
+        <div class="col-12" style="text-align: center; font-size: 20px">
+            <p *ngIf="numberVerified == 'matched'"><i class="fa fa-check-square-o" style="color: green"></i> Mobile Number has been verified</p>
+            <p *ngIf="numberVerified == 'not matched'"><i class="fa fa-close" style="color: red"></i> otp not matched</p>
+            <p *ngIf="numberVerified == 'no number'"><i class="fa fa-close" style="color: red"></i> Mobile Number not found</p>
+            <p *ngIf="numberVerified == 'expired'"><i class="fa fa-close" style="color: red"></i> OTP Expired, Please retry</p>
+        </div>
+        
+        <div *ngIf="numberVerified !='matched'">
+            <label for="otp-mob">Please enter the <strong>OTP</strong> sent to your number for verification</label>
+            <div class="input-group">
+                <input id="otp-mob" type="text" class="" name="otp-mob" placeholder="000000"
+                    required #otpInput>
+            </div>
+            <button type="button" (click)="verifyNumber()" class="col-12 btn btn-default btn-primary mt-3">verify</button>
+            <div class="row">
+            <a class="col-6" (click)="mobileOTPGenerate()" style="margin-top: 21px; font-size:14px">Resend OTP</a>
+            <p class="col-6" style="margin-top: 21px; font-size:14px">Remaining time: <strong>{{myMobTimer}} Min</strong></p>
+            </div>
+        </div>
+    </div>
+    </div>
+    
+</p-dialog>

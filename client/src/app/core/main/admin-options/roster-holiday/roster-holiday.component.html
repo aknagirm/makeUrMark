@@ -125,7 +125,8 @@
 </p-table>
 </p-dialog>
 
-<p-dialog header="MAP/REMOVE STUDENT" [(visible)]="batchStudentShow" [style]="{width: '60vw', height: '60vh'}" [baseZIndex]="10000" [modal]="true">
+<p-dialog header="MAP/REMOVE STUDENT" (onHide)="selectedStudentForBatch=[] && selectedStudentForRemove=[]" [(visible)]="batchStudentShow" 
+[style]="{width: '60vw', height: '60vh'}" [baseZIndex]="10000" [modal]="true">
     <div class="row mb-2" style="display: flow-root;">
         <button class="btn btn-sm btn-primary mr-1" (click)="studentWaitingTable=true">Unallocated Student</button>
         <button class="btn btn-sm btn-warning mr-1" (click)="studentWaitingTable=false">Allocated Student</button>

@@ -4,7 +4,7 @@ export const HeaderMenuList = {'menuList': [
         'menuList': []
     },
     {
-        'menuName': "Study Material"
+        'menuName': "Study Material", 'link': "studyMaterial"
     },
     {
         'menuName': "Explore",
@@ -18,8 +18,7 @@ export const HeaderMenuList = {'menuList': [
                     {'menuName':"Refer a Friend"},
                     {'menuName':"View Results"},
                     {'menuName':"Pay Fees"},
-                    {'menuName':"View Branch Roaster"},
-                    {'menuName':"View Holiday Calender"}
+                    {'menuName':"View Branch Roaster", 'link': "explore/student/viewRoster"}
                 ]},
             {
                 'menuName':"Explore as Faculty",

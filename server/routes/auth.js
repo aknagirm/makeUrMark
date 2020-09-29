@@ -78,10 +78,10 @@ router.post('/studentRegister', (req,res)=>{
     newUser.teachingExp=undefined
     newUser.reference=undefined
     newUser.subjects=undefined
-    
+    newUser.courses=[]
     newUser.save((err, user)=>{
         if(err){
-            res.status(500).send({msg:"Input not valid"})
+            res.status(500).send({msg:"Please Check your internet"})
         } else {
             let payload={_id: user._id, userName: user.userName, userRole: user.userRole,
                         firstName: user.firstName, lastName: user.lastName}

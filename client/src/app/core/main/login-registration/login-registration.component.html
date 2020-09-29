@@ -11,7 +11,7 @@
             <div class="btn-close rounded" *ngIf="formView === 'register'">
                 <button class="rounded" (click)="loginPopUpClose()"><i class="fa fa-close"></i></button>
             </div>
-            <app-student-registration *ngIf="formView === 'register'" (formViewRegister)="toggleView($event)"></app-student-registration>
+            <app-student-registration *ngIf="formView === 'register'" (popUpClosed)="loginPopUpClose()" (formViewRegister)="toggleView($event)"></app-student-registration>
         </div>
     </div>
 </div>

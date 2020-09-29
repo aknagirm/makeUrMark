@@ -2,12 +2,13 @@ import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
 import { Observable, interval, concat, merge, Subscription, combineLatest } from 'rxjs';
 import { environment } from '../../../../environments/environment'
 import { HttpClient } from '@angular/common/http';
-import { concatMap, filter, map, mergeMap, switchMap } from 'rxjs/operators';
+import { concatMap, filter, map, mergeMap, switchMap, take } from 'rxjs/operators';
 import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 import { GradeBoardSubDetails, TestTutionFeesDetails } from 'src/app/reusable/models/grade-subject-fees-options';
 import { StructuralService } from '../../services/structural.service';
 import { viewClassName } from '@angular/compiler';
 import { PaymentService } from '../../services/payment.service';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-courses',
@@ -17,7 +18,7 @@ import { PaymentService } from '../../services/payment.service';
 export class CoursesComponent implements OnInit {
 
   module_endpoint = environment.server_endpoint
-  itemSelected=[]
+  itemSelected: any=[]
   totalAllCost=0
   selectedBoardSubject: any
   selectedBoard: any
@@ -40,7 +41,8 @@ export class CoursesComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private struct: StructuralService,
-    private payment:PaymentService
+    private payment:PaymentService,
+    private messageService: MessageService,
   ) {
      
   }
@@ -80,7 +82,6 @@ export class CoursesComponent implements OnInit {
         return({board:selectedBoard,grade:selectedGrade,feeList:selectedTutionFees})
       })
     ).subscribe(data=> {
-      console.log(data)
       this.selectedBoard=data.board
       this.selectedBoardSubject=data.grade
       this.tutionFeesList=data.feeList
@@ -158,34 +159,57 @@ export class CoursesComponent implements OnInit {
     this.totalDiscountedCost=discountedPrice
   }
 
-  async securePay(){
+  /* async securePay(){
+    console.log("Hi")
     this.payment.paymentDet={amount: this.totalDiscountedCost*100}
-    //let obj=await this.payment.pay()
-     //this.payment.response.subscribe(data => {
-     // if(data){
+    let obj=await this.payment.pay()
+    this.payment.response.pipe(
+      take(1)
+    ).subscribe(data => {
+     if(data){
+       console.log(data,this.itemSelected)
         let arr=[]
-        let mon=+this.totalMonths
-        let today=new Date()
-        let endDate=new Date(today.setMonth(today.getMonth()+mon))
-        endDate.setHours(0,0,0)
-        let startDate=new Date()
-        startDate.setHours(0,0,0)
-        this.itemSelected.forEach(sub=> {
+        for(let sub of this.itemSelected){
           let courseObj={board:this.selectedBoard.label,grade:sub.feesSelected.grade,
              subject:sub.feesSelected.subject, duration: this.totalMonths*30,
-             batchType:sub.feesSelected.batchType, status: 'waiting'}
+             batchType:sub.feesSelected.batchType}
           arr.push(courseObj)
-        })
-        console.log(arr)
+        }
         this.http.post(this.module_endpoint.studentOptions.addCourses, {courseList: arr})
             .subscribe(data=> {
-              console.log(data)
+              console.log("push called")
+              this.display=false
+              this.router.navigate(['explore/student/viewRoster'])
             }, error=> {
+              this.display=false
               console.log(error)
+              this.router.navigate(['explore/student/viewRoster'])
+              this.messageService.add(
+                {key: 'purchaseCourse', severity:'error', summary:'Failed', life:30000,
+                detail:error['error']['msg']});
             })
-      //}
-    //}) 
+      }
+    })
   }
+ */
+
+async securePay(){
+  console.log("Hi")
+  this.payment.paymentDet={amount: this.totalDiscountedCost*100}
+  await this.payment.purchaseCourse(this.itemSelected,this.totalMonths)
+  this.payment.response.subscribe(data => {
+        console.log("push called")
+        this.display=false
+        this.router.navigate(['explore/student/viewRoster'])
+      }, error=> {
+        this.display=false
+        console.log(error)
+        this.router.navigate(['explore/student/viewRoster'])
+        this.messageService.add(
+          {key: 'purchaseCourse', severity:'error', summary:'Failed', life:30000,
+          detail:error['error']['msg']});
+      })
+}
 
 
   displayCartItem(){

@@ -9,13 +9,13 @@ const router=express.Router()
 
 router.post('/mobOtpSend', (req,res) => {
     twilio.verify.services(process.env.TWILIO_SERVICE_ID).verifications.create({
-        to: `+${req.body.contactNumber}`,
+        to: `${req.body.contactNumber}`,
         channel: req.body.channel
     }).then(data =>{
-        res.status(200).send("OTP Sent")
-    }, err => {
-        console.log(err)
-        res.status(500).send("check phone number")
+        res.status(200).send({msg:"OTP Sent"})
+    }, error => {
+        console.log(error)
+        res.status(500).send({msg:"Check Phone Number"})
     })
 })
 
@@ -68,30 +68,31 @@ router.post('/mailOtp', (req, res)=>{
 })
 
 router.post('/captcha',async (req,res) => {
+    try{
     if(req.body.captcha === undefined || 
       req.body.captcha === '' ||
       req.body.captcha === null) {
         res.send({msg:"no captcha"})
       }
-  
       secretKey=process.env.CAPTCHA_SECRET
-
-
       //await fetch(`https://www.google.com/recaptcha/api/siteverify?secret=${secretKey}&response=${req.body.captcha}&remoteip=${req.connection.remoteAddress}`
-      
       const captchaVerified = await fetch(`https://www.google.com/recaptcha/api/siteverify?secret=${secretKey}&response=${req.body.captcha}`, {
           method: "POST"
-      })
-      .then(_res => _res.json())
-  
+      }).then(_res => _res.json())
       console.log(captchaVerified)
-    
       // If not successful
-      if (captchaVerified.success !== undefined && !captchaVerified.success)
-        return res.json({ success: false, msg: 'Failed captcha verification' });
-    
+      if (captchaVerified.success !== undefined && !captchaVerified.success){
+        const err = new Error('Failed captcha verification');
+        err.code="FAILED_VERIFICATION"
+        throw err
+      }
+        //return res.json({ success: false, msg: 'Failed captcha verification' });
       // If successful
       return res.json({ success: true, msg: 'Captcha passed' });
+    } catch(err){
+        console.log(err)
+        res.status(500).send({msg: 'Failed captcha verification' })
+    }
   })
 
 module.exports = router

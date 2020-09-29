@@ -12,7 +12,6 @@ const razorpayInstance=new razorpay({
   router.post('/verification', (req, res)=>{
 
     const secret= 'secret'
-    console.log(req.body)
 
     const crypto = require('crypto')
 
@@ -32,9 +31,10 @@ const razorpayInstance=new razorpay({
 
     res.status(200).json({status: 'ok'})
   })
+
+  
   
   router.post('/pay',async (req,res)=>{
-    console.log(req.body.amount.toString())
     const currency='INR'
     const payment_capture=1
     const notes=null
@@ -47,7 +47,6 @@ const razorpayInstance=new razorpay({
   
       try {
         const response = await razorpayInstance.orders.create(options)
-        console.log(response)
         res.json({
           id: response.id,
           currency: response.currency,

@@ -21,8 +21,12 @@ export class RequestHandlerInterceptor implements HttpInterceptor{
           this.loader.stopLoader()
         }
       },error =>{ 
-        console.log(event)
+        console.log(error)
         if(error instanceof HttpErrorResponse) {
+          if(error.status==0){
+            console.log("catched")
+            error.error.msg="Please check your Internet Connection"
+          }
           this.loader.resetLoader()
         }})
     )

@@ -7,6 +7,7 @@ export const environment = {
   server_endpoint: {
     facultyDetails: '../assets/faculties',
     baseUrl: 'http://localhost:3010',
+    paymentURL: 'http://localhost:3010/payment/pay',
     verification: {
       mailOtp: 'http://localhost:3010/verification/mailOtp',
       mobOtpSend: 'http://localhost:3010/verification/mobOtpSend',
@@ -63,7 +64,10 @@ export const environment = {
     studentOptions: {
       getTestForGradeSub:'http://localhost:3010/studentExplore/getTestForGradeSub',
       addCourses: 'http://localhost:3010/studentExplore/addCourses',
-      registerForTest:'http://localhost:3010/studentExplore/registerForTest'
+      registerForTest:'http://localhost:3010/studentExplore/registerForTest',
+      getAllScheduledBatch :'http://localhost:3010/studentExplore/getAllScheduledBatch',
+      getAllMaterial: 'http://localhost:3010/studentExplore/getAllMaterial',
+      getUnallocatedCourses: 'http://localhost:3010/studentExplore/getUnallocatedCourses'
     }
   }
   

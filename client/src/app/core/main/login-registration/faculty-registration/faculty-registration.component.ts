@@ -5,9 +5,10 @@ import { MatOption } from '@angular/material';
 import { globalAnimation } from 'src/app/reusable/animation/global-animation';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { HttpClient } from '@angular/common/http';
-import {SelectItem} from 'primeng/api';
+import {MessageService, SelectItem} from 'primeng/api';
 import { StructuralService } from 'src/app/core/services/structural.service';
 import { GradeBoardSubDetails } from 'src/app/reusable/models/grade-subject-fees-options';
+import { Router, ActivatedRoute } from '@angular/router';
 
 
 @Component({
@@ -44,6 +45,9 @@ export class FacultyRegistrationComponent implements OnInit {
     private auth: AuthService,
     private http: HttpClient,
     private struct: StructuralService,
+    private router:Router,
+    private route: ActivatedRoute,
+    private messageService: MessageService,
   ) { }
 
   ngOnInit() {
@@ -150,8 +154,15 @@ onSubmit(form: NgForm) {
 
     this.auth.registerFaculty(formData)
       .then((res) => {
+        this.messageService.add(
+          {key: 'facultyRegister', severity:'success', summary:'Successful', life:30000,
+          detail:'We Will get back to you Shortly'});
+         this.router.navigate(['/home'],{relativeTo:this.route})
       }, (rej) => {
-      })
+        this.messageService.add(
+          {key: 'facultyRegister', severity:'error', summary:'Failed', life:30000,
+          detail:rej['error']['msg']});
+       })
   }
   
 }

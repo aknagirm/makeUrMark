@@ -1,0 +1,30 @@
+.student-roster-container {
+    position: relative;
+    top:120px;
+}
+
+.unallocated-list-table {
+    font-size: 12px
+}
+
+:host ::ng-deep .ui-dialog .ui-dialog-titlebar {
+    padding:10px 15px;
+    font-size: 20px;
+    color: white;
+    background: #063247;
+}
+
+@media screen and (max-width: 768px) {
+    :host ::ng-deep .ui-dialog {
+        width: 90vw !important;
+        font-size: 10px
+    }
+}
+
+/* @media screen and (max-width: 1024px) {
+
+    :host ::ng-deep .ui-dialog {
+        width: 90vw !important
+    }
+}
+ */

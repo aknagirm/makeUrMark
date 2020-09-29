@@ -1,0 +1,35 @@
+.material {
+    position: relative;
+    top: 140px;
+}
+
+.card-header {
+    background: #063247;
+}
+
+.inc-dec-btn {
+    border-radius: 50%;
+    font-size: 30px;
+    background: #94cac5;
+}
+
+:host ::ng-deep .ui-dialog .ui-dialog-titlebar {
+    padding:10px 15px;
+    font-size: 20px;
+    color: white;
+    background: #063247;
+}
+
+
+@media screen and (max-width: 768px) {
+    :host ::ng-deep .ui-dialog {
+        width: 70vw !important
+    }
+}
+
+@media screen and (max-width: 1024px) {
+
+    :host ::ng-deep .ui-dialog {
+        width: 80vw !important
+    }
+}

@@ -1,0 +1,59 @@
+<div class="container material">
+    <div class="row upper-toolbar justify-content-between">
+        <mat-form-field class="col-3">
+            <mat-label>Select Subject</mat-label>
+            <mat-select multiple name="facultyGrade" [(ngModel)]="subjectFilter">
+              <mat-option *ngFor="let sub of allSubjectsMaterial" [value]="sub.label">{{sub.label}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field class="col-3">
+            <mat-label>Sort</mat-label>
+            <mat-select (selectionChange)="materialSort($event.value)" #sortOption>
+              <mat-option value="asc">Old to New</mat-option>
+              <mat-option value="desc">New to Old</mat-option>
+            </mat-select>
+          </mat-form-field>
+    </div>
+    <div class="row mx-0">
+        <div class="card col-12 my-3" *ngFor="let sub of allSubjectsMaterial">
+            <ng-container *ngIf="subjectFilter.length==0 || subjectFilter.indexOf(sub.label)>-1">
+            <div class="card-header row justify-content-between">
+                <div><span style="font-size: 25px;color:cyan;">{{sub.label}}</span><span style="color: white"> {{sub.material[0].grade}}</span></div>
+            </div>
+            <div class="card-body">
+                <ng-container *ngFor="let material of sub.material">
+                    <div class="row justify-content-between">
+                        <div>
+                            <button class="btn btn-sm btn-link px-0" (click)="openMaterial(material)">{{material.fileName}}</button>
+                        </div>
+                        <div><span>Uploaded Date: </span><span>{{material.uploadDate| date:'short'}}</span></div>
+                    </div>
+                    <div class="row">
+                        <div><span>Uploaded By: </span><span style="text-decoration: underline;">{{material.uploadedBy}}</span></div>
+                    </div>
+                    
+                    <hr>
+                </ng-container>
+            </div>
+            </ng-container>
+        </div>
+    </div>
+</div>
+
+<p-dialog header="{{fileName}}" [(visible)]="displayFile" [style]="fullScreen?{width:'100%'}:{width:'fit-content'}" [baseZIndex]="10000" [modal]="true">
+    <div class="row">
+        
+    <div class="col-12">
+        <pdf-viewer #PdfViewer [src]="pdfSrc" style="display: block;" [page]="1" [show-all]="true"
+        [zoom]="zoomSize" [render-text]="true" [render-text-mode]="0"></pdf-viewer>
+    </div>
+    <div class="col-1 position-fixed" style="top: 40vh;">
+        <!-- <button class="btn inc-dec-btn my-1" style="padding: 0.1rem 0.7rem" (click)="fullScreenCall()">F</button>
+        <br> -->
+        <button class="btn inc-dec-btn my-1" style="padding: 0.1rem 0.7rem" (click)="zoomInOut('inc')">+</button>
+        <br>
+        <button class="btn inc-dec-btn my-1" style="padding: 0.1rem 0.8rem" (click)="zoomInOut('dec')">-</button>
+    </div>
+    </div>
+    
+</p-dialog>

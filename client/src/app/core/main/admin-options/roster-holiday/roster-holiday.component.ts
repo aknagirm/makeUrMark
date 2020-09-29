@@ -55,6 +55,7 @@ export class RosterHolidayComponent implements OnInit {
         click: this.openScheduledBatchFilter.bind(this)
       }
     },
+    allDaySlot: false,
     headerToolbar: {
       left: 'myCustomButton',
       center: '',
@@ -103,7 +104,7 @@ export class RosterHolidayComponent implements OnInit {
             if(element.status=='waiting'){
               arr.push({userName: student['userName'], firstName:student['firstName'],lastName:student['lastName'],
                 grade:element.grade, subject:element.subject, batchType:element.batchType, courseObjId:element._id,
-                duration:element.duration})
+                duration:element.duration,admissionDate:element.admissionDate})
             }
           });
         })
@@ -133,7 +134,7 @@ export class RosterHolidayComponent implements OnInit {
       this.studentWaitingTable=true
       let arr=[...this.studentWaitingList]
       let batch=event.event._def.extendedProps
-      this.studentInBatchList=this.allScheduledBatches.find(batch=>batch['_id']==batch['_id'])
+      this.studentInBatchList=this.allScheduledBatches.find(eachBatch=>eachBatch['_id']==batch['_id'])
       arr.forEach(student=>{
         if(student.grade==batch.grade && student.subject==batch.subject && student.batchType==batch.batchType){
           student.canAllocate=true
@@ -144,7 +145,6 @@ export class RosterHolidayComponent implements OnInit {
       arr.sort((a,b)=>{return b.canAllocate-a.canAllocate})
       this.studentWaitingList=[...arr]
       this.selectedBatchForMap=batch
-      console.log(this.selectedBatchForMap, this.studentInBatchList)
     }
   }
 
@@ -162,6 +162,15 @@ export class RosterHolidayComponent implements OnInit {
         return arr
       })
     ).subscribe(data => {
+          console.log(data)
+          data.forEach(batch=>{
+            if(batch.userList.length==0){
+              batch.color='green'
+            }
+            if(batch.userList.length==batch.maxStudent){
+              batch.color='red'
+            }
+          })
           this.batchList=[...data]
           this.batchListDummy=[...data]
         })

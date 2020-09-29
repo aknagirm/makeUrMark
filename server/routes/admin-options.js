@@ -114,32 +114,34 @@ router.post('/addStudentToBatch', verifyRequest,adminCheck,async (req,res)=> {
     try{
        let details=req.body
        const course= await ScheduledBatch.findById(details.batchId)
-       console.log(course.userList.length,details.userList.length,course.maxStudent)
+      // console.log(course.userList.length,details.userList.length,course.maxStudent)
        if(course.userList.length+details.userList.length>course.maxStudent){
             //res.status(500).send({msg:"Batch Maximum Count Overflowed"})
-            const err = new Error('The message');
-            err.code="ERR_BUFFER_TOO_LARGE"
+            const err = new Error();
+            err.code="BATCH_SIZE_EXCEEDED"
             throw err
         } else {
             for(let user of details.userList){
-                user.createdDate=new Date()
-                user.createdBy=req.userName
+               // user.createdDate=new Date()
+               // user.createdBy=req.userName
+                dt1=new Date((new Date()).setHours(0,0,0))
+                console.log(dt1)
+                user.startDate=new Date(dt1.setDate(dt1.getDate()+1))
+                  user.mappedBy=req.userName
                 user.mappedDate=new Date()
-                user.mappedBy=req.userName
-                user.startDate=new Date()
                 dt=new Date()
                 user.endDate=new Date(dt.setDate(dt.getDate()+user.duration))
                 course.userList.push(user)
                 await User.findOneAndUpdate({userName: user.userName,'courses._id':user.courseObjId},
                 {$set:{'courses.$.status':"allocated"}},{useFindAndModify: false})
-                await course.save()
+                await course.save() 
             }
         }
         res.status(200).send({msg:"users has been allocated"})
         
     } catch(err){
-        console.log("Hi",err)
-        if(err.code=="ERR_BUFFER_TOO_LARGE") {
+        console.log(err)
+        if(err.code=="BATCH_SIZE_EXCEEDED") {
             res.status(500).send({msg:"Max batch Size crossed"})
         } else {
             res.status(500).send({msg:"Something is wrong"})
@@ -164,11 +166,11 @@ router.post('/removeFromBatch',verifyRequest,adminCheck,async (req,res)=>{
                 userDoc.courses.forEach(eachCourse=>{
                     if(eachCourse._id==user.courseObjId) {
                         eachCourse.status="waiting"
-                        sDate=new Date(sDate)
-                        cDate=new Date()
-                        const diffTime = Math.abs(cDate - sDate);
-                        const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24)); 
-                        eachCourse.duration=eachCourse.duration-diffDays
+                       // sDate=new Date(sDate)
+                       // cDate=new Date()
+                       // const diffTime = Math.abs(cDate - sDate);
+                       // const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24)); 
+                       // eachCourse.duration=eachCourse.duration-diffDays
                     }
                 })
                 userDoc.facultyGrade=undefined

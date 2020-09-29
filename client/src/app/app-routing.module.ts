@@ -8,19 +8,23 @@ import { FacultyOptionsComponent } from './core/main/faculty-options/faculty-opt
 import { ViewAllFacultyComponent } from './core/main/faculty-options/view-all-faculty/view-all-faculty.component';
 import { AdminOptionsComponent } from './core/main/admin-options/admin-options.component';
 import { TestRegisterComponent } from './core/main/student-options/test-register/test-register.component';
+import { ViewRosterComponent } from './core/main/student-options/view-roster/view-roster.component';
+import { ViewStudyMaterialComponent } from './core/main/student-options/view-study-material/view-study-material.component';
 
 
 const routes: Routes = [
   {path: '', redirectTo: '/home', pathMatch: 'full'},
   {path: 'home', component: HomeComponent},
   {path: 'courses', component: CoursesComponent},
+  {path: 'studyMaterial', component: ViewStudyMaterialComponent},
   {path: 'career', component: FacultyRegistrationComponent},
   {path: 'securePay',component: PaymentComponent},
   {path: 'explore/faculty',component: FacultyOptionsComponent},
   {path: 'facultyView',component: ViewAllFacultyComponent},
   {path: 'explore/admin',component: AdminOptionsComponent},
   {path: 'explore/student',children:[
-    {path: 'registerTest', component:TestRegisterComponent}
+    {path: 'registerTest', component:TestRegisterComponent},
+    {path: 'viewRoster', component:ViewRosterComponent}
   ]}
 ];
 

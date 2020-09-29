@@ -22,8 +22,9 @@ const router =express.Router()
 
 router.post('/materialUpload',verifyRequest, upload.single('selectedMaterial'), (req,res)=>{
     details=JSON.parse(req.body.payload)
-    details.userName=req.userName
+    details.uploadedBy=req.userName
     details.userRole=req.userRole
+    details.uploadDate=new Date()
     if(req.userRole === 'faculty') {
         details.selectedMaterial =req.file.path
         let material =new Material(details)
@@ -43,7 +44,7 @@ router.post('/materialUpload',verifyRequest, upload.single('selectedMaterial'), 
 
 router.get('/getAllMaterial',verifyRequest,(req,res) => {
     if(req.userRole == 'faculty') {
-        Material.find({userName: req.userName}, (err, materialList) => {
+        Material.find({uploadedBy: req.userName}, (err, materialList) => {
             if(err){
                 res.status(500).send({msg: "Input not valid"})
             } else{

@@ -10,16 +10,18 @@ const facultyExplore= require('./routes/faculty-explore-options')
 const homeOptions= require('./routes/home-options')
 const adminExplore= require('./routes/admin-options')
 const studentExplore= require('./routes/student-explore-options')
+const scheduledFunct= require('./scheduler/all-scheduler')
 const mongoose= require('mongoose')
+const cron = require('node-cron');
 require('dotenv').config()
 
 const PORT= process.env.SERVER_PORT
 
 const app = express()
 
-app.use('/uploads', express.static('uploads'))
 app.use(bodyParse.json())
 app.use(cors())
+app.use('/uploads', express.static('uploads'))
 
 const userDb = process.env.MONGOOSE_CONNECTION
 
@@ -31,6 +33,12 @@ mongoose.connect(userDb, { useNewUrlParser: true, useUnifiedTopology: true }, er
     }
 }
 )
+
+
+cron.schedule("0 0 0 * * *",() => {
+    console.log("Course Validity checked");
+    scheduledFunct.userCourseValidityCheck()
+})
 
 app.use('/subjectDet',subjectDet)
 app.use('/payment',payment)

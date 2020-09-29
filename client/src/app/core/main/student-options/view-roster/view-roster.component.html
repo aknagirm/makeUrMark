@@ -1,0 +1,30 @@
+<div class="container-fluid student-roster-container">
+    <div *ngIf="batchList.length==0">
+        <p class="text-danger">You have not been allocated yet.</p>
+    </div>
+    <app-full-calender [calendarOptions]="batchCalendarOptions" [eventList]="batchList">
+    </app-full-calender>
+</div>
+
+<p-dialog header="UNALLOCATED COURSES" [(visible)]="displayUnallocatedList"
+    [style]="{width: '60vw'}" [baseZIndex]="10000" [modal]="true">
+    <div class="my-3 text-success">
+        <strong>Thanks for Choosing us, Our team will reach you soon for your convenient batch timing</strong>
+    </div>
+    <table class="table unallocated-list-table table-sm" *ngIf="unallocatedList?.length>0">
+        <tr>
+            <th>PURCHASE DATE</th>
+            <th>GRADE</th>
+            <th>SUBJECT</th>
+            <th>BATCH TYPE</th>
+            <th>DURATION(In Days)</th>
+        </tr>
+        <tr *ngFor="let item of unallocatedList">
+            <td>{{item.admissionDate| date:'short'}}</td>
+            <td>{{item.grade}}</td>
+            <td>{{item.subject}}</td>
+            <td>{{item.batchType}}</td>
+            <td>{{item.duration}}</td>
+        </tr>
+    </table>
+</p-dialog>

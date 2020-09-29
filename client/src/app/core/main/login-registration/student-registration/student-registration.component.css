@@ -25,3 +25,27 @@
     top: -4px;
     right: 30px;
 }
+
+a {
+    cursor: pointer;
+    color: #0277bd
+}
+
+#otp-mail, #otp-mob {
+    display: block;
+	margin: 0.5em auto;
+	border: none;
+	padding: 0;
+	width: 9ch;
+	background: repeating-linear-gradient(90deg, 
+		dimgrey 0, dimgrey 1ch, 
+		transparent 0, transparent 1.5ch) 
+		0 100%/8.5ch 2px no-repeat;
+	font: 5ch droid sans mono, consolas, monospace;
+	letter-spacing: 0.5ch;
+}
+
+#otp-mail:focus, #otp-mob:focus {
+    outline: none;
+	color: dodgerblue;
+}
