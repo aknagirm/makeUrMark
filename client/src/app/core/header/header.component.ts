@@ -11,6 +11,8 @@ import { GradeBoardSubDetails } from 'src/app/reusable/models/grade-subject-fees
 import { StructuralService } from '../services/structural.service';
 import { environment } from 'src/environments/environment';
 import { CalendarOptions } from '@fullcalendar/core';
+import { StudentProfileEditComponent } from '../main/student-options/student-profile-edit/student-profile-edit.component';
+import { ExternalFilesService } from '../services/external-files.service';
 
 @Component({
   selector: 'app-header',
@@ -53,6 +55,7 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
     private http: HttpClient,
     private auth: AuthService,
     private struct: StructuralService,
+    private externalFileService: ExternalFilesService,
     public dialogService: DialogService,
     private confirmationService: ConfirmationService) { }
 
@@ -69,6 +72,14 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
           }
         })
         this.auth.getCurrentUser()
+        this.externalFileService.loginRegistrationOpen.subscribe(
+          data=>{
+            console.log(data)
+            if(data!=null){
+              this.openLoginPopUp= {open: true, form: data}
+            }
+          }
+        )
   }
 
   ngAfterViewInit(){
@@ -122,11 +133,20 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   editProfileCalled() {
-    this.editProfileRef =this.dialogService.open(FacultyProfileEditComponent, {
-      header: 'Profile Update Portal',
-      contentStyle: {"overflow": "auto","background-color": "aliceblue"},
-      baseZIndex: 10000
-  })
+    if(this.userRole=='faculty'){
+      this.editProfileRef =this.dialogService.open(FacultyProfileEditComponent, {
+        header: 'Profile Update Portal',
+        contentStyle: {"overflow": "auto","background-color": "aliceblue"},
+        baseZIndex: 10000
+      })
+    }
+    if(this.userRole=='student'){
+      this.editProfileRef =this.dialogService.open(StudentProfileEditComponent, {
+        header: 'Profile Update Portal',
+        contentStyle: {"overflow": "auto","background-color": "aliceblue"},
+        baseZIndex: 10000
+      })
+    }
   }
 
   getHolidayList(){
@@ -140,6 +160,8 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
           holiday.title=holiday.event
           holiday.start=holiday.holidayDate
           holiday.allDay=true
+          holiday.display= 'background'
+          holiday.backgroundColor='red'
           arr.push(holiday)
         });
         this.holidayList=[...arr]

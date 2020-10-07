@@ -1,7 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
 import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { ExternalFilesService } from 'src/app/core/services/external-files.service';
 import { StructuralService } from 'src/app/core/services/structural.service';
 import { GradeBoardSubDetails } from 'src/app/reusable/models/grade-subject-fees-options';
 import { environment } from 'src/environments/environment';
@@ -24,8 +26,10 @@ export class ViewStudyMaterialComponent implements OnInit {
   @ViewChild('PdfViewer',{static:true}) pdfComponent
   module_endpoint= environment.server_endpoint
   constructor(
+    private router: Router,
     private http: HttpClient,
-    private struct: StructuralService
+    private struct: StructuralService,
+    private externalFiles: ExternalFilesService
   ) { }
 
   ngOnInit() {
@@ -67,7 +71,6 @@ export class ViewStudyMaterialComponent implements OnInit {
       map(materialList=>{
         materialList['materialList'].forEach(material=>{
           material['fileName']=material['selectedMaterial'].substr(42)
-          console.log(material)
         })
         return materialList['materialList']
       })
@@ -112,5 +115,11 @@ export class ViewStudyMaterialComponent implements OnInit {
         })
       })
       console.log(this.allSubjectsMaterial)
+    }
+
+    facultyClicked(facultyUserName){
+      console.log(facultyUserName)
+      this.externalFiles.facultyPassed={'facultyUserName':facultyUserName}
+      this.router.navigate(['/facultyView'])
     }
 }

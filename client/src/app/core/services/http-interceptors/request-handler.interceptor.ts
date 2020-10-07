@@ -3,6 +3,7 @@ import { HttpInterceptor, HttpHandler, HttpRequest, HttpEvent, HttpResponse, Htt
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { LoaderService } from '../loader.service';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,8 @@ import { LoaderService } from '../loader.service';
 export class RequestHandlerInterceptor implements HttpInterceptor{
 
   constructor(
-    private loader: LoaderService
+    private loader: LoaderService,
+    private router: Router,
   ) { }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>>{
@@ -23,9 +25,11 @@ export class RequestHandlerInterceptor implements HttpInterceptor{
       },error =>{ 
         console.log(error)
         if(error instanceof HttpErrorResponse) {
-          if(error.status==0){
-            console.log("catched")
+          if(error.status==500){
             error.error.msg="Please check your Internet Connection"
+          }
+          if(error.status==401){
+            this.router.navigate(['/unauthorized'], { skipLocationChange: true })
           }
           this.loader.resetLoader()
         }})

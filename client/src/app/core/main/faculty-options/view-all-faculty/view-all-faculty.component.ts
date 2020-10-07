@@ -2,6 +2,8 @@ import { Component, OnInit, OnChanges, ViewChild } from '@angular/core';
 import { ExternalFilesService } from 'src/app/core/services/external-files.service';
 import { environment } from '../../../../../environments/environment'
 import { map, filter } from 'rxjs/operators';
+import { Router } from '@angular/router';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-view-all-faculty',
@@ -14,16 +16,24 @@ export class ViewAllFacultyComponent implements OnInit {
   facultyListBackUp: any= {}
   profileImg: string
   module_endpoint =environment.server_endpoint
-  displayBasic: boolean;
+  displayMoreDetails: boolean;
   clickedFaculty
+  passedFacultyUserName=new Subject<string>()
 
   constructor(
+    private router:Router,
     private externalFiles:ExternalFilesService
-  ) { }
+  ) { 
+    let currNavExtras=this.router.getCurrentNavigation().extras
+    if(currNavExtras.state){
+      //this.moreInfoCalled(currNavExtras.state.facultyUserName)
+      this.passedFacultyUserName.next(currNavExtras.state.facultyUserName)
+    }
+  }
 
 
   ngOnInit() {
-    this.externalFiles.getFacultiDetails().pipe(
+    this.externalFiles.getFacultyDetails().pipe(
       map(data => {
         data['faculties'].forEach(faculty => {
           faculty.selectedImageFile? 
@@ -34,8 +44,17 @@ export class ViewAllFacultyComponent implements OnInit {
       })
     )
     .subscribe(data => {
+      console.log(data)
       this.facultyList=data
       this.facultyListBackUp={...this.facultyList}
+      this.facultyList['faculties'].forEach(faculty=>{
+        if(this.externalFiles.facultyPassed){
+          if(faculty.userName==this.externalFiles.facultyPassed['facultyUserName']){
+            this.moreInfoCalled(faculty)
+            this.externalFiles.facultyPassed=null
+          }
+        }
+      })
     },
       error => {
         console.log(error)
@@ -45,7 +64,7 @@ export class ViewAllFacultyComponent implements OnInit {
 
   moreInfoCalled(faculty) {
     
-    this.displayBasic=true
+    this.displayMoreDetails=true
     this.clickedFaculty=faculty
   }
 

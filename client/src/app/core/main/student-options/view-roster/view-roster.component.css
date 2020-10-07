@@ -21,6 +21,12 @@
     }
 }
 
+.diag-p-name {
+    font-size: 19px;
+    margin-bottom: 7px;
+    text-decoration: underline;
+}
+
 /* @media screen and (max-width: 1024px) {
 
     :host ::ng-deep .ui-dialog {

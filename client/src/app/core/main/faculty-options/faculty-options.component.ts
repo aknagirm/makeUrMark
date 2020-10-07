@@ -160,7 +160,6 @@ export class FacultyOptionsComponent implements OnInit {
       obj['subject']=obj['subject']['label']
       obj['grade']=obj['grade']['label']
       obj['result']=[]
-
       this.http.post(this.module_endpoint.facultyOptions.scheduleTest, obj)
             .subscribe(data => {
               this.messageService.add(
@@ -200,7 +199,7 @@ export class FacultyOptionsComponent implements OnInit {
           console.log(error)
           this.messageService.add(
             {key: 'scheduleTest', severity:'error', summary:'Failed', 
-            detail:error['msg']});
+            detail:error['error']['msg']});
         })
       }
     });

@@ -28,3 +28,38 @@
         </tr>
     </table>
 </p-dialog>
+
+<p-dialog header="BATCH DETAILS" [(visible)]="displaybatchDetails" [style]="{width: '40vw'}" 
+[baseZIndex]="10000" [modal]="true">
+
+    <div class="row" *ngIf="clickedBatch">
+        <div class="col-md-8">
+            <p class="diag-p-name">
+                <strong>
+                    <span class="">Subject:  </span>
+                    <span class="info" style="font-style: italic;">
+                    {{clickedBatch.subject | uppercase}}({{clickedBatch.grade| uppercase}})
+                </span>
+                </strong>
+            </p>
+        </div>
+        <table class="table mt-2 mx-3" style="font-size:13px">
+        <tbody>
+            <tr>
+                <td>Batch Type</td>
+                <td><strong>{{clickedBatch.batchType| uppercase}}</strong></td>
+            </tr>
+            <tr>
+                <td>Max Student Strength</td>
+                <td><strong>{{clickedBatch.maxStudent}}</strong></td>
+            </tr>
+            <tr>
+                <td>Expires on</td>
+                <td [ngClass]="!clickedBatch.nearExp?'text-success':'text-danger'" style="font-size: 16px;">
+                    <strong>{{clickedBatch.endDate| date:'short'}}</strong>
+                </td>
+            </tr>
+        </tbody>
+        </table>
+    </div>
+</p-dialog>

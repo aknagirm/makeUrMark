@@ -13,6 +13,9 @@ export class ViewRosterComponent implements OnInit {
   batchList=[]
   unallocatedList:any=[]
   displayUnallocatedList: boolean=false
+  displaybatchDetails: boolean=false
+  clickedBatch: any
+  daysRemaining=0
   batchCalendarOptions: CalendarOptions= {
     initialView: 'timeGridWeek',
     customButtons: {
@@ -31,7 +34,8 @@ export class ViewRosterComponent implements OnInit {
     slotMaxTime: "22:00:00",
     dayHeaderFormat: { weekday: 'short' },
     listDaySideFormat: false,
-    events: []
+    events: [],
+    eventClick: this.openBatchDetails.bind(this)
   }
   constructor(
     private http:HttpClient
@@ -44,6 +48,12 @@ export class ViewRosterComponent implements OnInit {
           this.batchList.forEach(batch=>{
             batch['title']=batch.subject
             batch['daysOfWeek']=[+batch.day]
+            const date1 = new Date();
+            const date2 = new Date(batch.endDate);
+            var diff = Math.abs(date2.getTime() - date1.getTime());
+            let dayDiff = Math.ceil(diff / (1000 * 3600 * 24)); 
+            batch['nearExp']= dayDiff>59?false: true
+            batch['color']=!batch['nearExp']?'#007ad9':'red'
           })
         }, error=>{
           console.log(error)
@@ -54,7 +64,6 @@ export class ViewRosterComponent implements OnInit {
   getUnallocatedList(){
     this.http.get(this.module_endpoint.studentOptions.getUnallocatedCourses)
         .subscribe(data=>{
-          console.log(data['unallocatedList'])
           this.unallocatedList=data['unallocatedList']
           let obj={...this.batchCalendarOptions}
           obj.customButtons.myCustomButton.text=`Unallocated List (${this.unallocatedList.length})`
@@ -66,10 +75,9 @@ export class ViewRosterComponent implements OnInit {
     this.displayUnallocatedList=true
   }
 
-  openBatchDetails(){
-    
+  openBatchDetails(event){
+    this.displaybatchDetails=true
+    this.clickedBatch=event.event._def.extendedProps
   }
-
-
 
 }

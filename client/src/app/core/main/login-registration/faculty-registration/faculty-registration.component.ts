@@ -39,6 +39,7 @@ export class FacultyRegistrationComponent implements OnInit {
   selectedCVFile: File =null
   allLanguage: SelectItem[];
   language: string[] = [];
+  returnUrl: string
   dummyAllVal="0"
 
   constructor(
@@ -51,6 +52,7 @@ export class FacultyRegistrationComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.returnUrl=this.route.snapshot.queryParams.returnUrl
     this.struct.getDetails({docType: 'Subject'})
     this.struct.getDetails({docType: 'Grade'})
     this.struct.allGrades.subscribe(data => {
@@ -72,8 +74,6 @@ export class FacultyRegistrationComponent implements OnInit {
         })
         
   }
-
-
 
   tosslePerOne(all){ 
    if (this.allSelected.selected) {  
@@ -157,7 +157,11 @@ onSubmit(form: NgForm) {
         this.messageService.add(
           {key: 'facultyRegister', severity:'success', summary:'Successful', life:30000,
           detail:'We Will get back to you Shortly'});
-         this.router.navigate(['/home'],{relativeTo:this.route})
+          if(this.returnUrl){
+            this.router.navigateByUrl(this.returnUrl)
+          } else {
+            this.router.navigate(['/home'],{relativeTo:this.route})
+          }
       }, (rej) => {
         this.messageService.add(
           {key: 'facultyRegister', severity:'error', summary:'Failed', life:30000,

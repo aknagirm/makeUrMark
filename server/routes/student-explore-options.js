@@ -128,10 +128,41 @@ router.get('/getUnallocatedCourses',verifyRequest, studentCheck, (req,res)=>{
     }
 })
  */
+
+router.post('/getAllTestForStudent',verifyRequest,studentCheck, async (req,res) => {
+    details=req.body
+    details.userName=req.userName
+    try{
+       let testList=await TestResult.find({grade:details.grade,'result.userName':req.userName}).exec()
+        let arr=[]
+        for(let test of testList){
+            let testObj=test.toObject()
+            for(let resultObj of testObj.result){
+                let highestMarks=0
+                highestMarks=resultObj.marks>highestMarks?resultObj.marks:highestMarks
+                testObj.highestMarks=highestMarks
+                testObj.highestMarksPercentage=(testObj.highestMarks*100)/testObj.fullMarks
+                if(resultObj.userName==req.userName){
+                   testObj.obtainedMarks=resultObj.marks
+                   testObj.obtainedMarksPercentage=(resultObj.marks*100)/testObj.fullMarks
+                }
+            }
+            testObj.result=undefined
+            arr.push(testObj)
+        }
+        res.status(200).send({'testList': arr})
+    } catch(err) {
+        console.log(err)
+        res.status(500).send({msg: "Something is wrong"})
+    }
+    
+})
+
 router.post('/getTestForGradeSub',verifyRequest,studentCheck, (req,res) => {
     details=req.body
     details.userName=req.userName
     details.userRole=req.userRole
+    console.log(details)
     if(details.subject){
         TestResult.find({testDateTime: {$gt:new Date()}, grade:details.grade, 
         subject:details.subject}, (err, list) => {

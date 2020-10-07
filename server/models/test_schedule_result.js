@@ -14,6 +14,7 @@ const subjectDetSchema =new schema({
     testDateTime: Date,
     duration: String,
     fullMarks: String,
+    testType: String,
     result: [
         {userName: String, firstName: String, lastName:String, marks: String}
     ]

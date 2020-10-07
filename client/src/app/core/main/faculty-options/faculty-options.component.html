@@ -181,20 +181,20 @@
                                 [(ngModel)]="scheduleTest.syllabus"></textarea>
                         </div>
 
-                        <div class="col-6 my-4 each-form-field">
-                            <mat-label class="my-2 px-0 mr-3"><strong>*Test Date & Time</strong></mat-label>
+                        <div class="col-4 my-4 each-form-field">
+                            <mat-label class="my-2 px-0 mr-3"><strong>*Date & Time</strong></mat-label>
                             <p-calendar required [style]="{'width':'100%'}" [inputStyle]="{'width':'100%'}"
                                 [(ngModel)]="scheduleTest.testDateTime" name="testDateTime" [showTime]="true"
                                 [minDate]="minimumDate" inputId="time"></p-calendar>
                         </div>
 
-                        <div class="col-6 my-4 each-form-field">
+                        <div class="col-4 my-4 each-form-field">
                             <mat-label class="my-2 px-0 mr-3"><strong>*Duration</strong></mat-label>
                             <input numberOnly required style="width:100%" type="text" placeholder="in min (ex: 90)" pInputText
                                 name="duration" [(ngModel)]="scheduleTest.duration" />
                         </div>
 
-                        <div class="col-6 my-4 each-form-field">
+                        <div class="col-4 my-4 each-form-field">
                             <mat-label class="my-2 px-0 mr-3"><strong>*Full Marks</strong></mat-label>
                             <input numberOnly required style="width:100%" type="text" name="fullMarks" pInputText
                                 [(ngModel)]="scheduleTest.fullMarks" />

@@ -22,6 +22,7 @@ import { interceptorProviders } from './core/services/http-interceptors/intercep
 import { LoaderService } from './core/services/loader.service';
 import { HeaderComponent } from './core/header/header.component';
 import { PaymentService } from './core/services/payment.service';
+import { UnauthorizedPageComponent } from './core/unauthorized-page/unauthorized-page.component';
 
 
 @NgModule({
@@ -29,7 +30,8 @@ import { PaymentService } from './core/services/payment.service';
     AppComponent,
     HeaderUpdatedComponent,
     FooterComponent,
-    HeaderComponent
+    HeaderComponent,
+    UnauthorizedPageComponent
   ],
   imports: [
     BrowserModule,
@@ -44,9 +46,16 @@ import { PaymentService } from './core/services/payment.service';
     ReusableModule,
     MainModule
   ],
-  providers: [ExternalFilesService,WindowRefService, MessageService, LoaderService,
-        CountdownTimerService,AuthService,StructuralService,interceptorProviders,
-        PaymentService
+  providers: [
+    ExternalFilesService,
+    WindowRefService, 
+    MessageService, 
+    LoaderService,
+    CountdownTimerService,
+    AuthService,
+    StructuralService,
+    interceptorProviders,
+    PaymentService
   ],
   bootstrap: [AppComponent]
 })

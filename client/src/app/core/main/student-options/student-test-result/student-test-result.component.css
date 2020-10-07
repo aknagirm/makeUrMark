@@ -1,0 +1,67 @@
+.test-result-container {
+    position: relative;
+    top:150px;
+    margin-bottom: 10vh;
+    padding: 0px;
+}
+
+.btn-sm {
+    font-size: 12px;
+    border: none;
+}
+
+.faculty-btn {
+    font-size: 12px;
+    color: #007bff;
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.faculty-btn:hover{
+    color: #043a74;
+    text-decoration: underline;
+}
+
+:host ::ng-deep .ui-table {
+    font-size: 12px;
+    /* overflow: hidden; */
+}
+:host ::ng-deep .ui-table .ui-table-caption {
+    background-color: #94cac5;
+    border: #06324779 1px solid;
+    border-bottom: 0;
+}
+
+:host ::ng-deep .ui-table .ui-table-thead > tr > th {
+    background-color: #94cac5;
+    border: #06324779 1px solid;
+}
+
+:host ::ng-deep .ui-table .ui-table-tbody > tr > td {
+    border: #06324779 1px solid;
+}
+
+:host ::ng-deep .ui-table .ui-sortable-column .ui-sortable-column-icon {
+    color: #063247
+}
+
+:host ::ng-deep .ui-dialog .ui-dialog-titlebar {
+    padding:10px 15px;
+    font-size: 20px;
+    color: white;
+    background: #063247;
+}
+
+
+@media screen and (max-width: 768px) {
+    :host ::ng-deep .ui-dialog {
+        width: 70vw !important
+    }
+}
+
+@media screen and (max-width: 1024px) {
+
+    :host ::ng-deep .ui-dialog {
+        width: 80vw !important
+    }
+}

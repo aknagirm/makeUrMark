@@ -5,7 +5,7 @@ import { environment } from '../../../../../environments/environment'
 import { AuthService } from '../../../services/auth.service';
 import {Message} from 'primeng//api';
 import {MessageService} from 'primeng/api';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 
 @Component({
@@ -25,6 +25,7 @@ export class LoginComponent implements OnInit {
     private http: HttpClient,
     private auth: AuthService,
     private router: Router,
+    private route: ActivatedRoute,
     private messageService: MessageService
   ) { }
 
@@ -43,12 +44,13 @@ export class LoginComponent implements OnInit {
     this.auth.loginUser(userObj)
     this.auth.loggedInUserObj.subscribe(data => {
       if(data instanceof HttpErrorResponse){
+        console.log(data)
         this.msgs=[]
         this.msgs.push({severity:'error', summary:'Error', 
         detail:data['error']['msg']});
       } else {
         this.popUpClosed.emit()
-        this.router.navigate(['/home'])
+        //this.router.navigate(['/home'])
       }
     })
   }

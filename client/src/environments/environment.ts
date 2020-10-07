@@ -65,7 +65,8 @@ export const environment = {
       getTestForGradeSub:'http://localhost:3010/studentExplore/getTestForGradeSub',
       addCourses: 'http://localhost:3010/studentExplore/addCourses',
       registerForTest:'http://localhost:3010/studentExplore/registerForTest',
-      getAllScheduledBatch :'http://localhost:3010/studentExplore/getAllScheduledBatch',
+      getAllTestForStudent: 'http://localhost:3010/studentExplore/getAllTestForStudent',
+      getAllScheduledBatch:'http://localhost:3010/studentExplore/getAllScheduledBatch',
       getAllMaterial: 'http://localhost:3010/studentExplore/getAllMaterial',
       getUnallocatedCourses: 'http://localhost:3010/studentExplore/getUnallocatedCourses'
     }

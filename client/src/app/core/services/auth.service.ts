@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { Observable, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { environment } from '../../../environments/environment'
 
 @Injectable({
@@ -9,7 +9,7 @@ import { environment } from '../../../environments/environment'
 })
 export class AuthService {
   userObj
-  loggedInUserObj =new Subject<any>()
+  loggedInUserObj =new BehaviorSubject<any>(null)
   isLoggedIn: boolean
   module_endpoint= environment.server_endpoint
 
@@ -24,7 +24,7 @@ export class AuthService {
           localStorage.setItem("token", data['token'])
           this.getCurrentUser()
         }, error => {
-          console.log( error['msg'])
+          console.log( error)
           this.loggedInUserObj.next(error)
         })
   }
@@ -79,6 +79,8 @@ export class AuthService {
         .subscribe(data => {
           this.loggedInUserObj.next(data['user'])
         })
+      } else {
+        this.loggedInUserObj.next({userName:"none"})
       }
     }
     

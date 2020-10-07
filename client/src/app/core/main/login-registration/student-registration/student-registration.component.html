@@ -2,7 +2,7 @@
   <p-toast position="center" key="studentRegister"></p-toast>
     <div class="row" style="justify-content: center;">
   
-      <div class="col-12 form-container">
+      <div class="col-12 form-container px-0">
   
   
         <!---------------------------------Form 1---------------------------------------------->
@@ -112,7 +112,7 @@
             </div>
   
             <div class="row mt-4">
-              <button class="mx-auto col-4 btn btn-success" (click)="onSubmit(studentForm1)"
+              <button class="mx-auto col-8 col-lg-4 btn btn-success" (click)="onSubmit(studentForm1)"
                 [disabled]="studentForm1.invalid || password1.value!==password2.value">
                 Submit & Proceed <i class="fa fa-angle-right"></i>
               </button>
@@ -203,7 +203,7 @@
                   </mat-form-field>
               </div>
               <div class="row mt-4">
-                <button class="mx-auto col-4 btn btn-success" (click)="onSubmit(studentForm2)"
+                <button class="mx-auto col-8 col-lg-4 btn btn-success" (click)="onSubmit(studentForm2)"
                   [disabled]="studentForm2.invalid">
                   Submit & Proceed <i class="fa fa-angle-right"></i>
                 </button>
@@ -274,7 +274,7 @@
             </div>
   
             <div class="row mt-4">
-              <button class="mx-auto col-4 btn btn-success" (click)="onSubmit(studentForm3)"
+              <button class="mx-auto col-8 col-lg-4 btn btn-success" (click)="onSubmit(studentForm3)"
                 [disabled]="studentForm3.invalid">
                 Submit & Proceed <i class="fa fa-angle-right"></i>
               </button>
@@ -283,6 +283,9 @@
           </form>
         </div>
       </div>
+      <div class="col-12 text-bottom mx-auto mb-2" style="text-align: center;">
+        <p>Already have an acount? <a (click)="toggleForm('login')">Login</a></p>
+    </div>
     </div>
   </div>
 

@@ -1,0 +1,86 @@
+<div class="container-fluid test-result-container">
+    <p-toast position="center" key="nodataToast"></p-toast>
+    <div class="row mx-0">
+        <div class="col-12">
+            <mat-form-field class="col-6 col-lg-3" style="float: right;">
+                <mat-label>Select Your Grade First </mat-label>
+                <mat-select name="grade" [(ngModel)]="selectedGradeSub.grade">
+                  <mat-option *ngFor="let grade of allGrades" (click)="dropdownSelected()"
+                    [value]="grade.label">{{grade.label}}</mat-option>
+                </mat-select>
+              </mat-form-field>
+        </div>
+    </div>
+    <div class="all-test-result mx-3" *ngIf="allOwnMarks.length>0">
+        <p-table #marksTable [value]="allOwnMarks" [paginator]="true" [rows]="5" [resizableColumns]="true"
+            [showCurrentPageReport]="true" [globalFilterFields]="['testId','subject']" styleClass="p-datatable-sm"
+            [columns]="testResultStructure[0].cols" [scrollable]="true" (sortFunction)="customSort($event)" [customSort]="true">
+            <ng-template pTemplate="caption">
+                <div class="table-caption row">
+                    <div class="table-caption-search col-12" style="text-align: right;">
+                        <span class="p-input-icon-left" style="text-align: right">
+                            <input pInputText type="text" class="col-3"
+                                (input)="marksTable.filterGlobal($event.target.value, 'contains')"
+                                placeholder="Test Id, Subject Search" />
+                        </span>
+                    </div>
+                </div>
+            </ng-template>
+            <ng-template pTemplate="colgroup" let-columns>
+                <colgroup>
+                    <col *ngFor="let col of columns" [style.width.px]="col.width">
+                </colgroup>
+            </ng-template>
+            <ng-template pTemplate="header" let-columns>
+                <tr>
+                    <th *ngFor="let col of columns" pResizableColumn pSortableColumn="{{col.field}}">
+                        {{col.header}}<p-sortIcon field="{{col.field}}" style="font-size: 10px;color: #063247"></p-sortIcon>
+                    </th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-marks let-columns="columns">
+                <tr>
+                    <td *ngFor="let col of columns">
+                        <ng-container *ngIf="col.pipeChk=='date'">{{marks[col.field]|date:'short'}}</ng-container>
+                        <ng-container *ngIf="col.field=='userName'">
+                            <a class="faculty-btn" (click)="facultyClicked(marks[col.field])">{{marks[col.field]}}</a>
+                        </ng-container>
+                        <ng-container *ngIf="!col.pipeChk && col.field!=='userName'">{{marks[col.field]}}</ng-container>
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+
+        <div class="row mt-4">
+            <div class="latest-all-marks col-12 col-lg-6" *ngIf="allOwnLatestMarks.labels.length>0">
+                <p-chart type="bar" [data]="allOwnLatestMarks" [options]="latestMarkschartOptions" height="55vh"
+                (onDataSelect)="resultClicked($event,'allLatest')"></p-chart>
+            </div>
+            <div class="last-five-marks col-12 col-lg-6" *ngIf="lastFiveMarks.datasets.length>0">
+                <p-chart type="line" [data]="lastFiveMarks" [options]="lastFiveMarkschartOptions" height="55vh"
+                (onDataSelect)="resultClicked($event,'lastFive')"></p-chart>
+            </div>
+        </div>
+        
+    </div>
+</div>
+
+<p-dialog header="TEST DETAILS" [(visible)]="displayTestDet" [style]="{width: '40vw'}" [baseZIndex]="10000"
+        [modal]="true">
+    <div class="test-details">
+        <table class="table table-sm" *ngIf="displayTestDet">
+            <tbody>
+                <tr *ngFor="let col of testResultStructure[0].cols">
+                    <td><strong>{{col.header}}</strong></td>
+                    <td>
+                        <ng-container *ngIf="col.pipeChk=='date'">{{selectedTest[col.field]|date:'short'}}</ng-container>
+                        <ng-container *ngIf="col.field=='userName'">
+                            <a class="faculty-btn" style="font-size: 15px;" (click)="facultyClicked(selectedTest[col.field])">{{selectedTest[col.field]}}</a>
+                        </ng-container>
+                        <ng-container *ngIf="!col.pipeChk && col.field!=='userName'">{{selectedTest[col.field]}}</ng-container>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</p-dialog>

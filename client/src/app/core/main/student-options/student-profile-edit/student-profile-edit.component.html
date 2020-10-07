@@ -1,0 +1,232 @@
+<div class="container-fluid student-form my-4" style="box-sizing: border-box;justify-content: center;">
+    <p-toast position="center" key="editProfile"></p-toast>
+    <div class="col-12 col-md-10 mx-auto" *ngIf="studentProfileEdit">
+      <p-confirmDialog key="updateDetails" header="Update Details" icon="pi pi-exclamation-triangle"></p-confirmDialog>
+      <!---------------------------------Form 1---------------------------------------------->
+  
+      <p-accordion>
+        <p-accordionTab header="PERSONAL DETAILS" [selected]="true">
+          <div class="mx-4 my-2">
+            <form #studentForm1="ngForm" ngNativeValidate>
+  
+              <div class="row my-2">
+                <mat-form-field class="col-4">
+                  <mat-label>First Name</mat-label>
+                  <input matInput required name="firstName" [(ngModel)]="studentProfileEdit.firstName" ngModel
+                    #firstName="ngModel">
+                </mat-form-field>
+  
+                <mat-form-field class="col-4">
+                  <mat-label>Middle Name</mat-label>
+                  <input matInput name="middleName" ngModel #middleName="ngModel"
+                    [(ngModel)]="studentProfileEdit.middleName" placeholder="Not mandatory">
+                </mat-form-field>
+  
+                <mat-form-field class="col-4">
+                  <mat-label>last Name</mat-label>
+                  <input matInput name="lastName" ngModel required #lastName="ngModel"
+                    [(ngModel)]="studentProfileEdit.lastName">
+                </mat-form-field>
+              </div>
+  
+              <div class="row my-2">
+                <mat-radio-group class="col-12" aria-label="Select an option" name="gender" ngModel required
+                  #gender="ngModel" [(ngModel)]="studentProfileEdit.gender">
+                  <mat-radio-button class="mr-4" value="male">Male</mat-radio-button>
+                  <mat-radio-button class="mr-4" value="female">Female</mat-radio-button>
+                  <mat-radio-button class="mr-4" value="others">Others</mat-radio-button>
+                </mat-radio-group>
+              </div>
+  
+              <div class="row my-2 justify-content-between">
+                <mat-form-field class="col-6">
+                  <mat-label>Contact Number</mat-label>
+                  <input matInput type="tel" placeholder="+91-9062500811" name="contactNumber"
+                    [(ngModel)]="studentProfileEdit.contactNumber" placeholder="+91-9876543210"
+                    pattern="[+]{1}[0-9]{2}-[0-9]{10}" ngModel required #contactNumber="ngModel">
+                  <mat-hint *ngIf="contactNumberOld != studentProfileEdit.contactNumber
+                      && contactNumber.valid">
+                    Contact number needs to be verified! <a href="#">verify</a>
+                  </mat-hint>
+  
+                  <mat-hint class="text-danger" *ngIf="contactNumber.touched && contactNumber.invalid">
+                    Contact Number is not in proper format
+                  </mat-hint>
+                </mat-form-field>
+
+                <mat-form-field class="col-6">
+                    <mat-label>Medium of Instruction</mat-label>
+                    <mat-select multiple name="language" ngModel required #language="ngModel" [(ngModel)]="studentProfileEdit.language">
+                        <mat-option value="bengali">Bengali</mat-option>
+                        <mat-option value="hindi">Hindi</mat-option>
+                        <mat-option value="english">English</mat-option>
+                        <mat-option value="others">Others</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+              </div>
+  
+              <div class="row mt-4">
+                <button class="mx-auto col-3 btn btn-success" (click)="onSubmit(studentForm1)"
+                  [disabled]="studentForm1.invalid">Update</button>
+              </div>
+  
+            </form>
+          </div>
+        </p-accordionTab>
+  
+        <!---------------------------------Form 2---------------------------------------------->
+  
+        <p-accordionTab header="PASSWORD CHANGE">
+          <div class="mx-4 my-2">
+            <form #studentForm2="ngForm" ngNativeValidate>
+  
+              <mat-form-field class="col-6 mx-0 pl-0"
+                [class.mat-form-field-invalid]="password.value !== studentProfileEdit.password && password.touched">
+                <mat-label>Enter your existing password</mat-label>
+                <input matInput [type]="hide1 ? 'password' : 'text'" name="password" ngModel required #password="ngModel">
+                <button mat-icon-button matSuffix (click)="hide1 = !hide1" [attr.aria-label]="'Hide password'"
+                  [attr.aria-pressed]="hide">
+                  <mat-icon>{{hide1 ? 'visibility_off' : 'visibility'}}</mat-icon>
+                </button>
+                <mat-hint class="text-danger" *ngIf="password.value !== studentProfileEdit.password && password.touched">
+                  Password didnot match with existing password
+                </mat-hint>
+              </mat-form-field>
+  
+              <div class="row my-2">
+                <mat-form-field class="col-6">
+                  <mat-label>Enter your new password</mat-label>
+                  <input matInput [type]="hide2 ? 'password' : 'text'" name="password1"
+                    pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" ngModel required #password1="ngModel"
+                    [(ngModel)]="studentProfileEdit.newPassword">
+  
+                  <button mat-icon-button matSuffix (click)="hide2 = !hide2" [attr.aria-label]="'Hide password'"
+                    [attr.aria-pressed]="hide">
+                    <mat-icon>{{hide2 ? 'visibility_off' : 'visibility'}}</mat-icon>
+                  </button>
+                  <mat-hint [align]="end"><i style="font-size: 16px;" class="fa fa-question-circle" #tooltip="matTooltip"
+                      matTooltip="Password length must be 8 Character, 
+                      must contains atleast one Capital Letter, one small Letter and one Number"
+                      matTooltipPosition="right"></i>
+                  </mat-hint>
+                </mat-form-field>
+  
+  
+                <mat-form-field class="col-6"
+                  [class.mat-form-field-invalid]="password1.value !== password2.value && password2.touched">
+                  <mat-label>Re enter your password</mat-label>
+                  <input matInput [type]="hide3 ? 'password' : 'text'" name="password2" ngModel required
+                    #password2="ngModel">
+                  <button mat-icon-button matSuffix (click)="hide3 = !hide3" [attr.aria-label]="'Hide password'"
+                    [attr.aria-pressed]="hide">
+                    <mat-icon>{{hide3 ? 'visibility_off' : 'visibility'}}</mat-icon>
+                  </button>
+                  <mat-hint class="text-danger" *ngIf="password1.value !== password2.value && password2.touched">
+                    Password didnot match
+                  </mat-hint>
+                </mat-form-field>
+              </div>
+  
+              <div class="row mt-4">
+                <button class="mx-auto col-3 btn btn-success" (click)="onSubmit(studentForm2)"
+                  [disabled]="studentForm2.invalid || password1.value!==password2.value">Update</button>
+              </div>
+            </form>
+          </div>
+        </p-accordionTab>
+
+        <!---------------------------------Form 4---------------------------------------------->
+  
+        <!-- <p-accordionTab header="UPLOAD IMAGE">
+          <div class="mx-4 my-2">
+            <p-confirmDialog key="imageChangeConfirm" header="Update Profile Picture" icon="pi pi-exclamation-triangle"></p-confirmDialog>
+            <form #facultyForm3="ngForm" ngNativeValidate>
+              <input style="display: none;" type="file" #file name="filename"
+                accept=".jpg, .png, .jpeg, .gif, .bmp, .tif, .tiff|image/*" (change)="onFileSelected($event)">
+              <div class="row">
+                <div class="col-md-6 img-container">
+                  <img [src]="_profileImgUrl" alt="" style="width: 100%;height: 350px;">
+                </div>
+                <div class="col-md-6 my-auto mx-auto" style="display: grid; text-align: center;">
+                  <button class="col-6 btn btn-primary mx-auto my-2" (click)="file.click()">
+                    Select</button>
+                  <strong>Or</strong>
+                  <button class="col-6 btn btn-danger mx-auto my-2" (click)=" imgSubmit.disabled =false;onRemoveFile()">
+                    Remove</button>
+                  <strong>Then</strong>
+                  <button class="col-6 btn btn-success mx-auto my-2" (click)="onImageSubmit()" #imgSubmit
+                    [disabled]="facultyForm3.invalid || !selectedImageFile">Update</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </p-accordionTab> -->
+  
+     
+        <!---------------------------------Form 4---------------------------------------------->
+  
+        <p-accordionTab header="INFRASTRUCTURE DETAILS">
+          <div class="mx-4 my-2">
+            <form #studentForm4="ngForm" ngNativeValidate>
+              <div class="row my-2">
+  
+                <mat-form-field class="col-12">
+                  <mat-label>Do you have Laptop or Desktop at home</mat-label>
+                  <mat-select multiple name="homeSystem" ngModel required #homeSystem="ngModel"
+                    [(ngModel)]="studentProfileEdit.homeSystem">
+                    <mat-option value="laptop">Laptop</mat-option>
+                    <mat-option value="desktop">Desktop</mat-option>
+                    <mat-option value="none">None</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+  
+              <div class="row my-2">
+                <mat-radio-group class="col-12 pl-0" aria-label="Do you have a smart phone" name="smartPhone" ngModel
+                  required #smartPhone="ngModel" [(ngModel)]="studentProfileEdit.smartPhone">
+                  <mat-radio-button class="col-6" value="yes">I have a Smart Phone</mat-radio-button>
+                  <mat-radio-button class="col-6" value="no">I do not have a Smart Phone</mat-radio-button>
+                </mat-radio-group>
+              </div>
+  
+              <div class="row my-2">
+                <mat-form-field class="col-12">
+                  <mat-label>If you have smart phone, please provide the make and model</mat-label>
+                  <input matInput type="text" name="makeAndModel" ngModel required #makeAndModel="ngModel"
+                    [(ngModel)]="studentProfileEdit.makeAndModel"
+                    [disabled]="smartPhone.value == 'no' || smartPhone.value == ''">
+                </mat-form-field>
+              </div>
+  
+              <div class="row my-2">
+                <mat-form-field class="col-6">
+                  <mat-label>Broadband details at home</mat-label>
+                  <mat-select multiple name="broadBand" ngModel required #broadBand="ngModel"
+                    [(ngModel)]="studentProfileEdit.broadBand">
+                    <mat-option value="cable">Cable</mat-option>
+                    <mat-option value="dongle">Dongle</mat-option>
+                    <mat-option value="fibre">Fibre Optics</mat-option>
+                    <mat-option value="hotspot">Phone Hotspot</mat-option>
+                  </mat-select>
+                </mat-form-field>
+  
+                <mat-form-field class="col-6">
+                  <mat-label>Mention Bandwidth (in Mbps)</mat-label>
+                  <input matInput type="text" name="bandWidth" ngModel numberOnly #bandWidth="ngModel" placeholder="100"
+                    [(ngModel)]="studentProfileEdit.bandWidth">
+                </mat-form-field>
+  
+              </div>
+  
+              <div class="row mt-4">
+                <button class="mx-auto col-3 btn btn-success" (click)="onSubmit(studentForm4)"
+                  [disabled]="studentForm4.invalid">Update</button>
+              </div>
+  
+            </form>
+          </div>
+        </p-accordionTab>
+  
+      </p-accordion>
+    </div>
+  </div>

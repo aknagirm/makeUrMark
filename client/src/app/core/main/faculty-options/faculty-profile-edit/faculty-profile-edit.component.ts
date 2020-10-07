@@ -223,7 +223,7 @@ export class FacultyProfileEditComponent implements OnInit {
           this.messageService.add(
             {
               key: 'editProfile', severity: 'error', summary: 'Failed', life: 5000,
-              detail: error['msg']
+              detail: error['error']['msg']
             });
         }
       )

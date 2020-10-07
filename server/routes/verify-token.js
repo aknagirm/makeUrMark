@@ -9,12 +9,12 @@ module.exports=function verifyToken(req,res, next) {
   setTimeout(() => {
     if(!req.headers.authorization) {
         console.log("header didnot find")
-        return res.status(401).send({msg:'Please Login First'})
+        return res.status(402).send({msg:'Please Login First'})
     } else {
         let token= req.headers.authorization.split(' ')[1]
         if(token === 'null'){
             console.log("token didnot find")
-            return res.status(401).send({msg:'Please Login First'})
+            return res.status(402).send({msg:'Please Login First'})
         } else {
             try {
                 let payload= jwt.verify(token, secretKey)

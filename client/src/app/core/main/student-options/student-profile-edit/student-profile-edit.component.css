@@ -1,0 +1,4 @@
+:host ::ng-deep .ui-multiselect-panel {
+    max-width: 250px;
+    overflow: scroll;
+}

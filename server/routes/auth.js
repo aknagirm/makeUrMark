@@ -50,10 +50,10 @@ router.post('/login',(req,res) => {
     let userData =req.body
     User.findOne({userName: userData.userName}, (err, user) =>{
         if(!user) {
-            res.status(401).send({msg:"User not found"})
+            res.status(402).send({msg:"User not found"})
         } else {
             if (user.password !== userData.password){
-                res.status(401).send({msg:"Invalid Password"})
+                res.status(402).send({msg:"Invalid Password"})
               } else {
                 let payload ={_id: user._id, userName: user.userName, userRole: user.userRole,
                                 firstName: user.firstName, lastName: user.lastName}
@@ -101,8 +101,8 @@ router.post('/facultyRegister', uploadFacultyCv.single('selectedCVFile'), (req,r
     facultyDet.userName= facultyDet.email
     facultyDet.creationDate= new Date()
     facultyDet.updateDate=null
-    facultyDet.courses=undefined
     let faculty =new User(facultyDet)
+    faculty.courses=undefined
      faculty.save((err, user)=>{
         if(err){
             console.log(err)
@@ -121,12 +121,12 @@ router.get('/getUserDetail',verifyRequest, (req,res) => {
     let details={userName: req.userName, userRole: req.userRole}
     User.findOne({userName: details.userName}, (err, user)=> {
         if(err){
-            res.status(401).send("User is not authorized")
+            res.status(500).send("Something is wrong")
         } else {
             if(user.userRole == details.userRole) {
                 res.status(200).send({user})
             } else {
-                res.status(401).send("User is not authorized")
+                res.status(402).send("User is not authorized")
             }
         }
     })
@@ -138,7 +138,7 @@ router.post('/updateProfilePicture', verifyRequest, uploadUserProfilePic.single(
         if(err){
             res.status(500).send({msg: "Please check inputs"})
         } else {
-            facultyDet.courses=undefined
+            user.courses=undefined
             let oldImage=user.selectedImageFile
             if(oldImage){
                 fs.unlink(oldImage, (err) =>{
@@ -194,7 +194,18 @@ router.post('/removeProfilePicture', verifyRequest, (req,res) => {
 
 router.post('/updateUserProfile', verifyRequest, (req,res) => {
     let details=req.body
-    if(details.userName==req.userName) {
+    if(req.userRole=="student"){
+        delete details.facultyGrade
+        delete details.certification
+        delete details.educationalDet
+        delete details.teachingExp
+        delete details.reference
+        delete details.subjects
+    }
+    if(req.userRole=='faculty'){
+        delete details.courses
+    }
+   if(details.userName==req.userName) {
         details.updateDate=new Date()
         User.findOneAndUpdate({_id: details._id},details,{useFindAndModify: false}, (err, user) => {
             if(err) {

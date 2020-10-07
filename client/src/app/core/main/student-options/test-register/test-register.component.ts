@@ -34,6 +34,11 @@ export class TestRegisterComponent implements OnInit {
   module_endpoint= environment.server_endpoint
   calendarOptions: CalendarOptions = {
     initialView: 'dayGridMonth',
+    
+    visibleRange: {
+      start: '2021-03-22',
+      end: '2021-03-25'
+    },
     headerToolbar: {
       left: 'prev', //'prev today',
       center: 'title',
@@ -93,6 +98,7 @@ export class TestRegisterComponent implements OnInit {
       testList$=this.http.post(this.module_endpoint.studentOptions.getTestForGradeSub, obj)
     }
     testList$.subscribe(data=>{
+      console.log(data)
       let list=data['testList']
       list.forEach((test,index) => {
         let obj={...test}

@@ -16,7 +16,7 @@ export const HeaderMenuList = {'menuList': [
                     {'menuName':"Question Bank"},
                     {'menuName':"Resister for Test", 'link': "explore/student/registerTest"},
                     {'menuName':"Refer a Friend"},
-                    {'menuName':"View Results"},
+                    {'menuName':"View Results", 'link': "explore/student/viewResult"},
                     {'menuName':"Pay Fees"},
                     {'menuName':"View Branch Roaster", 'link': "explore/student/viewRoster"}
                 ]},

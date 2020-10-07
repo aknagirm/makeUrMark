@@ -114,19 +114,33 @@ router.get('/getAllScheduledTest',verifyRequest,(req,res) => {
     }
 })
 
-router.post('/deleteTestById', verifyRequest, (req,res) => {
-    if(req.userRole == 'faculty') {
-        let _id=req.body._id
-        TestResult.findByIdAndDelete(_id, (err, test) => {
+router.post('/deleteTestById', verifyRequest, async (req,res) => {
+    try{
+        if(req.userRole == 'faculty') {
+            let _id=req.body._id
+            let test=await TestResult.findById(_id).exec()
+            console.log(test)
+            if(test.result.length==0){
+                await test.deleteOne().exec()
+            } else {
+                res.status(500).send({msg: "There are registered students for this test, please check with admin"})
+            }
+            res.status(200).send({test})
+        } else {
+            res.status(401).send({msg: "Unauthorized"})
+        }
+    } catch(err){
+        res.status(500).send({msg: "Something Wrong"})
+    }
+    
+        /* TestResult.findByIdAndDelete(_id, (err, test) => {
             if(err) {
                 res.status(500).send({msg: "No test found for this id"})
             } else {
                 res.status(200).send({test})
             }
-        })
-    } else {
-        res.status(401).send({msg: "Unauthorized"})
-    }
+        }) */
+    
 })
 
 router.post('/getTestIds',verifyRequest, (req, res) => {

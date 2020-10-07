@@ -17,6 +17,7 @@ import { environment } from 'src/environments/environment';
 export class StudentRegistrationComponent implements OnInit {
 
   @Output() popUpClosed =new EventEmitter<any>()
+  @Output() formViewRegister =new EventEmitter<any>()
   formShow=1
   formValue: UserProfileForm
   studentUserProfile: UserProfileForm={}
@@ -29,6 +30,7 @@ export class StudentRegistrationComponent implements OnInit {
   tempNumberOtp: any
   numberVerified: string=''
   myMobTimer: string
+  returnUrl: string
   module_endpoint= environment.server_endpoint
   
   constructor(
@@ -41,6 +43,7 @@ export class StudentRegistrationComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.returnUrl=this.route.snapshot.queryParams.returnUrl
     this.http.get('../assets/all-language.json')
         .subscribe(data => {
           let dummyList=[]
@@ -50,6 +53,10 @@ export class StudentRegistrationComponent implements OnInit {
           });
           this.allLanguage=[...dummyList]
         })
+  }
+
+  toggleForm(option: string){
+    this.formViewRegister.emit({"formView": option})
   }
 
   mobileOTPGenerate(){
@@ -108,7 +115,11 @@ export class StudentRegistrationComponent implements OnInit {
       this.messageService.add(
         {key: 'studentRegister', severity:'success', summary:'Successful', life:30000,
         detail:'Registered Successfully'});
-        this.router.navigate(['/home'],{relativeTo:this.route})
+        if(this.returnUrl){
+          this.router.navigateByUrl(this.returnUrl)
+        } else {
+          this.router.navigate(['/home'],{relativeTo:this.route})
+        }
         }, (rej) => {
           this.popUpClosed.emit()
       console.log(rej)

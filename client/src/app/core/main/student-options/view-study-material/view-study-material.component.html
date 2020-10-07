@@ -29,7 +29,7 @@
                         <div><span>Uploaded Date: </span><span>{{material.uploadDate| date:'short'}}</span></div>
                     </div>
                     <div class="row">
-                        <div><span>Uploaded By: </span><span style="text-decoration: underline;">{{material.uploadedBy}}</span></div>
+                        <div><span>Uploaded By: </span><span style="text-decoration: underline;" (click)="facultyClicked(material.uploadedBy)">{{material.uploadedBy}}</span></div>
                     </div>
                     
                     <hr>
