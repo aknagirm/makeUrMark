@@ -20,7 +20,7 @@ export class MaterialUploadForm {
         public materialViewTable: any ={
             moveableCols: [
                 { field: 'del', header: 'Del', width: 40 },
-                { field: 'newFileName', header: 'Filename', width: 100 },
+                { field: 'newFileName', header: 'Filename', width: 100, pipeChk: 'link' },
                 { field: 'grade', header: 'Grade', width: 60, pipeChk: 'title' },
                 { field: 'subject', header: 'Subject', width: 120, pipeChk: 'title' },
                 { field: 'materialType', header: 'Type', width: 100, pipeChk: 'title' },
@@ -40,9 +40,10 @@ export class ScheduleTestForm {
         public fullMarks: string =null,
         public testViewTable: any ={
             moveableCols: [
-                
                 { field: 'del', header: 'Del', width: 40},
+                { field: 'edit', header: 'Edit', width: 40},
                 { field: 'testId', header: 'Test Id', width: 90 },
+                { field: 'newFileName', header: 'Qus Paper', width: 100 ,pipeChk: 'link'},
                 { field: 'grade', header: 'Grade', width: 60, pipeChk: 'title'},
                 { field: 'subject', header: 'Subject', width: 90, pipeChk: 'title'},
                 { field: 'syllabus', header: 'Syllabus', width: 250},

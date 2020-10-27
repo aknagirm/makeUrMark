@@ -1,0 +1,38 @@
+<p-confirmDialog key="commonConfirm" header="Block/Unblock User" icon="pi pi-exclamation-triangle"></p-confirmDialog>
+<p-toast position="center" key="commonToast"></p-toast>
+<div class="container view-all-user-container border shadow rounded">
+    <div class="all-user-row row">
+        <div class="col-12 row justify-content-between" *ngFor="let user of allUsers">
+            <div class="col-10">
+                <p style="font-size: 16px;">{{user.firstName}} {{user.middleName}} {{user.lastName}}</p>
+                <a [routerLink]="['/viewSpecificUser',user.email]">{{user.email}}</a>
+            </div>
+            <div class="col-2 row justify-content-around">
+                <ng-container *ngIf="user.userRole=='student'">
+                    <span *ngIf="user.userRole=='student'" class="badge badge-pill badge-success shadow">{{user.userRole|titlecase}}</span>
+                    <span *ngIf="user.activeFlag" class="badge badge-pill badge-danger btn-badge shadow" (click)="blockUnblockUser(user,false)">Block</span>
+                    <span *ngIf="!user.activeFlag" class="badge badge-pill badge-warning btn-badge shadow" (click)="blockUnblockUser(user,true)">Unblock</span>
+                </ng-container>
+                <ng-container *ngIf="user.userRole=='faculty'">
+                    <span *ngIf="user.status=='waiting'" class="badge badge-pill badge-warning shadow">{{user.userRole|titlecase}}</span>
+                    <span *ngIf="user.status=='working'" class="badge badge-pill badge-primary shadow">{{user.userRole|titlecase}}</span>
+                    <span *ngIf="user.status=='waiting'" class="badge badge-pill badge-success btn-badge shadow" (click)="approveFaculty(user)">Approve</span>
+                    <span *ngIf="user.status=='working' && user.activeFlag" class="badge badge-pill badge-danger btn-badge shadow" (click)="blockUnblockUser(user,false)">Block</span>
+                    <span *ngIf="user.status=='working' && !user.activeFlag" class="badge badge-pill badge-warning btn-badge shadow" (click)="blockUnblockUser(user,true)">Unblock</span>
+                </ng-container>
+                
+            </div>
+            <hr class="my-4" style="width: 98%;">
+        </div>
+        <!-- <div class="col-12 row justify-content-between" *ngFor="let student of allStudents">
+            <div class="col-10">
+                <p style="font-size: 16px;">{{student.firstName}} {{student.middleName}} {{student.lastName}}</p>
+                <a>{{student.email}}</a>
+            </div>
+            <div class="col-2 row justify-content-around">
+                <span class="badge badge-pill badge-primary">{{student.userRole|titlecase}}</span>
+            </div>
+            <hr class="my-4" style="width: 98%;">
+        </div> -->
+    </div>
+</div>      

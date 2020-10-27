@@ -31,12 +31,16 @@ export class FacultyOptionsComponent implements OnInit {
   refStudent: ReferenceForm =new ReferenceForm()
   uploadMaterial: MaterialUploadForm =new MaterialUploadForm()
   scheduleTest: ScheduleTestForm =new ScheduleTestForm()
+  selectedTest: ScheduleTestForm =new ScheduleTestForm()
+  selectedTestDate: Date
   recordMarks: RecordMarksForm =new RecordMarksForm()
   module_endpoint= environment.server_endpoint
   selectedMaterial: File =null
+  selectedQPaper: File =null
   testSearchedObj: any =null
   enrolledStudentList: any
   minimumDate = new Date();
+  updateTestShow: boolean=false
   allTests
   allMaterial
 
@@ -69,7 +73,7 @@ export class FacultyOptionsComponent implements OnInit {
     document.getElementById(someId).scrollIntoView({behavior: "smooth", block: "center", inline: "nearest"})
   }
 
-  onReferenceSubmit(form: NgForm,referedRole: string, toastKey: string){
+  /* onReferenceSubmit(form: NgForm,referedRole: string, toastKey: string){
       let obj={...form.form.value}
       obj['referedRole']=referedRole
 
@@ -84,9 +88,9 @@ export class FacultyOptionsComponent implements OnInit {
                 {key: toastKey, severity:'error', summary:'Error', 
                 detail:error['error']['msg']});
         })
-  }
+  } */
 
-  onMaterileSelected(event){
+  onMaterialSelected(event){
     this.selectedMaterial=<File>event.target.files[0]
   }
 
@@ -119,6 +123,7 @@ export class FacultyOptionsComponent implements OnInit {
       map(data => {
         data['materialList'].forEach(material => {
           let index=material.selectedMaterial.lastIndexOf('\\')
+          material.selectedMaterialLink =(this.module_endpoint.baseUrl + "/" + material.selectedMaterial).replace(/\\/g,"/")
           if(index != -1) {
             let newFilename=material.selectedMaterial.substr(index+25)
             material.newFileName=newFilename
@@ -154,13 +159,19 @@ export class FacultyOptionsComponent implements OnInit {
     });
   }
 
+  onQPaperSelected(event){
+    this.selectedQPaper=<File>event.target.files[0]
+  }
 
   onScheduleTestSubmit(form: NgForm){
       let obj={ ...form.form.value}
       obj['subject']=obj['subject']['label']
       obj['grade']=obj['grade']['label']
       obj['result']=[]
-      this.http.post(this.module_endpoint.facultyOptions.scheduleTest, obj)
+      var formData= new FormData()
+      formData.append('selectedQPaper', this.selectedQPaper)
+      formData.append('payload', JSON.stringify(obj))
+      this.http.post(this.module_endpoint.facultyOptions.scheduleTest, formData)
             .subscribe(data => {
               this.messageService.add(
                 {key: 'scheduleTest', severity:'info', summary:'Test Scheduled', life:60000,
@@ -171,16 +182,28 @@ export class FacultyOptionsComponent implements OnInit {
               console.log(error)
               this.messageService.add(
                 {key: 'scheduleTest', severity:'error', summary:'Failed', 
-                detail:error['msg']});
+                detail:error['error']['msg']});
             })
   }
 
   getAllScheduledTest() {
-    this.http.get(this.module_endpoint.facultyOptions.getAllScheduledTest)
-        .subscribe(data => {
-          this.allTests=data
-          console.log(this.allTests)
-        })
+    this.http.get(this.module_endpoint.facultyOptions.getAllScheduledTest).pipe(
+      map(data => {
+        console.log(data)
+        data['testsList'].forEach(test => {
+          let index=test.selectedQPaper.lastIndexOf('\\')
+          if(index != -1) {
+            test.selectedQPaperLink =(this.module_endpoint.baseUrl + "/" + test.selectedQPaper).replace(/\\/g,"/")
+            let newFilename=test.selectedQPaper.substr(index+25)
+            test.newFileName=newFilename
+          }
+        });
+        return data
+      })
+    ).subscribe(data => {
+        this.allTests=data
+        console.log(this.allTests)
+      })
   }
 
   deleteTest(event){
@@ -203,6 +226,33 @@ export class FacultyOptionsComponent implements OnInit {
         })
       }
     });
+  }
+
+  editTest(test){
+    this.updateTestShow=true
+    this.selectedTest=test
+    this.selectedTestDate =new Date(test.testDateTime)
+    console.log(this.selectedTestDate)
+  }
+
+  onScheduleTestUpdate(){
+    console.log(this.selectedTest, this.selectedQPaper, this.selectedTestDate)
+    let obj={'_id':this.selectedTest['_id'], 'selectedDate': this.selectedTestDate}
+    var formData= new FormData()
+    formData.append('selectedQPaper', this.selectedQPaper)
+    formData.append('payload', JSON.stringify(obj))
+    this.http.post(this.module_endpoint.facultyOptions.scheduleTestUpdate, formData)
+        .subscribe(data => {
+          this.messageService.add(
+            {key: 'scheduleTest', severity:'info', summary:'Scheduled Test Update', life:1500,
+            detail:'Test has been updated'});
+            this.getAllScheduledTest()
+        }, error => {
+          console.log(error)
+          this.messageService.add(
+            {key: 'scheduleTest', severity:'error', summary:'Scheduled Test Failed', 
+            detail:error['error']['msg']});
+        })
   }
 
   getTestIdList(){

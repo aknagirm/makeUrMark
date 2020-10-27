@@ -3,9 +3,6 @@
     </p-confirmDialog>
     <p-toast position="center" key="deleteToast"></p-toast>
     <div class="row px-0 mx-0">
-        <div class="col-12" style="text-align: center;color:#94cac5">
-            <h2 class="chapter-header">Resigter for Test</h2>
-        </div>
 
         <form #registerForTestForm="ngForm" ngNativeValidate class="col-12">
             <div class="row col-12 justify-content-center mx-0">
@@ -28,8 +25,46 @@
             </div>
         </form>
 
-        <div class="col-lg-10 mx-auto mt-4">
-            <p class="text-danger" *ngIf="registerForTestForm.value.grade && testList?.length==0">No test has been
+        <div class="col-lg-10 mx-auto my-4" *ngIf="registerForTestForm.value.grade">
+            <div class="col-12 my-3" style="text-align: center;color:#94cac5">
+                <h2 class="chapter-header">Live Tests</h2>
+            </div>
+            <p class="text-danger" style="text-align: center;"
+            *ngIf="registerForTestForm.value.grade && liveTests?.length==0">No Test is live now</p>
+            <ng-container *ngIf="registerForTestForm.value.grade && liveTests?.length>0">
+            <div class="card mt-3" *ngFor="let test of liveTests">
+                <div class="card-header row justify-content-between mx-0">
+                    <h5>{{test.subject}} <small>{{test.testId}}</small></h5>
+                    <p>Start Time: {{test.testDateTime | date:'short'}}
+                        <span class="badge badge-pill badge-success live-badge">LIVE</span>
+                    </p>
+                </div>
+                <div class="card-body row">
+                    <div class="col-md-10">
+                        <p class="info"><strong>Syllabus:</strong> {{test.syllabus}}</p>
+                        <hr class="my-2">
+                        <p class="info"><strong>Scheduled By:</strong> {{test.userName}}</p>
+                        <hr class="my-2">
+                        <p class="info"><strong>Duration:</strong> {{test.duration}}</p>
+                        <hr class="my-2">
+                        <p class="info"><strong>Full Marks:</strong> {{test.fullMarks}}</p>
+                    </div>
+                    <div class="col-md-2 my-auto">
+                        <button class="col-12 btn btn-success round" (click)="openQPaper(test)">Start</button>
+                    </div>
+                </div>
+            </div>
+            </ng-container>
+        </div>
+
+        <hr class="col-12 mx-auto my-5" *ngIf="registerForTestForm.value.grade" style="border: #063247 solid 2px;">
+
+        <div class="col-lg-10 mx-auto my-4" *ngIf="registerForTestForm.value.grade">
+            <div class="col-12 my-3" style="text-align: center;color:#94cac5">
+                <h2 class="chapter-header">Resigter for New Test</h2>
+            </div>
+            <p class="text-danger" style="text-align: center;" 
+            *ngIf="registerForTestForm.value.grade && testList?.length==0">No test has been
                 scheduled yet</p>
             <div class="card shadow" *ngIf="testList?.length>0">
                 <div class="card-header row justify-content-between mx-0" style="height: 60px;background: #94CAC5;">
@@ -43,90 +78,111 @@
                     </div>
                 </div>
                 <div class="card-body" style="padding:0">
-                    <app-full-calender [calendarOptions]="calendarOptions" [eventList]="testList" 
-                    eventClick="true" (clickedItem)="displayTestDetails($event)">
+                    <app-full-calender [calendarOptions]="calendarOptions" [eventList]="testList" eventClick="true"
+                        (clickedItem)="displayTestDetails($event)">
                     </app-full-calender>
                 </div>
             </div>
         </div>
-
-        <p-dialog header="{{selectedTest.grade}} ({{selectedTest.subject| uppercase}})" [(visible)]="display"
-            [style]="{width: '40vw'}" [baseZIndex]="10000" [modal]="true">
-            <div class="row col-12">
-                <div class="col-12 px-0">
-                    <strong class="col-12">SCHEDULED BY:<span class="scheduled-by-txt">{{selectedTest.firstName}}
-                            {{selectedTest.lastName}}</span></strong>
-                </div>
-                <hr>
-               <table class="table mt-2 mx-3 test-details-table" style="font-size:13px">
-                    <tbody>
-                        <tr>
-                            <td>Test Id</td>
-                            <td>{{selectedTest.testId}}</td>
-                        </tr>
-                        <tr>
-                            <td>Start Date Time</td>
-                            <td>{{selectedTest.start | date:'short'}}</td>
-                        </tr>
-                        <tr>
-                            <td>End Date Time</td>
-                            <td>{{selectedTest.end | date:'short'}}</td>
-                        </tr>
-                        <tr>
-                            <td>Duration</td>
-                            <td>{{selectedTest.duration}}</td>
-                        </tr>
-                        <tr>
-                            <td>Full Marks</td>
-                            <td>{{selectedTest.fullMarks}}</td>
-                        </tr>
-                    </tbody>
-                    <tfoot>
-                        <tr>
-                            <td class="fees">Fees: {{selectedTestFees?.testFees}}/-</td>
-                            <td style="float: right;">
-                                <button *ngIf="selectedTest.status=='none'" class="btn btn-success btn-sm"
-                                    (click)="addToCart(selectedTest)">Add to Cart</button>
-                                <button *ngIf="selectedTest.status=='cart'" class="btn btn-danger btn-sm"
-                                    (click)="removeFromCart(selectedTest)">Remove From Cart</button>
-                                <button *ngIf="selectedTest.status=='enrolled'" class="btn btn-danger btn-sm"
-                                    disabled>Enrolled</button>
-                            </td>
-                        </tr>
-                    </tfoot>
-                </table>
-            </div>
-        </p-dialog>
     </div>
-
-    <p-dialog header="ITEM DETAILS" [(visible)]="displayCart" [style]="{width: '40vw'}" [baseZIndex]="10000"
-        [modal]="true">
-        <div class="row col-12">
-            <table class="table mt-2 mx-3" style="font-size:13px">
-                <thead style="background: aliceblue; font-size: 15px;font-weight: 800;">
-                    <tr>
-                        <td>Test Id</td>
-                        <td>Subject</td>
-                        <td>Date Time</td>
-                        <td>Fees</td>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let test of testFeesCartList">
-                        <td>{{test.testId}}</td>
-                        <td>{{test.subject}}</td>
-                        <td>{{test.start | date:'short'}}</td>
-                        <td>{{test.testFees}}</td>
-                    </tr>
-                </tbody>
-                <tfoot>
-                    <tr>
-                        <td colspan="2"><strong style="font-size: 17px;">Total: {{feesTotal}}</strong></td>
-                        <td colspan="2"><button style="float:right" class="btn-primary mx-auto rounded"
-                                (click)="securePay()" [disabled]="feesTotal=='0'">Pay & Enroll</button></td>
-                    </tr>
-                </tfoot>
-            </table>
-        </div>
-    </p-dialog>
 </div>
+
+<p-dialog header="{{selectedTest.grade}} ({{selectedTest.subject| uppercase}})" [(visible)]="display"
+    [style]="{width: '40vw'}" [baseZIndex]="10000" [modal]="true">
+    <div class="row col-12">
+        <div class="col-12 px-0">
+            <strong class="col-12">SCHEDULED BY:<span class="scheduled-by-txt">{{selectedTest.firstName}}
+                    {{selectedTest.lastName}}</span></strong>
+        </div>
+        <hr>
+        <table class="table mt-2 mx-3 test-details-table" style="font-size:13px">
+            <tbody>
+                <tr>
+                    <td>Test Id</td>
+                    <td>{{selectedTest.testId}}</td>
+                </tr>
+                <tr>
+                    <td>Start Date Time</td>
+                    <td>{{selectedTest.start | date:'short'}}</td>
+                </tr>
+                <tr>
+                    <td>End Date Time</td>
+                    <td>{{selectedTest.end | date:'short'}}</td>
+                </tr>
+                <tr>
+                    <td>Duration</td>
+                    <td>{{selectedTest.duration}}</td>
+                </tr>
+                <tr>
+                    <td>Full Marks</td>
+                    <td>{{selectedTest.fullMarks}}</td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td class="fees">Fees: {{selectedTestFees?.testFees}}/-</td>
+                    <td style="float: right;">
+                        <button *ngIf="selectedTest.status=='none'" class="btn btn-success btn-sm"
+                            (click)="addToCart(selectedTest)">Add to Cart</button>
+                        <button *ngIf="selectedTest.status=='cart'" class="btn btn-danger btn-sm"
+                            (click)="removeFromCart(selectedTest)">Remove From Cart</button>
+                        <button *ngIf="selectedTest.status=='enrolled'" class="btn btn-danger btn-sm"
+                            disabled>Enrolled</button>
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+</p-dialog>
+
+<p-dialog header="ITEM DETAILS" [(visible)]="displayCart" [style]="{width: '40vw'}" [baseZIndex]="10000" [modal]="true">
+    <div class="row col-12">
+        <table class="table mt-2 mx-3" style="font-size:13px">
+            <thead style="background: aliceblue; font-size: 15px;font-weight: 800;">
+                <tr>
+                    <td>Test Id</td>
+                    <td>Subject</td>
+                    <td>Date Time</td>
+                    <td>Fees</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let test of testFeesCartList">
+                    <td>{{test.testId}}</td>
+                    <td>{{test.subject}}</td>
+                    <td>{{test.start | date:'short'}}</td>
+                    <td>{{test.testFees}}</td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="2"><strong style="font-size: 17px;">Total: {{feesTotal}}</strong></td>
+                    <td colspan="2"><button style="float:right" class="btn-primary mx-auto rounded"
+                            (click)="securePay()" [disabled]="feesTotal=='0'">Pay & Enroll</button></td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+</p-dialog>
+
+<p-dialog header="Time Remaining: {{testTimer}} hrs" (onHide)="testTimer$.unsubscribe()" [(visible)]="displayQPaper" 
+[style]="fullScreen?{width:'100%'}:{width:'fit-content'}" [baseZIndex]="10000" [modal]="true">
+    <div class="row">
+        <div class="col-6 position-fixed" style="top: 40vh;">
+            Time Remaining: 1hr 30min 00sec
+        </div>
+        
+    <div class="col-12">
+        <pdf-viewer #PdfViewer [src]="qPaperSRC" style="display: block;" [page]="1" [show-all]="true"
+        [zoom]="zoomSize" [render-text]="true" [render-text-mode]="0"></pdf-viewer>
+    </div>
+    <div class="col-1 position-fixed" style="top: 40vh;">
+        <!-- <button class="btn inc-dec-btn my-1" style="padding: 0.1rem 0.7rem" (click)="fullScreenCall()">F</button>
+        <br> -->
+        <button class="btn inc-dec-btn my-1" style="padding: 0.1rem 0.7rem" (click)="zoomInOut('inc')">+</button>
+        <br>
+        <button class="btn inc-dec-btn my-1" style="padding: 0.1rem 0.8rem" (click)="zoomInOut('dec')">-</button>
+    </div>
+    </div>
+    
+</p-dialog>

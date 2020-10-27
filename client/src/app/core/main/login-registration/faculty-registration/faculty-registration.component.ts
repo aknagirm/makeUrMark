@@ -9,6 +9,9 @@ import {MessageService, SelectItem} from 'primeng/api';
 import { StructuralService } from 'src/app/core/services/structural.service';
 import { GradeBoardSubDetails } from 'src/app/reusable/models/grade-subject-fees-options';
 import { Router, ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { environment } from 'src/environments/environment';
+import { CountdownTimerService } from 'src/app/core/services/countdown-timer.service';
 
 
 @Component({
@@ -39,8 +42,19 @@ export class FacultyRegistrationComponent implements OnInit {
   selectedCVFile: File =null
   allLanguage: SelectItem[];
   language: string[] = [];
+  verifyPhoneNumberOpen=false
+  verifyMailOpen=false
+  tempNumberOtp: any
+  numberVerified: string=''
+  tempMailOtp
+  mailOtp: any
+  mailVerified: string= "not tried"
+  myMailTimer: string
+  myMobTimer: string
+  counter$: Subscription
   returnUrl: string
   dummyAllVal="0"
+  module_endpoint= environment.server_endpoint
 
   constructor(
     private auth: AuthService,
@@ -49,6 +63,7 @@ export class FacultyRegistrationComponent implements OnInit {
     private router:Router,
     private route: ActivatedRoute,
     private messageService: MessageService,
+    private counter: CountdownTimerService,
   ) { }
 
   ngOnInit() {
@@ -114,6 +129,88 @@ export class FacultyRegistrationComponent implements OnInit {
   onFileSelected(event){
     this.selectedCVFile=<File>event.target.files[0]
   }
+
+  mailOtpGenerate(){
+    this.counter$?this.counter$.unsubscribe(): ''
+    this.verifyMailOpen=true
+    this.mailVerified="not tried"
+    let otpObj={"email":this.facultyForm1.form.value.email}
+    console.log(otpObj)
+    this.http.post(this.module_endpoint.verification.mailOtp, otpObj)
+      .subscribe(data => {
+          this.tempMailOtp=data
+      }, error => {
+        console.log(error)
+        this.mailVerified="user exist"
+      })
+
+      this.counter$=this.counter.startTimer("00:02:00").subscribe(data => {
+      this.myMailTimer=data.substr(3,5)
+    })
+  }
+
+  verifyMail(){
+    this.mailOtp =(<HTMLInputElement>document.getElementById("otp-mail")).value
+
+    if(this.myMailTimer =="00:00") {
+      this.mailVerified="expired"
+      this.tempMailOtp.mailOtp=null
+    } else {
+        if(this.mailOtp == this.tempMailOtp.mailOtp) {
+          this.mailVerified="matched"
+          setTimeout(()=>{
+            this.verifyMailOpen=false
+          }, 2000)
+        } else {
+          this.mailVerified="not matched"
+        }
+    }
+
+  }
+
+  mobileOTPGenerate(){
+    this.counter$?this.counter$.unsubscribe(): ''
+    this.verifyPhoneNumberOpen=true
+    let otpObj={"contactNumber":this.facultyForm1.form.value.contactNumber, "channel": "sms"}
+    this.numberVerified="not tried"
+    this.http.post(this.module_endpoint.verification.mobOtpSend, otpObj)
+      .subscribe(data => {
+          this.tempNumberOtp=data
+      }, error => {
+        console.log(error)
+        this.numberVerified="no number"
+      })
+
+      this.counter$=this.counter.startTimer("00:02:00").subscribe(data => {
+      this.myMobTimer=data.substr(3,5)
+    })
+  }
+
+  verifyNumber(){
+    var numberOtp =(<HTMLInputElement>document.getElementById("otp-mob")).value
+    let otpObj={"contactNumber":this.facultyForm1.form.value.contactNumber, "code": numberOtp}
+    if(this.myMobTimer =="00:00") {
+      this.numberVerified="expired"
+    } else {
+      this.http.post(this.module_endpoint.verification.mobOtpVerify, otpObj)
+          .subscribe(data=>{
+            if(data['status']=="approved") {
+              this.numberVerified="matched"
+              setTimeout(()=>{
+               this.verifyPhoneNumberOpen=false
+              }, 2000)
+            }
+            if(data['status']=="pending") {
+              this.numberVerified="not matched"
+            }
+          }, error=> {
+            console.log(error)
+            this.numberVerified="not matched"
+          })
+      
+    }
+  }
+
 
 
 onSubmit(form: NgForm) {

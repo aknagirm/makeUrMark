@@ -44,14 +44,18 @@ export class LoginComponent implements OnInit {
     this.auth.loginUser(userObj)
     this.auth.loggedInUserObj.subscribe(data => {
       if(data instanceof HttpErrorResponse){
-        console.log(data)
+        console.log(data,data['error']['msg'])
         this.msgs=[]
         this.msgs.push({severity:'error', summary:'Error', 
         detail:data['error']['msg']});
-      } else {
+      } else if(data.userName!=='none' ){
+        console.log(data,"In else")
+        this.popUpClosed.emit()
+      } /* else {
+        console.log(data,"In else")
         this.popUpClosed.emit()
         //this.router.navigate(['/home'])
-      }
+      } */
     })
   }
 }

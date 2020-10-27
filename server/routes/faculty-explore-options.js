@@ -7,7 +7,7 @@ const TestResult =require('../models/test_schedule_result')
 const verifyRequest =require('../routes/verify-token')
 
 
-const storage =multer.diskStorage({
+const storageMaterial =multer.diskStorage({
     destination: function(req, file, cb) {
         cb(null, './uploads/materials/')
     },
@@ -16,11 +16,21 @@ const storage =multer.diskStorage({
     }
 })
 
-const upload =multer({storage: storage})
+const storageQPaper =multer.diskStorage({
+    destination: function(req, file, cb) {
+        cb(null, './uploads/quetions/')
+    },
+    filename: function(req, file, cb) {
+        cb(null, new Date().toISOString().replace(/:/g, '-')+file.originalname)
+    }
+})
+
+const uploadMaterial =multer({storage: storageMaterial})
+const uploadQPaper =multer({storage: storageQPaper})
 const router =express.Router()
 
 
-router.post('/materialUpload',verifyRequest, upload.single('selectedMaterial'), (req,res)=>{
+router.post('/materialUpload',verifyRequest, uploadMaterial.single('selectedMaterial'), (req,res)=>{
     details=JSON.parse(req.body.payload)
     details.uploadedBy=req.userName
     details.userRole=req.userRole
@@ -78,25 +88,23 @@ router.post('/deleteMaterialById', verifyRequest, (req,res) => {
     }
 })
 
-router.post('/scheduleTest',verifyRequest, (req,res) => {
-    details=req.body
-    details.userName=req.userName
-    details.userRole=req.userRole
-    details.firstName=req.firstName
-    details.lastName=req.lastName
-    if(req.userRole === 'faculty') {
+router.post('/scheduleTest',verifyRequest,uploadQPaper.single('selectedQPaper'), async (req,res) => {
+    try{      
+        details=JSON.parse(req.body.payload)
+        details.userName=req.userName
+        details.userRole=req.userRole
+        details.firstName=req.firstName
+        details.lastName=req.lastName
+        details.selectedQPaper =req.file.path
+
         searchedDay= new Date(details.testDateTime)
         let testObj=new TestResult(details)
         testObj.testId=shortId.generate()
-        testObj.save((err,test)=> {
-            if(err){
-                res.status(500).send({msg: "Input not valid"})
-            } else {
-                res.status(200).send({msg: "Test scheduled", details: test})
-            }
-        })
-    } else {
-        res.status(401).send({msg: "Unauthorized"})
+        let test=await testObj.save()
+        res.status(200).send({msg: "Test scheduled", details: test})
+    } catch(err){
+        console.log(err)
+        res.status(500).send({msg: "Input not valid"})
     }
 })
 
@@ -116,21 +124,35 @@ router.get('/getAllScheduledTest',verifyRequest,(req,res) => {
 
 router.post('/deleteTestById', verifyRequest, async (req,res) => {
     try{
-        if(req.userRole == 'faculty') {
-            let _id=req.body._id
-            let test=await TestResult.findById(_id).exec()
-            console.log(test)
-            if(test.result.length==0){
-                await test.deleteOne().exec()
-            } else {
-                res.status(500).send({msg: "There are registered students for this test, please check with admin"})
+        let oldImage=req.body.selectedQPaper
+        let _id=req.body._id
+        let test=await TestResult.findById(_id).exec()
+        if(test.result.length==0){
+            await test.deleteOne()
+            if(oldImage){
+                fs.unlink(oldImage, (err) =>{
+                    if(err) {
+                        let err=new Error()
+                        err.code="NO_PAPER"
+                        throw err
+                    }
+                })
             }
             res.status(200).send({test})
         } else {
-            res.status(401).send({msg: "Unauthorized"})
+            let err=new Error()
+            err.code="USER_AVL"
+            throw err
         }
     } catch(err){
-        res.status(500).send({msg: "Something Wrong"})
+        console.log(err)
+        if(err.code=="USER_AVL") {
+            res.status(500).send({msg: "There are registered students for this test, please check with admin"})
+        } else if(err.code=="NO_PAPER") {
+            res.status(500).send({msg: "No material found for this id"})
+        } else {
+            res.status(500).send({msg: "Something Wrong"})
+        }
     }
     
         /* TestResult.findByIdAndDelete(_id, (err, test) => {
@@ -141,6 +163,41 @@ router.post('/deleteTestById', verifyRequest, async (req,res) => {
             }
         }) */
     
+})
+
+router.post('/scheduleTestUpdate',verifyRequest,uploadQPaper.single('selectedQPaper'),async (req,res)=>{
+    try{      
+        details=JSON.parse(req.body.payload)
+
+        searchedDay= new Date(details.testDateTime)
+        let testObj=await TestResult.findOne({_id:details._id}).exec()
+        if(req.file && testObj.selectedQPaper==''){
+            testObj.selectedQPaper=req.file.path
+        } else if(req.file && testObj.selectedQPaper!==''){
+            let oldImage=testObj.selectedQPaper
+            if(oldImage){
+                fs.unlink(oldImage, (err) =>{
+                    if(err) {
+                        let err=new Error()
+                        err.code="NO_PAPER"
+                        throw err
+                    }
+                })
+                testObj.selectedQPaper=req.file.path
+            }
+        }
+
+        if(details.selectedDate){
+            newDate= new Date(details.selectedDate)
+            testObj.testDateTime=newDate
+        }
+        
+        let test=await testObj.save()
+        res.status(200).send({msg: "Scheduled Test Updated", details: test})
+    } catch(err){
+        console.log(err)
+        res.status(500).send({msg: "Input not valid"})
+    }
 })
 
 router.post('/getTestIds',verifyRequest, (req, res) => {

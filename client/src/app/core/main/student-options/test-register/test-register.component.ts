@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { CalendarOptions } from '@fullcalendar/core';
 import { MessageService, ConfirmationService } from 'primeng/api';
 import { Observable } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
+import { CountdownTimerService } from 'src/app/core/services/countdown-timer.service';
 import { PaymentService } from 'src/app/core/services/payment.service';
 import { StructuralService } from 'src/app/core/services/structural.service';
 import { GradeBoardSubDetails, TestTutionFeesDetails } from 'src/app/reusable/models/grade-subject-fees-options';
@@ -24,12 +24,18 @@ export class TestRegisterComponent implements OnInit {
   selectedGradeSub: any={grade:'', subject:''}
   selectedTestFees: TestTutionFeesDetails
   testList: any=[]
+  liveTests: any=[]
   display: boolean = false
   displayCart: boolean= false
+  displayQPaper: boolean= false
   selectedTest={}
   testFees
   testFeesCartList: any[]=[]
   feesTotal=0
+  zoomSize=1.0
+  qPaperSRC=null
+  testTimer: string
+  testTimer$
   cartColumns=[{label:'Test Id',value:'testId'},{label:'Subject',value:'subject'},{label:'Fees',value:'testFees'}]
   module_endpoint= environment.server_endpoint
   calendarOptions: CalendarOptions = {
@@ -58,7 +64,8 @@ export class TestRegisterComponent implements OnInit {
     private router: Router,
     private http: HttpClient,
     private struct: StructuralService,
-    private payment:PaymentService
+    private payment:PaymentService,
+    private counter: CountdownTimerService,
   ) { }
 
   ngOnInit() {
@@ -80,6 +87,16 @@ export class TestRegisterComponent implements OnInit {
     })
   }
 
+  getCurrLiveTest(gradeObj: any){
+    this.http.post(this.module_endpoint.studentOptions.getAllTestForStudent,gradeObj)
+        .subscribe(data=>{
+          let currDateTime=new Date()
+          this.liveTests=data['testList'].filter(test=>currDateTime>=new Date(test.testDateTime) 
+            && currDateTime<=new Date((new Date(test.testDateTime)).getTime()+test.duration*60000)
+          )
+        })
+  }
+
   dropdownSelected(){
     let grade=this.selectedGradeSub.grade
     let subject=this.selectedGradeSub.subject
@@ -91,6 +108,7 @@ export class TestRegisterComponent implements OnInit {
       let obj={'grade':grade.label}
       this.allTestFees?this.selectedTestFees=this.allTestFees.find(testFees=>testFees.grade=grade.label):''
       testList$=this.http.post(this.module_endpoint.studentOptions.getTestForGradeSub, obj)
+      this.getCurrLiveTest(obj)
     }
     if(grade && subject){
       let obj={'grade':grade.label,'subject':subject.label}
@@ -98,8 +116,7 @@ export class TestRegisterComponent implements OnInit {
       testList$=this.http.post(this.module_endpoint.studentOptions.getTestForGradeSub, obj)
     }
     testList$.subscribe(data=>{
-      console.log(data)
-      let list=data['testList']
+      let list=data['upcomingTest']
       list.forEach((test,index) => {
         let obj={...test}
         obj['title']=`${index+1}:${test.subject}`
@@ -117,6 +134,7 @@ export class TestRegisterComponent implements OnInit {
     this.display = true;
     let index=event.title.substring(0,1)
     this.selectedTest=this.testList[index-1]
+    console.log(this.selectedTest)
   }
 
   addToCart(selectedTest){
@@ -167,9 +185,47 @@ export class TestRegisterComponent implements OnInit {
         console.log(data)
         this.http.post(this.module_endpoint.studentOptions.registerForTest,this.testFeesCartList)
             .subscribe(data => {
+              this.displayCart=false
               this.dropdownSelected()
             })
       }
     }) 
+  }
+
+  openQPaper(test){
+    this.displayQPaper=true
+    let duration=+test.duration
+    let grade=this.selectedGradeSub.grade
+    //this.fileName=material.fileName
+    this.qPaperSRC =(this.module_endpoint.baseUrl + "/" + test.selectedQPaper + "#toolbar=0").replace(/\\/g,"/")
+    let currDate=new Date()
+    let sTime=new Date(test.testDateTime)
+    var diff = Math.abs(currDate.getTime() - sTime.getTime());
+    let timeRem=duration*60*1000-diff
+    console.log(timeRem,duration*60*1000,diff)
+    var seconds = Math.ceil((timeRem / 1000))
+    let hr=seconds/3600>9?Math.floor(seconds/3600):`0${Math.floor(seconds/3600)}`
+    let mi=(seconds%3600)/60>9?Math.floor((seconds%3600)/60):`0${Math.floor((seconds%3600)/60)}`
+    let ss=(seconds%3600)%60>9?Math.floor((seconds%3600)%60):`0${Math.floor((seconds%3600)%60)}`
+   // let dayDiff = Math.ceil(diff / (1000 * 3600 * 24)); 
+   
+   let timeStr=`${hr}:${mi}:${ss}`
+   console.log(timeStr)
+   
+    this.testTimer$=this.counter.startTimer(timeStr).subscribe(data => {
+     console.log(data)
+      this.testTimer=data
+      if(data=='00:00:00'){
+        this.displayQPaper=false
+        this.getCurrLiveTest({'grade':grade.label})
+      }
+    })
+  }
+
+  zoomInOut(indicator:string){
+    indicator=='inc'?
+    this.zoomSize=this.zoomSize<2?parseFloat((this.zoomSize+0.1).toFixed(1)):this.zoomSize:
+      indicator=='dec'?
+      this.zoomSize=this.zoomSize>0?parseFloat((this.zoomSize-0.1).toFixed(1)):this.zoomSize:''
   }
 }

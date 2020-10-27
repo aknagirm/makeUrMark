@@ -199,8 +199,11 @@ async securePay(){
   await this.payment.purchaseCourse(this.itemSelected,this.totalMonths)
   this.payment.response.subscribe(data => {
         console.log("push called")
-        this.display=false
-        this.router.navigate(['explore/student/viewRoster'])
+        this.http.get(this.module_endpoint.refer.referalCodeCheck)
+          .subscribe(data=>{
+            this.display=false
+            this.router.navigate(['explore/student/viewRoster'])
+          })
       }, error=> {
         this.display=false
         console.log(error)

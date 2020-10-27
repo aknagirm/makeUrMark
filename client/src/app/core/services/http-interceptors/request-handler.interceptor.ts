@@ -26,9 +26,10 @@ export class RequestHandlerInterceptor implements HttpInterceptor{
         console.log(error)
         if(error instanceof HttpErrorResponse) {
           if(error.status==500){
-            error.error.msg="Please check your Internet Connection"
+            error.error.msg=error.error.msg?error.error.msg:"Please check your Internet Connection"
           }
           if(error.status==401){
+            error.error.msg=error.error.msg?error.error.msg:"Unauthorized"
             this.router.navigate(['/unauthorized'], { skipLocationChange: true })
           }
           this.loader.resetLoader()

@@ -3,6 +3,7 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { NgForm, NgModel } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService, SelectItem } from 'primeng/api';
+import { Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { CountdownTimerService } from 'src/app/core/services/countdown-timer.service';
@@ -27,9 +28,15 @@ export class StudentRegistrationComponent implements OnInit {
   hide2 = true
   captchaCompleted=false
   verifyPhoneNumberOpen=false
+  verifyMailOpen=false
   tempNumberOtp: any
   numberVerified: string=''
+  tempMailOtp
+  mailOtp: any
+  mailVerified: string= "not tried"
+  myMailTimer: string
   myMobTimer: string
+  counter$: Subscription
   returnUrl: string
   module_endpoint= environment.server_endpoint
   
@@ -59,7 +66,46 @@ export class StudentRegistrationComponent implements OnInit {
     this.formViewRegister.emit({"formView": option})
   }
 
+  mailOtpGenerate(){
+    this.counter$?this.counter$.unsubscribe(): ''
+    this.verifyMailOpen=true
+    this.mailVerified="not tried"
+    let otpObj={"email":this.studentUserProfile.email}
+    console.log(otpObj)
+    this.http.post(this.module_endpoint.verification.mailOtp, otpObj)
+      .subscribe(data => {
+          this.tempMailOtp=data
+      }, error => {
+        console.log(error)
+        this.mailVerified="user exist"
+      })
+
+      this.counter$=this.counter.startTimer("00:02:00").subscribe(data => {
+      this.myMailTimer=data.substr(3,5)
+    })
+  }
+
+  verifyMail(){
+    this.mailOtp =(<HTMLInputElement>document.getElementById("otp-mail")).value
+
+    if(this.myMailTimer =="00:00") {
+      this.mailVerified="expired"
+      this.tempMailOtp.mailOtp=null
+    } else {
+        if(this.mailOtp == this.tempMailOtp.mailOtp) {
+          this.mailVerified="matched"
+          setTimeout(()=>{
+            this.verifyMailOpen=false
+          }, 2000)
+        } else {
+          this.mailVerified="not matched"
+        }
+    }
+
+  }
+
   mobileOTPGenerate(){
+    this.counter$?this.counter$.unsubscribe(): ''
     this.verifyPhoneNumberOpen=true
     let otpObj={"contactNumber":this.studentUserProfile.contactNumber, "channel": "sms"}
     this.numberVerified="not tried"
@@ -71,7 +117,7 @@ export class StudentRegistrationComponent implements OnInit {
         this.numberVerified="no number"
       })
 
-    this.counter.startTimer("00:02:00").subscribe(data => {
+      this.counter$=this.counter.startTimer("00:02:00").subscribe(data => {
       this.myMobTimer=data.substr(3,5)
     })
   }

@@ -1,5 +1,6 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { filter } from 'rxjs/operators';
 import { AuthService } from '../../services/auth.service';
 import { ExternalFilesService } from '../../services/external-files.service';
 
@@ -38,8 +39,11 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
    this.externalFiles.getFacultyDetails()
-    .subscribe(data => {this.facultyList=data},
-              error => {console.log(error)})
+    .subscribe(data => {
+      let arr=data['facultyList'].filter(faculty=>faculty.activeFlag==true && faculty.status=='working')
+      console.log(arr)
+      this.facultyList=arr
+    },error => {console.log(error)})
 
     this.externalFiles.getAchivementDetails()
     .subscribe(data => {this.achivements=data},

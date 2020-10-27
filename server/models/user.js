@@ -47,7 +47,12 @@ const userSchema =new schema({
         bandWidth: String,
         whiteBoardMarker: String,
         selectedCVFile: String,
-        selectedImageFile: String
+        selectedImageFile: String,
+        status: String,
+        activeFlag: Boolean,
+        ownReferCode: String,
+        othersReferCode: String,
+        bonusCourseDays: Number
 })
 
 module.exports = mongoose.model('all_user_role', userSchema, 'all_user_role')

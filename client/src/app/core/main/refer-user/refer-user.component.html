@@ -1,0 +1,83 @@
+<div class="container user-refer-container" >
+    <div class="row">
+    <div class="col-10 my-5 mx-auto" id="refer-student">
+        <h2 class="ref-chapter-header">Refer a Student</h2>
+        <p-toast position="center" key="referStudent"></p-toast>
+        <form #referStudentForm="ngForm" ngNativeValidate>
+            <div class="row">
+                <div class="col-6 my-4 each-form-field">
+                    <mat-label class="my-2 mr-3"><strong>*First Name</strong></mat-label>
+                    <input style="width:100%" type="text" pInputText name="firstName"
+                    placeholder="Student's first name" [(ngModel)]="refStudent.firstName" required />
+                </div>
+                <div class="col-6 my-4 each-form-field">
+                    <mat-label class="my-2 mr-3"><strong>*Last Name</strong></mat-label>
+                    <input style="width:100%" type="text" pInputText name="lastName"
+                    placeholder="Student's last name" [(ngModel)]="refStudent.lastName" required />
+                </div>
+                <div class="col-6 my-4 each-form-field">
+                    <mat-label class="my-2 mr-3"><strong>*Contact Number</strong></mat-label>
+                    <input style="width:100%" type="text" pInputText name="contactNumber"
+                    placeholder="Student's contcat number" [(ngModel)]="refStudent.contactNumber" required />
+                </div>
+                <div class="col-6 my-4 each-form-field">
+                    <mat-label class="my-2 mr-3"><strong>*Email Id</strong></mat-label>
+                    <input style="width:100%" type="text" pInputText name="emailId"
+                    placeholder="Student's email id" [(ngModel)]="refStudent.emailId" required />
+                </div>
+                <div class="col-12 my-4 each-form-field">
+                    <mat-label class="my-2 px-0 mr-3"><strong>*Currently Studying at</strong></mat-label>
+                    <input style="width:100%" type="text" pInputText name="currentlyStudying"
+                    placeholder="Grade,Institution" [(ngModel)]="refStudent.currentlyStudying" required />
+                </div>
+                <div class="col-12 mt-4">
+                    <button class="mx-auto col-4 col-md-2 btn btn-success"
+                        (click)="onReferenceSubmit(referStudentForm,'student','referStudent')"
+                        [disabled]="referStudentForm.invalid">Submit</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <hr class="col-10 mx-auto">
+
+    <div class="col-10 my-5 mx-auto" id="refer-faculty">
+        <h2 class="ref-chapter-header">Refer a Faculty</h2>
+        <p-toast position="center" key="referFaculty"></p-toast>
+        <form #referFacultyForm="ngForm" ngNativeValidate>
+            <div class="row">
+                <div class="col-6 my-4 each-form-field">
+                    <mat-label class="my-2 mr-3"><strong>*First Name</strong></mat-label>
+                    <input style="width:100%" type="text" pInputText name="firstName"
+                    placeholder="Faculty's first name number" [(ngModel)]="refFaculty.firstName" required />
+                </div>
+                <div class="col-6 my-4 each-form-field">
+                    <mat-label class="my-2 mr-3"><strong>*Last Name</strong></mat-label>
+                    <input style="width:100%" type="text" pInputText name="lastName"
+                    placeholder="Faculty's last name number" [(ngModel)]="refFaculty.lastName" required />
+                </div>
+                <div class="col-6 my-4 each-form-field">
+                    <mat-label class="my-2 mr-3"><strong>*Contact Number</strong></mat-label>
+                    <input style="width:100%" type="text" pInputText name="contactNumber"
+                    placeholder="Faculty's contcat number" [(ngModel)]="refFaculty.contactNumber" required />
+                </div>
+                <div class="col-6 my-4 each-form-field">
+                    <mat-label class="my-2 mr-3"><strong>*Email Id</strong></mat-label>
+                    <input style="width:100%" type="text" pInputText name="emailId"
+                    placeholder="Faculty's email id" [(ngModel)]="refFaculty.emailId" required />
+                </div>
+                <div class="col-12 my-4 each-form-field">
+                    <mat-label class="my-2 px-0 mr-3"><strong>*Subjects (comma separated)</strong></mat-label>
+                    <input style="width:100%" type="text" pInputText name="subjectsForFaculty"
+                    placeholder="Subjects that the person wants to teach" [(ngModel)]="refFaculty.subjectsForFaculty" required />
+                </div>
+                <div class="col-12 mt-4">
+                    <button class="mx-auto col-4 col-md-2 btn btn-success"
+                        (click)="onReferenceSubmit(referFacultyForm,'faculty','referFaculty')"
+                        [disabled]="referFacultyForm.invalid">Submit</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    </div>
+</div>

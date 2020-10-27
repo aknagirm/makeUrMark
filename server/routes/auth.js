@@ -54,6 +54,8 @@ router.post('/login',(req,res) => {
         } else {
             if (user.password !== userData.password){
                 res.status(402).send({msg:"Invalid Password"})
+              } else if(!user.activeFlag){
+                res.status(402).send({msg:"You are blocked from this site"})
               } else {
                 let payload ={_id: user._id, userName: user.userName, userRole: user.userRole,
                                 firstName: user.firstName, lastName: user.lastName}
@@ -78,7 +80,10 @@ router.post('/studentRegister', (req,res)=>{
     newUser.teachingExp=undefined
     newUser.reference=undefined
     newUser.subjects=undefined
+    newUser.activeFlag=true
     newUser.courses=[]
+    newUser.ownReferCode=shortId.generate()
+    newUser.bonusCourseDays=0
     newUser.save((err, user)=>{
         if(err){
             res.status(500).send({msg:"Please Check your internet"})
@@ -102,7 +107,11 @@ router.post('/facultyRegister', uploadFacultyCv.single('selectedCVFile'), (req,r
     facultyDet.creationDate= new Date()
     facultyDet.updateDate=null
     let faculty =new User(facultyDet)
+    faculty.activeFlag=true
+    faculty.status="waiting"
     faculty.courses=undefined
+    faculty.referCode=shortId.generate()
+    faculty.referCount=0
      faculty.save((err, user)=>{
         if(err){
             console.log(err)
@@ -117,7 +126,7 @@ router.post('/facultyRegister', uploadFacultyCv.single('selectedCVFile'), (req,r
 })
 
 
-router.get('/getUserDetail',verifyRequest, (req,res) => {
+router.get('/getUserDetails',verifyRequest, (req,res) => {
     let details={userName: req.userName, userRole: req.userRole}
     User.findOne({userName: details.userName}, (err, user)=> {
         if(err){
@@ -221,18 +230,14 @@ router.post('/updateUserProfile', verifyRequest, (req,res) => {
 })
 
 
-router.post('/getFaculties', (req,res) => {
-    let gradeBoard = req.body
-    
-    User.find({$and: [{userRole:"faculty"},{grade:gradeBoard.grade},{schoolboard:gradeBoard.board}]},
-            (err, facultyList) => {
-                if(err){
-                    res.status(500).send("no faculty found")
-                } else {
-                    res.status(200).send({facultyList})
-                }
-            })
-    
+router.get('/getAllFaculties', (req,res) => {
+    User.find({userRole:"faculty"},(err,facultyList)=>{
+        if(err){
+            res.status(500).send("no faculty found")
+        } else {
+            res.status(200).send({'facultyList':facultyList})
+        }
+    })
 })
 
 router.get('/getAllStudents',(req,res)=>{
@@ -241,6 +246,40 @@ router.get('/getAllStudents',(req,res)=>{
             res.status(500).send({msg:'No Student found'})
         } else {
             res.status(200).send({studentList})
+        }
+    })
+})
+
+router.post('/blockUnblockUser',verifyRequest,async (req,res)=>{
+    try{
+        let details=req.body
+        let user=await User.findById(details._id).exec()
+        user.activeFlag=details.newFlag
+        if(user.userRole=='faculty'){
+            user.courses=undefined
+        } else {
+            user.facultyGrade=undefined
+            user.certification=undefined
+            user.educationalDet=undefined
+            user.teachingExp=undefined
+            user.reference=undefined
+            user.subjects=undefined
+        }
+        await user.save()
+        res.status(200).send({user})
+    } catch(err) {
+        console.log(err)
+        res.status(500).send({msg: "Something is wrong"})
+    }
+})
+
+router.post('/approveFaculty',verifyRequest,(req,res)=>{
+    let details=req.body
+    User.findByIdAndUpdate(details._id,{$set:{status:"working"}},{useFindAndModify:false},(err,doc)=>{
+        if(err){
+            res.status(500).send({msg: "Something is wrong"})
+        } else {
+            res.status(200).send({msg: "Faculty has been approved"})
         }
     })
 })

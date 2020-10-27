@@ -17,7 +17,8 @@ const subjectDetSchema =new schema({
     testType: String,
     result: [
         {userName: String, firstName: String, lastName:String, marks: String}
-    ]
+    ],
+    selectedQPaper: String
 })
 
 module.exports = mongoose.model('test_schedule_result', subjectDetSchema, 'test_schedule_result')

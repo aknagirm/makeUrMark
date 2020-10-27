@@ -12,7 +12,7 @@
             
         </div>
     </div>
-        <div class="card-container col-12 col-md-10 col-lg-6 col-xl-4" *ngFor="let faculty of facultyList?.faculties">
+        <div class="card-container col-12 col-md-10 col-lg-6 col-xl-4" *ngFor="let faculty of facultyList?.facultyList">
             <div class="card mx-3 my-4 shadow">
             <div class="card-header">
                 <div class="row">
@@ -29,7 +29,7 @@
                 </div>
             </div>
             </div>
-            <div class="card-body">
+            <div class="card-body" style="height:206px; overflow: auto;">
                 <table class="table info-table">
                     <tr>
                         <td class="label">Subjects: </td>

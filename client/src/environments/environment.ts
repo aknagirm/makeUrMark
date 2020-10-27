@@ -18,16 +18,23 @@ export const environment = {
       getAllFaculties: 'http://localhost:3010/homeOptions/getAllFaculties',
       getDetails: 'http://localhost:3010/homeOptions/getDetails',
     },
+    refer: {
+      referStudentFaculty: 'http://localhost:3010/refer/newReference',
+      referalCodeCheck: 'http://localhost:3010/refer/referalCodeCheck'
+    },
     auth: {
       login: 'http://localhost:3010/auth/login',
       studentRegister: 'http://localhost:3010/auth/studentRegister',
       facultyCVUpload: 'http://localhost:3010/auth/uploadCV',
       facultyRegister: 'http://localhost:3010/auth/facultyRegister',
-      getUserDetail: 'http://localhost:3010/auth/getUserDetail',
+      approveFaculty: 'http://localhost:3010/auth/approveFaculty',
+      getUserDetails: 'http://localhost:3010/auth/getUserDetails',
       updateUserProfile: 'http://localhost:3010/auth/updateUserProfile',
       updateProfilePicture: 'http://localhost:3010/auth/updateProfilePicture',
       removeProfilePicture: 'http://localhost:3010/auth/removeProfilePicture',
-      getAllStudents: 'http://localhost:3010/auth/getAllStudents'
+      getAllStudents: 'http://localhost:3010/auth/getAllStudents',
+      getAllFaculties: 'http://localhost:3010/auth/getAllFaculties',
+      blockUnblockUser: 'http://localhost:3010/auth/blockUnblockUser'
     },
     subjectDet: {
       subjectDetails: 'http://localhost:3010/subjectDet/subjectDetails',
@@ -42,7 +49,7 @@ export const environment = {
       scheduleTest: 'http://localhost:3010/facultyExplore/scheduleTest',
       getAllScheduledTest: 'http://localhost:3010/facultyExplore/getAllScheduledTest',
       deleteTestById: 'http://localhost:3010/facultyExplore/deleteTestById',
-      referStudentFaculty: 'http://localhost:3010/refer/newReference',
+      scheduleTestUpdate: 'http://localhost:3010/facultyExplore/scheduleTestUpdate',
       getTestIds: 'http://localhost:3010/facultyExplore/getTestIds',
       getTestDetailsWithId: 'http://localhost:3010/facultyExplore/getTestDetailsWithId',
       updateTestMarks: 'http://localhost:3010/facultyExplore/updateTestMarks'

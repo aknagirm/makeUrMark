@@ -6,7 +6,7 @@ const User =require('../models/user')
 
 const router =express.Router()
 
-router.get('/getAllFaculties', (req,res) => {
+/* router.get('/getAllFaculties', (req,res) => {
     User.find({userRole:"faculty"}, (err,faculties)=> {
         if(err) {
             res.status(500).send({msg: "Something is worng"})
@@ -14,11 +14,11 @@ router.get('/getAllFaculties', (req,res) => {
             res.status(200).send({faculties})
         }
     })
-})
+}) */
 
 router.post('/getDetails', (req,res) => {
-    let seacrhedFor=req.body
-    AllGradeSubject.find({docType: seacrhedFor.docType}, (err,details) => {
+    let searchedFor=req.body
+    AllGradeSubject.find({docType: searchedFor.docType}, (err,details) => {
         if(err){
             res.status(500).send({msg:"something is wrong"})
         } else {

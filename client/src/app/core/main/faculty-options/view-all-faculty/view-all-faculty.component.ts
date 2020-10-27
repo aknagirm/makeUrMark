@@ -35,7 +35,7 @@ export class ViewAllFacultyComponent implements OnInit {
   ngOnInit() {
     this.externalFiles.getFacultyDetails().pipe(
       map(data => {
-        data['faculties'].forEach(faculty => {
+        data['facultyList'].forEach((faculty,idx) => {
           faculty.selectedImageFile? 
           faculty.selectedImageFile=this.module_endpoint.baseUrl+"/"+faculty.selectedImageFile :
           faculty.selectedImageFile="assets/blank-picture.jpg"
@@ -44,10 +44,12 @@ export class ViewAllFacultyComponent implements OnInit {
       })
     )
     .subscribe(data => {
-      console.log(data)
-      this.facultyList=data
+      let arr={'facultyList':[]}
+      arr.facultyList=data['facultyList'].filter(faculty=>faculty.activeFlag==true && faculty.status=='working')
+      this.facultyList=arr
       this.facultyListBackUp={...this.facultyList}
-      this.facultyList['faculties'].forEach(faculty=>{
+      console.log(this.facultyList)
+      this.facultyList['facultyList'].forEach(faculty=>{
         if(this.externalFiles.facultyPassed){
           if(faculty.userName==this.externalFiles.facultyPassed['facultyUserName']){
             this.moreInfoCalled(faculty)

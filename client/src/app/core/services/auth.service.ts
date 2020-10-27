@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { BehaviorSubject, merge, Observable, Subject } from 'rxjs';
 import { environment } from '../../../environments/environment'
+import { concat, concatMap, map, zipAll } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -11,6 +12,9 @@ export class AuthService {
   userObj
   loggedInUserObj =new BehaviorSubject<any>(null)
   isLoggedIn: boolean
+  /* facultyList: any[]=[]
+  studentList: any[]=[] */
+  allUser: any
   module_endpoint= environment.server_endpoint
 
   constructor(
@@ -75,7 +79,7 @@ export class AuthService {
     getCurrentUser(){
       let token=localStorage.getItem("token")
       if(token){
-        this.http.get(this.module_endpoint.auth.getUserDetail)
+        this.http.get(this.module_endpoint.auth.getUserDetails)
         .subscribe(data => {
           this.loggedInUserObj.next(data['user'])
         })
@@ -133,15 +137,23 @@ export class AuthService {
       return newUser
     }
 
+  getAllUser(){
+    let faculty$=this.http.get(this.module_endpoint.auth.getAllFaculties)
+    let student$=this.http.get(this.module_endpoint.auth.getAllStudents)
+    return faculty$.pipe(
+      concatMap(faculty=>{
+        return student$.pipe(map(student=>{
+          return {'studentList':student,'facultyList':faculty}
+        }) ) 
+      })
+    )   
+  }
+
   logoutUser(){
     localStorage.removeItem("token")
     this.loggedInUserObj.next(null)
   }
 
-  /* getCurrentUser(){
-    this.userObj={userName: "abc", userRole: "faculty"}
-  }
- */
   getLocalStorageItem(){
     return localStorage.getItem('token')
   }

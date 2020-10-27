@@ -2,6 +2,7 @@ export const StudentTestResultTable= [
     {cols: [
         {field: 'testId', header: 'Test Id', width: '60'},
         {field: 'testDateTime', header: 'Test Date', pipeChk: 'date', width: '70'},
+        {field: 'newFilename', header: 'Qus Paper', width: '70'},
         {field: 'subject', header: 'Subject', width: '70'},
         {field: 'syllabus', header: 'Syllabus', width: '140'},
         {field: 'userName', header: 'Scheduled By', width: '120'},

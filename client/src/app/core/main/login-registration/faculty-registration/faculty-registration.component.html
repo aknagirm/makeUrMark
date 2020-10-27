@@ -71,9 +71,11 @@
           <div class="row my-2">
             <mat-form-field class="col-12">
               <mat-label>Email Id</mat-label>
-              <input matInput type="email" name="email" ngModel required #email="ngModel" placeholder="test@test.com">
-              <mat-hint *ngIf="email.touched && email.valid">Email Id needs to be verified! <a href="#">verify</a>
+              <input matInput type="email" name="email" ngModel required #email="ngModel" 
+              placeholder="test@test.com" [disabled]="mailVerified=='matched'">
+              <mat-hint *ngIf="email.touched && email.valid && mailVerified!='matched'">Email Id needs to be verified! <a (click)="mailOtpGenerate()">verify</a>
               </mat-hint>
+              <mat-hint *ngIf="mailVerified=='matched'" class="text-success">Email Id verified!</mat-hint>
             </mat-form-field>
           </div>
 
@@ -114,14 +116,16 @@
             <mat-form-field class="col-6">
               <mat-label>Contact Number</mat-label>
               <input matInput type="tel" placeholder="+91-9062500811" pattern="[+]{1}[0-9]{2}-[0-9]{10}" required
-                name="contactNumber" ngModel required #contactNumber="ngModel" placeholder="+91-9876543210">
+                name="contactNumber" ngModel required #contactNumber="ngModel" placeholder="+91-9876543210"
+                [disabled]="numberVerified=='matched'">
               <mat-hint *ngIf="contactNumber.touched && contactNumber.valid">
-                Contact number needs to be verified! <a href="#">verify</a>
+                Contact number needs to be verified! <a (click)="mobileOTPGenerate()">verify</a>
               </mat-hint>
 
-              <mat-hint class="text-danger" *ngIf="contactNumber.touched && contactNumber.invalid">
+              <mat-hint class="text-danger" *ngIf="contactNumber.touched && contactNumber.invalid && numberVerified!='matched'">
                 Contact Number is not in proper format
               </mat-hint>
+              <mat-hint *ngIf="numberVerified=='matched'" class="text-success">Mobile number verified!</mat-hint>
             </mat-form-field>
           </div>
 
@@ -146,7 +150,8 @@
 
           <div class="row mt-4">
             <button class="mx-auto col-4 btn btn-success" (click)="onSubmit(facultyForm1)"
-              [disabled]="facultyForm1.invalid || password1.value!==password2.value">
+              [disabled]="facultyForm1.invalid || password1.value!==password2.value || numberVerified!='matched'
+              || mailVerified!='matched'">
               Submit & Proceed <i class="fa fa-angle-right"></i>
             </button>
           </div>
@@ -421,3 +426,57 @@
     </div>
   </div>
 </div>
+
+<p-dialog [(visible)]="verifyMailOpen" [style]="{width:'40vw'}" [baseZIndex]="10000" [modal]="true">
+  <div class="row">
+    <div class="form-group col-10 mx-auto mb-0" style="margin-top: 30px;">
+      <div class="col-12" style="text-align: center; font-size: 20px">
+          <p *ngIf="mailVerified == 'matched'"><i class="fa fa-check-square-o" style="color: green"></i> Email id has been verified</p>
+          <p *ngIf="mailVerified == 'not matched'"><i class="fa fa-close" style="color: red"></i> otp not matched</p>
+          <p *ngIf="mailVerified == 'no mail'"><i class="fa fa-close" style="color: red"></i> Email id not found</p>
+          <p *ngIf="mailVerified == 'user exist'"><i class="fa fa-close" style="color: red"></i> Email id already registered</p>
+          <p *ngIf="mailVerified == 'expired'"><i class="fa fa-close" style="color: red"></i> OTP Expired, Please retry</p>
+      </div>
+      
+      <div *ngIf="numberVerified !='matched'">
+          <label for="otp-mail">Please enter the <strong>OTP</strong> sent to your email id for verification</label>
+          <div class="input-group">
+              <input id="otp-mail" type="text" class="" name="otp-mail" placeholder="000000"
+                  required #otpInput>
+          </div>
+          <button type="button" (click)="verifyMail()" class="col-12 btn btn-default btn-primary mt-3">verify</button>
+          <div class="row">
+          <a class="col-6" (click)="mailOtpGenerate()" style="margin-top: 21px; font-size:14px">Resend OTP</a>
+          <p class="col-6" style="margin-top: 21px; font-size:14px">Remaining time: <strong>{{myMailTimer}} Min</strong></p>
+          </div>
+      </div>
+  </div>
+  </div>
+</p-dialog>
+
+
+<p-dialog [(visible)]="verifyPhoneNumberOpen" [style]="{width:'40vw'}" [baseZIndex]="10000" [modal]="true">
+  <div class="row">
+    <div class="form-group col-10 mx-auto mb-0" style="margin-top: 30px;">
+      <div class="col-12" style="text-align: center; font-size: 20px">
+          <p *ngIf="numberVerified == 'matched'"><i class="fa fa-check-square-o" style="color: green"></i> Mobile Number has been verified</p>
+          <p *ngIf="numberVerified == 'not matched'"><i class="fa fa-close" style="color: red"></i> otp not matched</p>
+          <p *ngIf="numberVerified == 'no number'"><i class="fa fa-close" style="color: red"></i> Mobile Number not found</p>
+          <p *ngIf="numberVerified == 'expired'"><i class="fa fa-close" style="color: red"></i> OTP Expired, Please retry</p>
+      </div>
+      
+      <div *ngIf="numberVerified !='matched'">
+          <label for="otp-mob">Please enter the <strong>OTP</strong> sent to your number for verification</label>
+          <div class="input-group">
+              <input id="otp-mob" type="text" class="" name="otp-mob" placeholder="000000"
+                  required #otpInput>
+          </div>
+          <button type="button" (click)="verifyNumber()" class="col-12 btn btn-default btn-primary mt-3">verify</button>
+          <div class="row">
+          <a class="col-6" (click)="mobileOTPGenerate()" style="margin-top: 21px; font-size:14px">Resend OTP</a>
+          <p class="col-6" style="margin-top: 21px; font-size:14px">Remaining time: <strong>{{myMobTimer}} Min</strong></p>
+          </div>
+      </div>
+  </div>
+  </div>
+</p-dialog>

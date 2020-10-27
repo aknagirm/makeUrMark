@@ -37,13 +37,40 @@ hr {
     cursor: pointer;
 }
 
+.fa-edit {
+    color: #063247;
+    font-size: 17px;
+    cursor: pointer;
+    font-weight: 900;
+}
+
+
 .materialTable {
     width: 100%
+}
+
+:host ::ng-deep .ui-table .ui-table-caption {
+    background-color: #94cac5;
+    border: #06324779 1px solid;
+    border-bottom: 0;
+}
+
+:host ::ng-deep .ui-table .ui-table-thead > tr > th {
+    background-color: #94cac5;
+    border: #06324779 1px solid;
+}
+
+:host ::ng-deep .ui-table .ui-table-tbody > tr > td {
+    border: #06324779 1px solid;
 }
 
 :host ::ng-deep .ui-table .ui-table-tbody > tr > td {
     font-size: 12px;
     overflow: hidden;
+}
+
+:host ::ng-deep .ui-dialog .ui-dialog-content {
+    height: 100%;
 }
 
 @media only screen and (max-width: 700px){
@@ -61,5 +88,18 @@ hr {
     }
     .materialTable {
         width: 600px
+    }
+}
+
+@media screen and (max-width: 768px) {
+    :host ::ng-deep .ui-dialog {
+        width: 70vw !important
+    }
+}
+
+@media screen and (max-width: 1024px) {
+
+    :host ::ng-deep .ui-dialog {
+        width: 80vw !important
     }
 }

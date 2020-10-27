@@ -1,0 +1,20 @@
+.specific-user-container {
+    position: relative;
+    top:150px;
+    margin-bottom: 30px;
+}
+h3 {
+    text-decoration: underline;
+    font-style: italic;
+    color: black
+}
+
+a {
+    float: right; 
+    text-decoration: underline;
+    font-size: 15px;
+}
+
+.badge {
+    font-size: 14px;
+ }

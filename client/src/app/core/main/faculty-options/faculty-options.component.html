@@ -1,4 +1,4 @@
-<div class="container faculty-explore-container" >
+<div class="container-fluid faculty-explore-container" >
     <div class="row">
         <div class="col-md-3 order-md-1 context-menu">
             <div class="context-menu position-fixed">
@@ -80,7 +80,7 @@
                         <div class="col-12 my-4">
                             <mat-label class="my-2 mr-3"><strong>*Upload Material</strong></mat-label>
                             <input style="display:none" type="file" #materialFile name="selectedMaterial"
-                                (change)="onMaterileSelected($event)">
+                                (change)="onMaterialSelected($event)">
                             <button class="col-4 col-xl-2 btn btn-success shadow border" (click)="materialFile.click()">
                                 <i style="font-weight:700;" class="fa fa-upload "> Select File</i>
                             </button>
@@ -133,13 +133,17 @@
                                     <ng-template pTemplate="body" let-material let-columns="columns">
                                         <tr>
                                             <td *ngFor="let col of columns">
-                                                <div *ngIf="col.field == 'del'">
+                                                <ng-container *ngIf="col.field == 'del'">
                                                     <i class="fa fa-window-close" (click)="deleteMaterial(material)"></i>
-                                                </div>
-                                                <div *ngIf="col.field !== 'del'">
+                                                </ng-container>
+                                                <ng-container *ngIf="col.field !== 'del' && col.pipeChk!=='link'">
                                                     {{ col.pipeChk == 'date'? (material[col.field] | date: 'short') : 
                                                    col.pipeChk == 'title'? (material[col.field] | titlecase) : material[col.field] }}
-                                                </div>
+                                                </ng-container>
+                                                <ng-container *ngIf="col.field !== 'del' && col.pipeChk=='link'">
+                                                    <a href="{{material.selectedMaterialLink}}" target="_blank">{{ col.pipeChk == 'date'? (material[col.field] | date: 'short') : 
+                                                    col.pipeChk == 'title'? (material[col.field] | titlecase) : material[col.field] }}</a>
+                                                </ng-container>
                                             </td>
                                         </tr>
                                     </ng-template>
@@ -200,10 +204,22 @@
                                 [(ngModel)]="scheduleTest.fullMarks" />
                         </div>
                         
+                        <div class="col-12 my-4">
+                            <mat-label class="my-2 mr-3"><strong>*Upload Question Paper</strong></mat-label>
+                            <input style="display:none" type="file" #qPaperFile name="selectedQPaper"
+                                (change)="onQPaperSelected($event)">
+                            <button class="col-4 col-xl-2 btn btn-success shadow border" (click)="qPaperFile.click()">
+                                <i style="font-weight:700;" class="fa fa-upload"> Select File</i>
+                            </button>
+                            <p class="col-12 my-1 selected-file pl-0">
+                                Selected File: {{selectedQPaper? selectedQPaper.name: 'none'}}
+                            </p>
+                        </div>
+                        
                         <div class="col-12 mt-4">
                             <button class="mx-auto col-4 col-md-2 btn btn-success"
                                 (click)="onScheduleTestSubmit(scheduleTestForm)"
-                                [disabled]="scheduleTestForm.invalid">Submit</button>
+                                [disabled]="scheduleTestForm.invalid || !selectedQPaper">Submit</button>
                         </div>
 
                         <div class="col-12 mt-3">
@@ -237,13 +253,20 @@
                                     <ng-template pTemplate="body" let-test let-columns="columns">
                                         <tr>
                                             <td *ngFor="let col of columns">
-                                                <div *ngIf="col.field == 'del'">
+                                                <ng-container *ngIf="col.field == 'del'">
                                                     <i class="fa fa-window-close" (click)="deleteTest(test)"></i>
-                                                </div>
-                                                <div *ngIf="col.field !== 'del'">
+                                                </ng-container>
+                                                <ng-container *ngIf="col.field == 'edit'">
+                                                    <i class="fa fa-edit" (click)="editTest(test)"></i>
+                                                </ng-container>
+                                                <ng-container *ngIf="col.field !== 'del' && col.field !== 'edit' && col.pipeChk!=='link'">
                                                   {{ col.pipeChk == 'date'? (test[col.field] | date: 'short') : 
                                                    col.pipeChk == 'title'? (test[col.field] | titlecase) : test[col.field] }}
-                                                </div>
+                                                </ng-container>
+                                                <ng-container *ngIf="col.field !== 'del' && col.field !== 'edit' && col.pipeChk=='link'">
+                                                    <a href="{{test.selectedQPaperLink}}" target="_blank">{{ col.pipeChk == 'date'? (test[col.field] | date: 'short') : 
+                                                    col.pipeChk == 'title'? (test[col.field] | titlecase) : test[col.field] }}</a>
+                                                </ng-container>
                                             </td>
                                         </tr>
                                     </ng-template>
@@ -385,7 +408,7 @@
 
 <!------------------------------------------Refer a Student---------------------------------------------->
 
-            <div class="col-12 my-5" id="refer-student">
+           <!--  <div class="col-12 my-5" id="refer-student">
                 <h2 class="faculty-chapter-header">Refer a Student</h2>
                 <p-toast position="center" key="referStudent"></p-toast>
                 <form #referStudentForm="ngForm" ngNativeValidate>
@@ -424,11 +447,11 @@
                 </form>
             </div>
 
-            <hr>
+            <hr> -->
 
 <!------------------------------------------Refer a Faculty---------------------------------------------->
 
-            <div class="col-12 my-5" id="refer-faculty">
+            <!-- <div class="col-12 my-5" id="refer-faculty">
                 <h2 class="faculty-chapter-header">Refer a Faculty</h2>
                 <p-toast position="center" key="referFaculty"></p-toast>
                 <form #referFacultyForm="ngForm" ngNativeValidate>
@@ -466,7 +489,37 @@
                     </div>
                 </form>
             </div>
-            <hr>
+            <hr> -->
         </div>
     </div>
 </div>
+
+
+<p-dialog header="UPDATE TEST" (onHide)="selectedQPaper=null" [(visible)]="updateTestShow" [style]="{width: '60vw', height: '100vh'}" [baseZIndex]="10000" [modal]="true">
+    <div class="row">
+    <div class="col-lg-6">
+        <mat-label class="px-0 mr-3"><strong>Reschedule Test</strong></mat-label>
+        <p-calendar required [inline]="true" [style]="{'width':'100%'}" [inputStyle]="{'width':'100%'}"
+            name="testDateTime" [showTime]="true" [minDate]="minimumDate" inputId="time"
+            [(ngModel)]="selectedTestDate"></p-calendar>
+    </div>
+    <div class="col-lg-6 row">
+        <div class="col-12 my-auto">
+            <mat-label class="mr-3"><strong>*Upload Question Paper</strong></mat-label>
+            <input style="display:none" type="file" #qPaperFile name="selectedQPaper"
+                (change)="onQPaperSelected($event)">
+            <button class="col-5 btn btn-success shadow border" (click)="qPaperFile.click()">
+                <i style="font-weight:700;" class="fa fa-upload"> Select File</i>
+            </button>
+            <p class="col-12 selected-file pl-0">
+                Selected File: {{selectedQPaper? selectedQPaper.name: 'none'}}
+            </p>
+            <hr style="border: 1px grey solid;">
+            <div class="col-12 row mt-5">
+                <button class="mx-auto col-4 btn btn-success"
+                (click)="onScheduleTestUpdate()">Submit</button>
+            </div>
+        </div>
+    </div>
+    </div>
+</p-dialog>

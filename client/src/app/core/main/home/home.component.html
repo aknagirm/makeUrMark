@@ -66,11 +66,13 @@
         atleast two lines of description will look good.
     </p>
 
-    <p-carousel [value]="facultyList?.faculties"  styleClass="custom-carousel" [numVisible]="3" [numScroll]="3" [responsiveOptions]="responsiveOptions">
-        <ng-template let-faculty pTemplate="faculty">
-            <app-product-card [facultyDet]="faculty"></app-product-card>
-        </ng-template>
-    </p-carousel>
+    <ng-container *ngIf="facultyList.length>0" >
+        <p-carousel [value]="facultyList" styleClass="custom-carousel" [numVisible]="3" [numScroll]="3" [responsiveOptions]="responsiveOptions">
+            <ng-template let-faculty pTemplate="faculty">
+                <app-product-card [facultyDet]="faculty"></app-product-card>
+            </ng-template>
+        </p-carousel>
+    </ng-container>
 
 </div>
 

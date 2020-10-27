@@ -3,6 +3,7 @@ const razorpay =require('razorpay')
 const shortId= require('shortid')
 require('dotenv').config()
 const router =express.Router()
+const verifyRequest =require('../routes/verify-token')
 
 const razorpayInstance=new razorpay({
     key_id: process.env.RAZORPAY_KEY_ID,
@@ -34,7 +35,7 @@ const razorpayInstance=new razorpay({
 
   
   
-  router.post('/pay',async (req,res)=>{
+  router.post('/pay', async (req,res)=>{
     const currency='INR'
     const payment_capture=1
     const notes=null
@@ -47,6 +48,7 @@ const razorpayInstance=new razorpay({
   
       try {
         const response = await razorpayInstance.orders.create(options)
+        console.log(response)
         res.json({
           id: response.id,
           currency: response.currency,

@@ -8,15 +8,15 @@ const router =express.Router()
 require('dotenv').config()
 
 
-function adminCheck(req,res, next){
+/* function adminCheck(req,res, next){
     if(req.userRole !="owner") {
         res.status(401).send({msg: "Unauthorized"})
     } else {
         next()
     }
-}
+} */
 
-router.post('/addGradeSubBoard',verifyRequest,adminCheck,(req,res) => {
+router.post('/addGradeSubBoard',verifyRequest,(req,res) => {
     let details=req.body
     details.createdDate=new Date()
     details.createdBy=req.userName
@@ -31,7 +31,7 @@ router.post('/addGradeSubBoard',verifyRequest,adminCheck,(req,res) => {
     })
 })
 
-router.post('/addHoliday', verifyRequest,adminCheck,(req,res)=> {
+router.post('/addHoliday', verifyRequest,(req,res)=> {
     let details=req.body
     let searchedDay= new Date(details.holidayDate)
     Holiday.findOneAndUpdate({holidayDate: searchedDay},{$set:{event: details.event}},{upsert: true, new: true},(err,holiday) => {
@@ -54,7 +54,7 @@ router.get('/getHolidayList', (req,res) => {
     })
 })
 
-router.post('/holidayDelete',verifyRequest,adminCheck,(req,res)=> {
+router.post('/holidayDelete',verifyRequest,(req,res)=> {
     let details=req.body
     Holiday.findByIdAndDelete(details._id, (err,doc) => {
         console.log(doc)
@@ -67,7 +67,7 @@ router.post('/holidayDelete',verifyRequest,adminCheck,(req,res)=> {
 })
 
 
-router.post('/commonDelete', verifyRequest,adminCheck,(req,res) => {
+router.post('/commonDelete', verifyRequest,(req,res) => {
     let errorFlag=false
     let docList=req.body
     console.log("doclist",docList)
@@ -86,7 +86,7 @@ router.post('/commonDelete', verifyRequest,adminCheck,(req,res) => {
     res.status(200).send({msg:`${docList[0].docType} Deleted successfully`}): ''
 })
 
-router.post('/scheduleBatch',verifyRequest,adminCheck,(req,res)=> {
+router.post('/scheduleBatch',verifyRequest,(req,res)=> {
     let details=req.body
     details.createdBy=req.userName
     details.createdDate=new Date()
@@ -100,7 +100,7 @@ router.post('/scheduleBatch',verifyRequest,adminCheck,(req,res)=> {
     })
 })
 
-router.get('/allScheduledBatch',verifyRequest,adminCheck,(req,res)=> {
+router.get('/allScheduledBatch',verifyRequest,(req,res)=> {
     ScheduledBatch.find((err,scheduledBatchList)=>{
         if(err){
             res.status(500).send({msg: "Unauthorized"})
@@ -110,7 +110,7 @@ router.get('/allScheduledBatch',verifyRequest,adminCheck,(req,res)=> {
     })
 })
 
-router.post('/addStudentToBatch', verifyRequest,adminCheck,async (req,res)=> {
+router.post('/addStudentToBatch', verifyRequest,async (req,res)=> {
     try{
        let details=req.body
        const course= await ScheduledBatch.findById(details.batchId)
@@ -150,7 +150,7 @@ router.post('/addStudentToBatch', verifyRequest,adminCheck,async (req,res)=> {
 })
 
 
-router.post('/removeFromBatch',verifyRequest,adminCheck,async (req,res)=>{
+router.post('/removeFromBatch',verifyRequest,async (req,res)=>{
     try{
         let details=req.body
         const course= await ScheduledBatch.findOne({_id:details.batchId}).exec()
@@ -190,7 +190,7 @@ router.post('/removeFromBatch',verifyRequest,adminCheck,async (req,res)=>{
    
 })
 
-router.post('/deleteBatch',verifyRequest,adminCheck,async (req,res)=>{
+router.post('/deleteBatch',verifyRequest,async (req,res)=>{
     details=req.body
     ScheduledBatch.findByIdAndDelete(details._id,(err,doc)=>{
         if(err){

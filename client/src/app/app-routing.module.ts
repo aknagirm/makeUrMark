@@ -13,24 +13,31 @@ import { ViewStudyMaterialComponent } from './core/main/student-options/view-stu
 import { UnauthorizedPageComponent } from './core/unauthorized-page/unauthorized-page.component';
 import { AuthGuard } from './core/services/auth.guard';
 import { StudentTestResultComponent } from './core/main/student-options/student-test-result/student-test-result.component';
+import { ViewAllUsersComponent } from './core/main/admin-options/view-all-users/view-all-users.component';
+import { ViewSpecificUserComponent } from './core/main/admin-options/view-specific-user/view-specific-user.component';
+import { ReferUserComponent } from './core/main/refer-user/refer-user.component';
 
 
 const routes: Routes = [
   {path: '', redirectTo: '/home', pathMatch: 'full'},
   {path: 'home', component: HomeComponent},
-  {path: 'courses', component: CoursesComponent, canActivate:[AuthGuard]},
-  {path: 'studyMaterial', component: ViewStudyMaterialComponent, canActivate:[AuthGuard]},
+  {path: 'courses', component: CoursesComponent, canActivate:[AuthGuard], data:{userRole:'student'}},
+  {path: 'studyMaterial', component: ViewStudyMaterialComponent, canActivate:[AuthGuard], data:{userRole:'student'}},
   {path: 'career', component: FacultyRegistrationComponent},
   {path: 'securePay', component: PaymentComponent, canActivate:[AuthGuard]},
-  {path: 'explore/faculty',component: FacultyOptionsComponent, canActivate:[AuthGuard]},
-  {path: 'facultyView',component: ViewAllFacultyComponent},
-  {path: 'explore/admin',component: AdminOptionsComponent, canActivate:[AuthGuard]},
+  {path: 'explore/faculty',component: FacultyOptionsComponent, canActivate:[AuthGuard], data:{userRole:'faculty'}},
+  {path: 'facultyView',component: ViewAllFacultyComponent, canActivate:[AuthGuard]},
+  {path: 'allUserView',component: ViewAllUsersComponent, canActivate:[AuthGuard], data:{userRole:'owner'}},
+  {path: 'viewSpecificUser/:uname',component: ViewSpecificUserComponent, canActivate:[AuthGuard], data:{userRole:'owner'}},
+  {path: 'explore/admin',component: AdminOptionsComponent, canActivate:[AuthGuard], data:{userRole:'owner'}},
   {path: 'explore/student',children:[
-    {path: 'registerTest', component:TestRegisterComponent, canActivate:[AuthGuard]},
-    {path: 'viewRoster', component:ViewRosterComponent, canActivate:[AuthGuard]},
-    {path: 'viewResult', component: StudentTestResultComponent, canActivate:[AuthGuard]}
+    {path: 'registerTest', component:TestRegisterComponent, canActivate:[AuthGuard], data:{userRole:'student'}},
+    {path: 'viewRoster', component:ViewRosterComponent, canActivate:[AuthGuard], data:{userRole:'student'}},
+    {path: 'viewResult', component: StudentTestResultComponent, canActivate:[AuthGuard], data:{userRole:'student'}}
   ]},
-  {path: 'unauthorized',component: UnauthorizedPageComponent}
+  {path: 'referUser',component: ReferUserComponent, canActivate:[AuthGuard]},
+  {path: 'unauthorized',component: UnauthorizedPageComponent},
+  {path: '**', redirectTo: '/home', pathMatch: 'full'}
 ];
 
 @NgModule({

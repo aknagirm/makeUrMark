@@ -19,9 +19,10 @@ export class ExternalFilesService {
   ) { }
 
   getFacultyDetails() {
-      return this.http.get(this.module_endpoint.home.getAllFaculties).pipe(
+      return this.http.get(this.module_endpoint.auth.getAllFaculties).pipe(
         map(data => {
-          data['faculties'].forEach(faculty => {
+          console.log(data)
+          data['facultyList'].forEach(faculty => {
             let postGrads=faculty.educationalDet[3]
             let grads=faculty.educationalDet[2]
             

@@ -1,6 +1,7 @@
 const express = require('express')
 const nodemailer = require('nodemailer');
 const twilioModel=  require('../models/twilio')
+const User =require('../models/user')
 const fetch = require("node-fetch")
 require('dotenv').config()
 const twilio =require('twilio')(process.env.TWILIO_ACCOUNT_SID,process.env.TWILIO_AUTH_TOKEN)
@@ -29,42 +30,61 @@ router.post('/mobOtpVerify', (req,res) => {
 })
 
 
-router.post('/mailOtp', (req, res)=>{
-
-    var val = Math.floor(100000 + Math.random() * 900000);
-        
-    var transporter = nodemailer.createTransport({
-        host: process.env.MAIL_HOST,
-        port: 587,
-        ignoreTLS: false,
-        secure: false,
-        auth: {
-            user: process.env.MAIL_USER,
-            pass: process.env.MAIL_PASSWORD
+router.post('/mailOtp', async (req, res)=>{
+    try {
+        let user=await User.findOne({userName: req.body.email}).exec()
+        if(user) {
+            let err=new Error()
+            err.code="USER_EXIST"
+            throw err
+        } else {
+            var val = Math.floor(100000 + Math.random() * 900000);
+            
+            var transporter = nodemailer.createTransport({
+                host: process.env.MAIL_HOST,
+                port: 587,
+                ignoreTLS: false,
+                secure: false,
+                auth: {
+                    user: process.env.MAIL_USER,
+                    pass: process.env.MAIL_PASSWORD
+                }
+                });
+    
+                var mailOptions = {
+                from: process.env.MAIL_USER,
+                to: req.body.email,
+                subject: 'OTP for MakeUrMark mail verification',
+                html:
+                `<p>Hi</p>
+                <br>
+                <p>Thanks for choosing MakeUrMark. This is just a automailer. Your mail OTP is: <strong>${val}</strong>.</p>
+                <p>This OTP is valid for next 2 min only.</p>
+                <br>
+                <p>Regards</p>
+                <p>MakeURMark</p>`
+            };
+    
+            transporter.sendMail(mailOptions, function(error, info){
+            if (error) {
+                let err=new Error()
+                err.code="UNKNOWN_MAIL_ID"
+                throw err
+            } else {
+                res.status(200).send({"mailOtp":val})
+            }
+            });
         }
-        });
 
-    var mailOptions = {
-    from: process.env.MAIL_USER,
-    to: req.body.email,
-    subject: 'OTP for MakeUrMark mail verification',
-    html:
-    `<p>Hi</p>
-    <br>
-    <p>Thanks for choosing MakeUrMark. This is just a automailer. Your mail OTP is: <strong>${val}</strong>.</p>
-    <p>This OTP is valid for next 4 min only.</p>
-    <br>
-    <p>Regards</p>
-    <p>MakeURMark</p>`
-    };
-
-    transporter.sendMail(mailOptions, function(error, info){
-    if (error) {
-        res.status(500).send("need to check email id")
-    } else {
-        res.status(200).send({"mailOtp":val})
+    } catch(err){
+        if(err.code=="UNKNOWN_MAIL_ID"){
+            res.status(500).send({msg:"need to check email id"})
+        } else if(err.code=="USER_EXIST") {
+            res.status(500).send({msg:"Email Id already Registered"})
+        } else {
+            res.status(500).send({msg:"Something is wrong"})
+        }
     }
-    });
 })
 
 router.post('/captcha',async (req,res) => {

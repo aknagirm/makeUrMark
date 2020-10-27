@@ -12,13 +12,12 @@ export const HeaderMenuList = {'menuList': [
             {
                 'menuName':"Explore as Student",
                 'menuList':[
+                    {'menuName':"View Branch Roaster", 'link': "explore/student/viewRoster"},
+                    {'menuName':"Resister for Test", 'link': "explore/student/registerTest"},
+                    {'menuName':"View Results", 'link': "explore/student/viewResult"},
                     {'menuName':"View Recorded Sessions"},
                     {'menuName':"Question Bank"},
-                    {'menuName':"Resister for Test", 'link': "explore/student/registerTest"},
-                    {'menuName':"Refer a Friend"},
-                    {'menuName':"View Results", 'link': "explore/student/viewResult"},
-                    {'menuName':"Pay Fees"},
-                    {'menuName':"View Branch Roaster", 'link': "explore/student/viewRoster"}
+                    {'menuName':"Refer a Friend", 'link': "referUser"},
                 ]},
             {
                 'menuName':"Explore as Faculty",
@@ -26,12 +25,13 @@ export const HeaderMenuList = {'menuList': [
                     {'menuName':"Materials/Question Upload", 'link': "explore/faculty", 'fragment':"upload-material"},
                     {'menuName':"Schedule Test", 'link': "explore/faculty", 'fragment':"schedule-test"},
                     {'menuName':"Record Students' Marks", 'link': "explore/faculty", 'fragment':"record-marks"},
-                    {'menuName':"Refer Student", 'link': "explore/faculty", 'fragment':"refer-student"},
-                    {'menuName':"Refer Faculty", 'link': "explore/faculty", 'fragment':"refer-faculty"}
+                    {'menuName':"Refer Student", 'link': "referUser", 'fragment':"refer-student"},
+                    {'menuName':"Refer Faculty", 'link': "referUser", 'fragment':"refer-faculty"}
                 ]},
             {
                 'menuName':"Explore as Admin",
                 'menuList':[
+                    {'menuName':"View All User", 'link': "allUserView"},
                     {'menuName':"Structural Details", 'link': "explore/admin", 'fragment':"structural-view"},
                     {'menuName':"Fees Details", 'link': "explore/admin", 'fragment':"fees-view"},
                     {'menuName':"Discount Details", 'link': "explore/admin", 'fragment':"fixed-discount-view"},

@@ -13,13 +13,15 @@ import { ReusableModule } from 'src/app/reusable/reusable.module';
 import { AllDirectivesModule } from '../directives/all-directives.module';
 import { StudentOptionsModule } from './student-options/student-options.module';
 import { AdminOptionsModule } from './admin-options/admin-options.module';
+import { ReferUserComponent } from './refer-user/refer-user.component';
 
 @NgModule({
   declarations: [
     CoursesComponent,
     DummyComponent,
     HomeComponent,
-    PaymentComponent
+    PaymentComponent,
+    ReferUserComponent
   ],
   imports: [
     CommonModule,

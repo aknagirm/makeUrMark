@@ -17,7 +17,7 @@ export class AuthGuard implements CanActivate {
     private router: Router
   ){}
 
-   canActivate(next: ActivatedRouteSnapshot,state: RouterStateSnapshot): Observable<boolean | UrlTree> {
+   canActivate(route: ActivatedRouteSnapshot,state: RouterStateSnapshot): Observable<boolean | UrlTree> {
   
     let auth=this.injector.get(AuthService)
     let externalFileService=this.injector.get(ExternalFilesService)
@@ -26,6 +26,7 @@ export class AuthGuard implements CanActivate {
 
     return auth.loggedInUserObj.pipe(
       map(data=>{
+        console.log(data)
         if(data && data instanceof HttpErrorResponse){
           console.log(1)
           externalFileService.loginRegistrationOpen.next('login')
@@ -36,8 +37,14 @@ export class AuthGuard implements CanActivate {
           externalFileService.loginRegistrationOpen.next('login')
           this.router.navigate(['/home'])
           return false
+        } else if(data && data.status && data.status!=='working'){
+          console.log(data.userRole, route.data.userRole)
+          this.router.navigate(['/unauthorized'])
+          return false
+        }else if(data && route.data.userRole && data.userRole!==route.data.userRole){
+          this.router.navigate(['/unauthorized'])
+          return false
         } else {
-          console.log(3)
           return true
         }
       })

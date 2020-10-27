@@ -1,0 +1,16 @@
+.user-refer-container {
+    position: relative;
+    top:100px;
+}
+
+hr {
+    border: #063247 solid 2px;
+}
+
+.each-form-field {
+    display: grid;
+}
+
+.ref-chapter-header {
+    color: #063247
+}

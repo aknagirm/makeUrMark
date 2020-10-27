@@ -11,15 +11,15 @@ const verifyRequest =require('../routes/verify-token')
 
 const router =express.Router()
 
-function studentCheck(req,res, next){
+/* function studentCheck(req,res, next){
     if(req.userRole && req.userRole !="student") {
         res.status(401).send({msg: "Unauthorized"})
     } else {
         next()
     }
-}
+} */
 
-router.post('/addCourses',verifyRequest, studentCheck, async (req,res)=> {
+router.post('/addCourses',verifyRequest, async (req,res)=> {
     try{
         details=req.body
         details.userName=req.userName
@@ -45,14 +45,16 @@ router.post('/addCourses',verifyRequest, studentCheck, async (req,res)=> {
                 if(index!=-1){
                     prevDuration=+userFound.courses[index].duration
                     newDuration=+course.duration
-                    userFound.courses[index].duration=prevDuration+newDuration
+                    userFound.courses[index].duration=prevDuration+newDuration+userFound.bonusCourseDays
                 } else {
                     course.admissionDate=new Date()
                     course.status='waiting'
+                    course.duration=course.duration+userFound.bonusCourseDays
                     userFound.courses.push(course)
                 }
-                await userFound.save()
             }
+            userFound.bonusCourseDays=0
+            await userFound.save()
         }
         res.status(200).send({msg: "ok"})
     } catch(err) {
@@ -65,7 +67,7 @@ router.post('/addCourses',verifyRequest, studentCheck, async (req,res)=> {
    
 })
 
-router.get('/getUnallocatedCourses',verifyRequest, studentCheck, (req,res)=>{
+router.get('/getUnallocatedCourses',verifyRequest, (req,res)=>{
     details=req.body
     details.userName=req.userName
     details.userRole=req.userRole
@@ -129,7 +131,7 @@ router.get('/getUnallocatedCourses',verifyRequest, studentCheck, (req,res)=>{
 })
  */
 
-router.post('/getAllTestForStudent',verifyRequest,studentCheck, async (req,res) => {
+router.post('/getAllTestForStudent',verifyRequest, async (req,res) => {
     details=req.body
     details.userName=req.userName
     try{
@@ -158,10 +160,42 @@ router.post('/getAllTestForStudent',verifyRequest,studentCheck, async (req,res) 
     
 })
 
-router.post('/getTestForGradeSub',verifyRequest,studentCheck, (req,res) => {
-    details=req.body
-    details.userName=req.userName
-    details.userRole=req.userRole
+router.post('/getTestForGradeSub',verifyRequest, async (req,res) => {
+    try {
+        details=req.body
+        details.userName=req.userName
+        details.userRole=req.userRole
+        currDate=new Date()
+        //new Date(dt1.getTime()+test.duration*60000)
+        if(details.subject){
+            list= await TestResult.find({testDateTime: {$gt:new Date()}, grade:details.grade, 
+            subject:details.subject})
+        } else {
+            list= await TestResult.find({testDateTime: {$gt:new Date()}, grade:details.grade})
+           /* list= await TestResult.aggregate([{$project: {
+            chkDate: {$add: ['$testDateTime',{$multiply: [{ $toInt:'$duration'},60000]}]},
+            obj: '$$ROOT'
+          }},
+            {$match: {chkDate: {$gte: new Date()}}},
+            { $replaceRoot: { newRoot: '$obj' } }
+            ]) */
+        }
+
+        let testList= list.map(test=> {
+            //console.log(test)
+            test=test.toJSON()
+            test.status=""
+            const found=test.result.filter(result=>result.userName=req.userName)
+            found?test.status="enrolled":test.status="none"
+            return test
+        })
+        res.status(200).send({"upcomingTest":testList})
+    } catch(err) {
+        console.log(err)
+        res.status(500).send({msg: "Input not valid"})
+    }
+})
+    /* currDate=new Date()
     console.log(details)
     if(details.subject){
         TestResult.find({testDateTime: {$gt:new Date()}, grade:details.grade, 
@@ -180,8 +214,23 @@ router.post('/getTestForGradeSub',verifyRequest,studentCheck, (req,res) => {
                 res.status(200).send({testList})
             }
         })
-    } else {
-        TestResult.find({testDateTime: {$gt:new Date()}, grade:details.grade}, (err, list) => {
+    } else { */
+        /* TestResult.find({testDateTime: {$gt:new Date()}, grade:details.grade}, (err, list) => {
+            if(err){
+                res.status(500).send({msg: "Input not valid"})
+            } else{
+                let testList= list.map(test=> {
+                    test=test.toJSON()
+                    test.status=""
+                    const found=test.result.find(res=>res.userName==res.userName)
+                    found?test.status="enrolled":test.status="none"
+                    console.log(test,found)
+                    return test
+                })
+                res.status(200).send({testList})
+            }
+        }) */
+        /* TestResult.find({testDateTime: {$gt: {$subtract:[currDate.getTime(),"$duration"*60000]}}}, (err, list) => {
             if(err){
                 res.status(500).send({msg: "Input not valid"})
             } else{
@@ -196,10 +245,10 @@ router.post('/getTestForGradeSub',verifyRequest,studentCheck, (req,res) => {
                 res.status(200).send({testList})
             }
         })
-    }
-})
+    } */
 
-router.post('/registerForTest',verifyRequest,studentCheck,(req,res) => {
+
+router.post('/registerForTest',verifyRequest,(req,res) => {
     var isError=false
     userRole=req.userRole
     details=req.body
@@ -221,7 +270,7 @@ router.post('/registerForTest',verifyRequest,studentCheck,(req,res) => {
     !isError?res.status(200).send({msg:"Enrolled Successfully"}): res.status(500).send({msg:'something is wrong'})
 })
 
-router.get('/getAllScheduledBatch',verifyRequest,studentCheck,async (req,res) =>{
+router.get('/getAllScheduledBatch',verifyRequest,async (req,res) =>{
    try{
        batchList=[]
         let allBatches=await ScheduledBatch.find().exec()
@@ -243,7 +292,7 @@ router.get('/getAllScheduledBatch',verifyRequest,studentCheck,async (req,res) =>
     
 })
 
-router.get('/getAllMaterial',verifyRequest,studentCheck,async (req,res) =>{
+router.get('/getAllMaterial',verifyRequest,async (req,res) =>{
     try{
         arr=[]
         const materialList=await Material.find({}).exec()

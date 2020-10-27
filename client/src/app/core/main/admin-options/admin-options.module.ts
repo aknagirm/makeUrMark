@@ -10,6 +10,9 @@ import { GradeBoardSubBatchComponent } from './grade-board-sub-batch/grade-board
 import { TestTutionFeesComponent } from './test-tution-fees/test-tution-fees.component';
 import { SubMonDiscountComponent } from './sub-mon-discount/sub-mon-discount.component';
 import { RosterHolidayComponent } from './roster-holiday/roster-holiday.component';
+import { ViewAllUsersComponent } from './view-all-users/view-all-users.component';
+import { ViewSpecificUserComponent } from './view-specific-user/view-specific-user.component';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
@@ -17,7 +20,9 @@ import { RosterHolidayComponent } from './roster-holiday/roster-holiday.componen
     GradeBoardSubBatchComponent,
     TestTutionFeesComponent,
     SubMonDiscountComponent,
-    RosterHolidayComponent
+    RosterHolidayComponent,
+    ViewAllUsersComponent,
+    ViewSpecificUserComponent
   ],
   imports: [
     CommonModule,
@@ -25,7 +30,8 @@ import { RosterHolidayComponent } from './roster-holiday/roster-holiday.componen
     PrimeModule,
     MaterialModule,
     AllDirectivesModule,
-    ReusableModule
+    ReusableModule,
+    RouterModule
   ]
 })
 export class AdminOptionsModule { }
