@@ -48,7 +48,7 @@ export class LoginComponent implements OnInit {
         this.msgs=[]
         this.msgs.push({severity:'error', summary:'Error', 
         detail:data['error']['msg']});
-      } else if(data.userName!=='none' ){
+      } else if(data && data.userName && data.userName!=='none' ){
         console.log(data,"In else")
         this.popUpClosed.emit()
       } /* else {

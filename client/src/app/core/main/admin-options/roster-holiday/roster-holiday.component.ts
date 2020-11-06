@@ -32,7 +32,7 @@ export class RosterHolidayComponent implements OnInit {
 
   holidayInput: string=''
   selectedBatchForMap: any
-  selectedDate: Date
+  selectedDate: any
   newBatch: NewBatchDetails={day:'',grade:'',subject:'',batchType:'',startTime:'',endTime:'',userList:[]}
   scheduledBatchFilter={gradeList:'',subjectList:'',batchTypeList:'',startTime:'',endTime:''}
   studentWaitingList=[]

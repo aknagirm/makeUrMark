@@ -27,6 +27,7 @@ export class RegistrationComponent implements OnInit {
   tempMailOtp
   tempNumberOtp
   mailOtp: any
+  mobOtpGenerate: any
   numberOtp
   myMailTimer
   myMobTimer

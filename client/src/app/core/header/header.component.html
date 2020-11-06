@@ -51,17 +51,19 @@
     </ul>
 
     <!-- <a ></a> -->
-    <div class="logout-button mr-3" *ngIf="!userName" >
+    <div class="logout-button mr-3" *ngIf="!userData.userName" >
         <button class="btn px-4 my-3 btn-secondary" (click)="loginPopUp()">Login</button>
     </div>
-    <div class="dropdown logout-button mr-3" *ngIf="userName">
+    <div class="dropdown logout-button mr-3" *ngIf="userData.userName">
         <button class="btn btn-secondary dropdown-toggle my-3" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Hello, {{userName | titlecase}}
+          Hello, {{userData.userName | titlecase}}
         </button>
         <div class="dropdown-menu account-btn-menu" aria-labelledby="dropdownMenuButton">
           <a class="dropdown-item account-btn" (click)="editProfileCalled()">Edit Profile</a>
           <hr class="my-2" style="width: 90%;">
           <a class="dropdown-item account-btn" (click)="getHolidayList()">View Holidays</a>
+          <hr class="my-2" style="width: 90%;">
+          <a class="dropdown-item account-btn" style="color: aqua;"><strong>Wallet: {{userData.wallet}} pts</strong></a>
           <hr class="my-2" style="width: 90%;">
           <a class="dropdown-item account-btn" (click)="logoutCalled()">Logout</a>
         </div>

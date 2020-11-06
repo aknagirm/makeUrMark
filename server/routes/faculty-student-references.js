@@ -6,6 +6,7 @@ const verifyRequest=require('../routes/verify-token')
 const nodemailer = require('nodemailer');
 const router =express.Router()
 const User =require('../models/user')
+const PaymentDetails= require('../models/order-payment-history')
 require('dotenv').config()
 
 var transporter = nodemailer.createTransport({
@@ -83,24 +84,33 @@ router.post('/newReference',verifyRequest,async (req,res) => {
 })
 
 
-router.get('/referalCodeCheck',verifyRequest,async (req,res) => {
+router.post('/referalCodeCheck',verifyRequest,async (req,res) => {
     try{
-        let currUser=await User.findOne({userName: req.userName}).exec()
-        console.log(currUser.othersReferCode)
-        let newUser=await User.findOneAndUpdate({ownReferCode:currUser.othersReferCode},
-            {$inc:{bonusCourseDays:45}},{useFindAndModify:false})
-        if(newUser){
-            currUser.othersReferCode=currUser.othersReferCode+"_done"
-            currUser.facultyGrade=undefined
-            currUser.certification=undefined
-            currUser.educationalDet=undefined
-            currUser.teachingExp=undefined
-            currUser.reference=undefined
-            currUser.subjects=undefined
-            await currUser.save()
+        let prevTotalDays=0
+        let currDuration=req.body.currDuration
+        let allCourseOrders=await PaymentDetails.find({paymentFrom:req.userName,paymentReason:"Course purchase"}).exec()
+        for(let course of allCourseOrders){
+            prevTotalDays=prevTotalDays+(course.totalDays*course.subjectList.length)
         }
-        
-        res.status(200).send({newUser})
+        console.log(prevTotalDays,currDuration)
+        if(prevTotalDays+currDuration>=120){
+            
+            let currUser=await User.findOne({userName: req.userName}).exec()
+            let newUser=await User.findOneAndUpdate({ownReferCode:currUser.othersReferCode},
+                {$inc:{walletPoint:2000}},{useFindAndModify:false})
+            console.log(newUser)
+            if(newUser){
+                currUser.othersReferCode="done_"+currUser.othersReferCode
+                currUser.facultyGrade=undefined
+                currUser.certification=undefined
+                currUser.educationalDet=undefined
+                currUser.teachingExp=undefined
+                currUser.reference=undefined
+                currUser.subjects=undefined
+                await currUser.save()
+            } 
+        }
+        res.status(200).send({msg:'Referal checked'})
     
     }catch(err){
         console.log(err)

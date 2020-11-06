@@ -8,6 +8,7 @@ export const environment = {
     facultyDetails: '../assets/faculties',
     baseUrl: 'http://localhost:3010',
     paymentURL: 'http://localhost:3010/payment/pay',
+    orderPaymentAdd: 'http://localhost:3010/payment/orderPaymentAdd',
     verification: {
       mailOtp: 'http://localhost:3010/verification/mailOtp',
       mobOtpSend: 'http://localhost:3010/verification/mobOtpSend',

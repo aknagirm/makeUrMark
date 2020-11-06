@@ -5,6 +5,7 @@ export class FacultyProfileEditForm {
         public lastName: string =null,
         public password: string =null,
         public grade: string =null,
+        public gender: string =null,
         public email: string =null,
         public contactNumber: string =null,
         public address1: string =null,

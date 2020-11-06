@@ -3,6 +3,7 @@ const razorpay =require('razorpay')
 const shortId= require('shortid')
 require('dotenv').config()
 const router =express.Router()
+const PaymentDetails= require('../models/order-payment-history')
 const verifyRequest =require('../routes/verify-token')
 
 const razorpayInstance=new razorpay({
@@ -48,7 +49,6 @@ const razorpayInstance=new razorpay({
   
       try {
         const response = await razorpayInstance.orders.create(options)
-        console.log(response)
         res.json({
           id: response.id,
           currency: response.currency,
@@ -56,7 +56,25 @@ const razorpayInstance=new razorpay({
         })
       } catch (error) {
         console.log(error)
+        res.status(500).send({msg:'Something is wrong'})
       }
   })
 
+  router.post('/orderPaymentAdd',verifyRequest, async (req,res)=>{
+    try{
+      let user=req.userName
+      let orderDetails =req.body
+      orderDetails.orderId=orderDetails.orderId==null?`wallet_${shortId.generate()}`:orderDetails.orderId
+      orderDetails.paymentId=orderDetails.paymentId==null?`wallet_${shortId.generate()}`:orderDetails.paymentId
+      orderDetails.transDate=new Date()
+      orderDetails.paymentFrom=orderDetails.paymentFrom? orderDetails.paymentFrom: user
+      let payment =new PaymentDetails(orderDetails)
+    console.log("payment")
+      await payment.save()
+      res.status(200).send({msg: 'Payment captured'})
+    }catch(error){
+      console.log(error)
+      res.status(500).send({msg:'Something is wrong'})
+    }
+  })
 module.exports = router

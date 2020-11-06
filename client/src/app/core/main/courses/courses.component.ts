@@ -1,7 +1,7 @@
 import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
 import { Observable, interval, concat, merge, Subscription, combineLatest } from 'rxjs';
 import { environment } from '../../../../environments/environment'
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { concatMap, filter, map, mergeMap, switchMap, take } from 'rxjs/operators';
 import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 import { GradeBoardSubDetails, TestTutionFeesDetails } from 'src/app/reusable/models/grade-subject-fees-options';
@@ -9,6 +9,7 @@ import { StructuralService } from '../../services/structural.service';
 import { viewClassName } from '@angular/compiler';
 import { PaymentService } from '../../services/payment.service';
 import { MessageService } from 'primeng/api';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-courses',
@@ -22,6 +23,7 @@ export class CoursesComponent implements OnInit {
   totalAllCost=0
   selectedBoardSubject: any
   selectedBoard: any
+  userData: any= {}
   subjectList: GradeBoardSubDetails[]
   tutionFeesList: TestTutionFeesDetails[]
   totalMonths: number=1
@@ -30,13 +32,16 @@ export class CoursesComponent implements OnInit {
   subDiscount:number=0.0
   monDiscount:number=0.0
   totalSelectedCost=0
+  property: string
   allSubjectDiscount: TestTutionFeesDetails[]
   allMonthDiscount: TestTutionFeesDetails[]
   display: boolean=false
+  paymentMode: string='regular'
 
   @ViewChild('grandTotal',{static:true}) grandTotal
 
   constructor(
+    private auth: AuthService,
     private http: HttpClient,
     private router: Router,
     private route: ActivatedRoute,
@@ -64,10 +69,9 @@ export class CoursesComponent implements OnInit {
     this.struct.allMonthDiscount.subscribe((allMonthDiscountList:TestTutionFeesDetails[])=> {
       this.allMonthDiscount=allMonthDiscountList
     })
-
+    this.getCurrUser()
     this.getGradeSubjectBatchType()
   }
-
 
   getGradeSubjectBatchType(){
     const param$: Observable<any>=this.route.queryParams
@@ -86,6 +90,25 @@ export class CoursesComponent implements OnInit {
       this.selectedBoardSubject=data.grade
       this.tutionFeesList=data.feeList
     })
+  }
+
+  getCurrUser(){
+    this.auth.loggedInUserObj
+        .subscribe(data => {
+          if(data instanceof HttpErrorResponse || data == null || data == undefined) {
+            this.userData.referalChk=false
+          } else {
+            if(data['othersReferCode'].substring(0, 4)=="done"){
+              this.userData.referalChk=false
+              this.userData.walletPoint=data['walletPoint']
+            }
+            else {
+              this.userData.referalChk=true
+              this.userData.walletPoint=data['walletPoint']
+            }
+          }
+        })
+        this.auth.getCurrentUser()
   }
 
 
@@ -156,7 +179,17 @@ export class CoursesComponent implements OnInit {
     this.totalSelectedCostBasic=this.totalCostCalculate(this.itemSelected, this.totalMonths)
     let dummyCost=this.totalSelectedCostBasic
     let discountedPrice=dummyCost-(dummyCost*this.monDiscount/100)-(dummyCost*this.subDiscount/100)
+    if(discountedPrice>this.userData.walletPoint){
+      this.userData.walletDeduction=this.userData.walletPoint
+      discountedPrice=discountedPrice-this.userData.walletDeduction
+      this.paymentMode='regular'
+    } else {
+      this.userData.walletDeduction=discountedPrice
+      discountedPrice=0
+      this.paymentMode='wallet'
+    }
     this.totalDiscountedCost=discountedPrice
+    
   }
 
   /* async securePay(){
@@ -194,25 +227,64 @@ export class CoursesComponent implements OnInit {
  */
 
 async securePay(){
-  console.log("Hi")
+  let arr=[]
+  for(let sub of this.itemSelected){
+      let courseObj={board:this.selectedBoard.label,grade:sub.feesSelected.grade,
+          subject:sub.feesSelected.subject, duration: this.totalMonths*30,
+          batchType:sub.feesSelected.batchType}
+      arr.push(courseObj)
+    }
   this.payment.paymentDet={amount: this.totalDiscountedCost*100}
-  await this.payment.purchaseCourse(this.itemSelected,this.totalMonths)
+  let res=await this.payment.purchaseCourse(arr,this.totalMonths,this.userData.walletDeduction)
+  console.log(res)
   this.payment.response.subscribe(data => {
-        console.log("push called")
-        this.http.get(this.module_endpoint.refer.referalCodeCheck)
-          .subscribe(data=>{
-            this.display=false
-            this.router.navigate(['explore/student/viewRoster'])
-          })
-      }, error=> {
-        this.display=false
-        console.log(error)
-        this.router.navigate(['explore/student/viewRoster'])
-        this.messageService.add(
-          {key: 'purchaseCourse', severity:'error', summary:'Failed', life:30000,
-          detail:error['error']['msg']});
-      })
+    if(this.userData.referalChk){
+      let obj={currDuration:this.totalMonths*30*this.itemSelected.length}
+      this.http.post(this.module_endpoint.refer.referalCodeCheck,obj)
+      .subscribe(console.log)
+    }
+    this.display=false
+    this.router.navigate(['explore/student/viewRoster'])
+    }, error=> {
+      this.display=false
+      console.log(error)
+      this.router.navigate(['explore/student/viewRoster'])
+      this.messageService.add(
+        {key: 'purchaseCourse', severity:'error', summary:'Failed', life:30000,
+        detail:error['error']['msg']});
+  })
 }
+
+  walletPay(){
+    console.log(this.itemSelected,this.totalMonths)
+    let paymentObj={
+      orderId: null,
+      paymentId: null,
+      paymentReason: 'Course purchase',
+      subjectList: this.itemSelected.map(course=>course.feesSelected),
+      totalDays: this.totalMonths*30,
+      paymentTo: 'Institute',
+      paymentIndicator: 'C',
+      amount: this.userData.walletDeduction
+    }
+    let arr=[]
+    for(let sub of this.itemSelected){
+        let courseObj={board:this.selectedBoard.label,grade:sub.feesSelected.grade,
+            subject:sub.feesSelected.subject, duration: this.totalMonths*30,
+            batchType:sub.feesSelected.batchType}
+        arr.push(courseObj)
+      }
+      if(this.userData.referalChk){
+        let obj={currDuration:this.totalMonths*30*this.itemSelected.length}
+        this.http.post(this.module_endpoint.refer.referalCodeCheck,obj)
+        .subscribe(console.log)
+      }
+     this.payment.purchaseCourseSuccess(arr,this.userData.walletDeduction)
+     this.payment.paymentCapture(paymentObj)
+    this.display=false
+    this.auth.getCurrentUser()
+    this.router.navigate(['explore/student/viewRoster'])
+  }
 
 
   displayCartItem(){

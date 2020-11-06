@@ -83,7 +83,7 @@ router.post('/studentRegister', (req,res)=>{
     newUser.activeFlag=true
     newUser.courses=[]
     newUser.ownReferCode=shortId.generate()
-    newUser.bonusCourseDays=0
+    newUser.walletPoint=0
     newUser.save((err, user)=>{
         if(err){
             res.status(500).send({msg:"Please Check your internet"})

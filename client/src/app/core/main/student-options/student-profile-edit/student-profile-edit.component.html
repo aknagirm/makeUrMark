@@ -85,7 +85,7 @@
                 <mat-label>Enter your existing password</mat-label>
                 <input matInput [type]="hide1 ? 'password' : 'text'" name="password" ngModel required #password="ngModel">
                 <button mat-icon-button matSuffix (click)="hide1 = !hide1" [attr.aria-label]="'Hide password'"
-                  [attr.aria-pressed]="hide">
+                  [attr.aria-pressed]="hide1">
                   <mat-icon>{{hide1 ? 'visibility_off' : 'visibility'}}</mat-icon>
                 </button>
                 <mat-hint class="text-danger" *ngIf="password.value !== studentProfileEdit.password && password.touched">
@@ -101,10 +101,10 @@
                     [(ngModel)]="studentProfileEdit.newPassword">
   
                   <button mat-icon-button matSuffix (click)="hide2 = !hide2" [attr.aria-label]="'Hide password'"
-                    [attr.aria-pressed]="hide">
+                    [attr.aria-pressed]="hide2">
                     <mat-icon>{{hide2 ? 'visibility_off' : 'visibility'}}</mat-icon>
                   </button>
-                  <mat-hint [align]="end"><i style="font-size: 16px;" class="fa fa-question-circle" #tooltip="matTooltip"
+                  <mat-hint><i style="font-size: 16px;" class="fa fa-question-circle" #tooltip="matTooltip"
                       matTooltip="Password length must be 8 Character, 
                       must contains atleast one Capital Letter, one small Letter and one Number"
                       matTooltipPosition="right"></i>
@@ -118,7 +118,7 @@
                   <input matInput [type]="hide3 ? 'password' : 'text'" name="password2" ngModel required
                     #password2="ngModel">
                   <button mat-icon-button matSuffix (click)="hide3 = !hide3" [attr.aria-label]="'Hide password'"
-                    [attr.aria-pressed]="hide">
+                    [attr.aria-pressed]="hide3">
                     <mat-icon>{{hide3 ? 'visibility_off' : 'visibility'}}</mat-icon>
                   </button>
                   <mat-hint class="text-danger" *ngIf="password1.value !== password2.value && password2.touched">

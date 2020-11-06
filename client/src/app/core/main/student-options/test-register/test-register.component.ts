@@ -1,9 +1,10 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CalendarOptions } from '@fullcalendar/core';
 import { MessageService, ConfirmationService } from 'primeng/api';
 import { Observable } from 'rxjs';
+import { AuthService } from 'src/app/core/services/auth.service';
 import { CountdownTimerService } from 'src/app/core/services/countdown-timer.service';
 import { PaymentService } from 'src/app/core/services/payment.service';
 import { StructuralService } from 'src/app/core/services/structural.service';
@@ -23,15 +24,18 @@ export class TestRegisterComponent implements OnInit {
   allTestFees: TestTutionFeesDetails[]
   selectedGradeSub: any={grade:'', subject:''}
   selectedTestFees: TestTutionFeesDetails
+  userData: any= {}
   testList: any=[]
   liveTests: any=[]
   display: boolean = false
   displayCart: boolean= false
   displayQPaper: boolean= false
-  selectedTest={}
+  selectedTest: any={grade:'', subject:''}
+  paymentMode: string='regular'
   testFees
   testFeesCartList: any[]=[]
   feesTotal=0
+  feesTotalWalletAdjust=0
   zoomSize=1.0
   qPaperSRC=null
   testTimer: string
@@ -59,6 +63,7 @@ export class TestRegisterComponent implements OnInit {
   };
   
   constructor(
+    private auth: AuthService,
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
     private router: Router,
@@ -75,7 +80,20 @@ export class TestRegisterComponent implements OnInit {
     this.struct.allTestFees.subscribe((testFeesList:TestTutionFeesDetails[]) => {
       this.allTestFees=testFeesList
     })
+    this.getCurrUser()
     this.getGradeSubject()
+  }
+
+  getCurrUser(){
+    this.auth.loggedInUserObj
+        .subscribe(data => {
+          if(data instanceof HttpErrorResponse || data == null || data == undefined) {
+            this.userData.walletPoint=null
+          } else {
+            this.userData.walletPoint=data['walletPoint']
+          }
+        })
+        this.auth.getCurrentUser()
   }
 
   getGradeSubject(){
@@ -104,18 +122,15 @@ export class TestRegisterComponent implements OnInit {
     let testList$:Observable<any>
     this.testList=[]
     this.testFeesCartList=[]
-    if(grade && !subject){
-      let obj={'grade':grade.label}
-      this.allTestFees?this.selectedTestFees=this.allTestFees.find(testFees=>testFees.grade=grade.label):''
-      testList$=this.http.post(this.module_endpoint.studentOptions.getTestForGradeSub, obj)
-      this.getCurrLiveTest(obj)
-    }
-    if(grade && subject){
-      let obj={'grade':grade.label,'subject':subject.label}
-      this.allTestFees?this.selectedTestFees=this.allTestFees.find(testFees=>testFees.grade=grade.label):''
-      testList$=this.http.post(this.module_endpoint.studentOptions.getTestForGradeSub, obj)
-    }
+    
+    let obj={'grade':grade}
+    console.log(obj,this.allTestFees)
+    this.allTestFees?this.selectedTestFees=this.allTestFees.find(testFees=>testFees.grade==grade):''
+    testList$=this.http.post(this.module_endpoint.studentOptions.getTestForGradeSub, obj)
+    this.getCurrLiveTest(obj)
+
     testList$.subscribe(data=>{
+      console.log(data)
       let list=data['upcomingTest']
       list.forEach((test,index) => {
         let obj={...test}
@@ -173,23 +188,57 @@ export class TestRegisterComponent implements OnInit {
   }
 
   displayCartItem(){
+    console.log(this.testFeesCartList)
     this.displayCart = true;
+    let discountedPrice=this.feesTotal
+    if(discountedPrice>this.userData.walletPoint){
+      this.userData.walletDeduction=this.userData.walletPoint
+      discountedPrice=discountedPrice-this.userData.walletDeduction
+    } else {
+      this.userData.walletDeduction=discountedPrice
+      discountedPrice=0
+    }
+    this.feesTotalWalletAdjust=discountedPrice
   }
 
   async securePay(){
     //this.displayCart=false
-    this.payment.paymentDet={amount: this.feesTotal*100}
-    let obj=await this.payment.pay()
-     this.payment.response.subscribe(data => {
-      if(data){
-        console.log(data)
-        this.http.post(this.module_endpoint.studentOptions.registerForTest,this.testFeesCartList)
-            .subscribe(data => {
-              this.displayCart=false
-              this.dropdownSelected()
-            })
+    if(this.feesTotalWalletAdjust>0){
+      this.payment.paymentDet={amount: this.feesTotalWalletAdjust*100}
+      let obj=await this.payment.payForTest(this.testFeesCartList)
+       this.payment.response.subscribe(data => {
+        if(data){
+          console.log(data)
+          let testRegisterObj={testList: this.testFeesCartList, deduction:this.userData.walletDeduction}
+          this.http.post(this.module_endpoint.studentOptions.registerForTest,testRegisterObj)
+              .subscribe(data => {
+                this.displayCart=false
+                this.dropdownSelected()
+                this.auth.getCurrentUser()
+              })
+        }
+      })
+    } else {
+      let paymentObj={
+        orderId: null,
+        paymentId: null,
+        paymentReason: 'Test purchase',
+        testList: [...this.testFeesCartList],
+        paymentTo: 'Institute',
+        paymentIndicator: 'C',
+        amount: this.userData.walletDeduction
       }
-    }) 
+      console.log("hi")
+      this.payment.paymentCapture(paymentObj)
+      let testRegisterObj={testList: this.testFeesCartList, deduction:this.userData.walletDeduction}
+      this.http.post(this.module_endpoint.studentOptions.registerForTest,testRegisterObj)
+              .subscribe(data => {
+                this.displayCart=false
+                this.dropdownSelected()
+                this.auth.getCurrentUser()
+            })
+    }
+     
   }
 
   openQPaper(test){

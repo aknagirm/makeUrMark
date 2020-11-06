@@ -15,6 +15,7 @@ import { environment } from 'src/environments/environment';
 export class StudentProfileEditComponent implements OnInit {
   module_endpoint= environment.server_endpoint
   _profileImgUrl:string= ''
+  contactNumberOld: string
   studentProfileEdit: UserProfileForm={}
   newStudentProfile: any
   hide1 = true
@@ -35,7 +36,7 @@ export class StudentProfileEditComponent implements OnInit {
         } else {
           this._profileImgUrl = "assets/blank-picture.jpg"
         }
-        //this.contactNumberOld = data['contactNumber']
+        this.contactNumberOld = data['contactNumber']
         return data
       })
     ).subscribe(

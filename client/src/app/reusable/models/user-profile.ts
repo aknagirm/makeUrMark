@@ -35,7 +35,8 @@ export interface UserProfileForm {
         broadBand?: string,
         bandWidth?: string,
         whiteBoardMarker?: string,
-        othersReferCode?: string
+        othersReferCode?: string,
+        newPassword?: string
 }
 
 

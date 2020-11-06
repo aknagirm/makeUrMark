@@ -35,25 +35,23 @@ router.post('/addCourses',verifyRequest, async (req,res)=> {
             userFound.teachingExp=undefined
             userFound.reference=undefined
             userFound.subjects=undefined
-            console.log("Hi",details.courseList)
+            userFound.walletPoint=userFound.walletPoint-details.deduction
             for(let course of details.courseList){
                 const index=userFound.courses.findIndex(sub=>{
                     return (sub.board==course.board && sub.grade==course.grade
                     && sub.subject==course.subject && sub.batchType==course.batchType)
                     })
-                    console.log(1,index)
                 if(index!=-1){
                     prevDuration=+userFound.courses[index].duration
                     newDuration=+course.duration
-                    userFound.courses[index].duration=prevDuration+newDuration+userFound.bonusCourseDays
+                    userFound.courses[index].duration=prevDuration+newDuration
                 } else {
                     course.admissionDate=new Date()
                     course.status='waiting'
-                    course.duration=course.duration+userFound.bonusCourseDays
+                    course.duration=course.duration
                     userFound.courses.push(course)
                 }
             }
-            userFound.bonusCourseDays=0
             await userFound.save()
         }
         res.status(200).send({msg: "ok"})
@@ -87,49 +85,6 @@ router.get('/getUnallocatedCourses',verifyRequest, (req,res)=>{
     })
 })
 
-/* router.post('/addCourses',verifyRequest, studentCheck, (req,res)=> {
-    details=req.body
-    details.userName=req.userName
-    details.userRole=req.userRole
-    errFlag=false
-    details.courseList.forEach(course=>{
-        User.findOne({userName:req.userName},(err,userFound)=> {
-            if(err){
-                res.status(404).send({msg:"User not found"})
-            } else {
-                
-               
-                    
-                    userFound.save((err,doc)=>{
-                            if(err){
-                                console.log(err)
-                                errFlag=true
-                                res.status(500).send({msg:'something is wrong'})
-                            } else {
-                                errFlag=false
-                            }
-                        })
-                } else {
-                    userFound.courses.push(course)
-                    userFound.save((err,doc)=>{
-                        if(err){
-                            console.log(err)
-                            errFlag=true
-                            res.status(500).send({msg:'something is wrong'})
-                        } else {
-                            errFlag=false
-                        }
-                    })
-                }
-            }
-        })
-    })
-    
-    if(!errFlag){
-        res.status(200).send({msg: "ok"})
-    }
-})
- */
 
 router.post('/getAllTestForStudent',verifyRequest, async (req,res) => {
     details=req.body
@@ -166,26 +121,14 @@ router.post('/getTestForGradeSub',verifyRequest, async (req,res) => {
         details.userName=req.userName
         details.userRole=req.userRole
         currDate=new Date()
-        //new Date(dt1.getTime()+test.duration*60000)
-        if(details.subject){
-            list= await TestResult.find({testDateTime: {$gt:new Date()}, grade:details.grade, 
-            subject:details.subject})
-        } else {
-            list= await TestResult.find({testDateTime: {$gt:new Date()}, grade:details.grade})
-           /* list= await TestResult.aggregate([{$project: {
-            chkDate: {$add: ['$testDateTime',{$multiply: [{ $toInt:'$duration'},60000]}]},
-            obj: '$$ROOT'
-          }},
-            {$match: {chkDate: {$gte: new Date()}}},
-            { $replaceRoot: { newRoot: '$obj' } }
-            ]) */
-        }
+        list= await TestResult.find({testDateTime: {$gt:new Date()}, grade:details.grade})
 
         let testList= list.map(test=> {
             //console.log(test)
             test=test.toJSON()
             test.status=""
-            const found=test.result.filter(result=>result.userName=req.userName)
+            const found=test.result.find(result=>result.userName==req.userName)
+            console.log(test,found)
             found?test.status="enrolled":test.status="none"
             return test
         })
@@ -248,27 +191,60 @@ router.post('/getTestForGradeSub',verifyRequest, async (req,res) => {
     } */
 
 
-router.post('/registerForTest',verifyRequest,(req,res) => {
-    var isError=false
-    userRole=req.userRole
-    details=req.body
-    userName=req.userName
-    firstName=req.firstName
-    lastName=req.lastName
-    details.forEach(eachTest => {
-        TestResult.findByIdAndUpdate(eachTest._id,
-            {$push:{result:{userName: userName, firstName: firstName, lastName:lastName, marks: ''}}},
-            (err,newTesObj)=> {
-                if(err){
-                    isError=true
-                    res.status(500).send({msg:'something is wrong'})
-                } else {
-                    isError=false
-                }
-            })
-    });
-    !isError?res.status(200).send({msg:"Enrolled Successfully"}): res.status(500).send({msg:'something is wrong'})
-})
+router.post('/registerForTest',verifyRequest,async (req,res) => {
+    try{
+        userRole=req.userRole
+        details=req.body
+        userName=req.userName
+        firstName=req.firstName
+        lastName=req.lastName
+
+        for(let eachTest of details.testList){
+            let newTesObj=await TestResult.findByIdAndUpdate(eachTest._id,
+                {$push:{result:{userName: userName, firstName: firstName, lastName:lastName, marks: ''}}})
+                
+        }
+
+        if(details.deduction>0){
+            let userFound=await User.findOne({userName:req.userName}).exec()
+            if(!userFound){
+                let err=new Error('No_User_Found')
+                throw err
+            } else {
+                userFound.facultyGrade=undefined
+                userFound.certification=undefined
+                userFound.educationalDet=undefined
+                userFound.teachingExp=undefined
+                userFound.reference=undefined
+                userFound.subjects=undefined
+                userFound.walletPoint=userFound.walletPoint-details.deduction
+                await userFound.save()
+            }
+        }
+
+        /* details.forEach(eachTest => {
+            TestResult.findByIdAndUpdate(eachTest._id,
+                {$push:{result:{userName: userName, firstName: firstName, lastName:lastName, marks: ''}}},
+                (err,newTesObj)=> {
+                    if(err){
+                        isError=true
+                        res.status(500).send({msg:'something is wrong'})
+                    } else {
+                        isError=false
+                    }
+                })
+        });
+        !isError?res.status(200).send({msg:"Enrolled Successfully"}): res.status(500).send({msg:'something is wrong'})
+     */
+        res.status(200).send({msg:"Enrolled Successfully"})
+    } catch(err){
+        console.log(err)
+        if(err.message=='No_User_Found'){
+            res.status(401).send({msg:'User Not Found'})
+        }
+        res.status(500).send({msg:'something is wrong'})
+    }
+ })
 
 router.get('/getAllScheduledBatch',verifyRequest,async (req,res) =>{
    try{

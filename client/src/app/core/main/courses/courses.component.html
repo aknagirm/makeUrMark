@@ -134,6 +134,11 @@
                         <td>-{{totalSelectedCostBasic*monDiscount/100}}</td>
                     </tr>
                     <tr>
+                        <td>Wallet Money</td>
+                        <td></td>
+                        <td>-{{this.userData.walletDeduction}}</td>
+                    </tr>
+                    <tr>
                         <td><strong>Grand Total</strong></td>
                         <td></td>
                         <td><strong>{{totalDiscountedCost}}</strong></td>
@@ -143,8 +148,10 @@
             <div class="card-footer">
                 <div class="row px-2" style="justify-content: space-between">
                     <h5 style="font-weight:700" #grandTotal>Grand Total: {{totalDiscountedCost}}</h5>
-                    <button class="btn btn-success" (click)="securePay()"
-                        [disabled]="totalDiscountedCost=='0'">Checkout</button>
+                    <button *ngIf="paymentMode=='regular' && itemSelected.length>0" class="btn btn-success" 
+                        (click)="securePay()" [disabled]="totalDiscountedCost==0">Checkout</button>
+                    <button *ngIf="paymentMode=='wallet' && itemSelected.length>0" class="btn btn-success" 
+                        (click)="walletPay()">Checkout</button>
                 </div>
             </div>
         </div>

@@ -13,10 +13,11 @@ import { PdfViewerModule } from 'ng2-pdf-viewer';
 import 'core-js/proposals/promise-all-settled';
 import { RecordedSessionsComponent } from './recorded-sessions/recorded-sessions.component';
 import { StudentProfileEditComponent } from './student-profile-edit/student-profile-edit.component';
-import { StudentTestResultComponent } from './student-test-result/student-test-result.component'
+import { StudentTestResultComponent } from './student-test-result/student-test-result.component';
+import { ViewOrderHistComponent } from './view-order-hist/view-order-hist.component'
 
 @NgModule({
-  declarations: [TestRegisterComponent, ViewRosterComponent, ViewStudyMaterialComponent, RecordedSessionsComponent, StudentProfileEditComponent, StudentTestResultComponent],
+  declarations: [TestRegisterComponent, ViewRosterComponent, ViewStudyMaterialComponent, RecordedSessionsComponent, StudentProfileEditComponent, StudentTestResultComponent, ViewOrderHistComponent],
   imports: [
     CommonModule,
     PrimeModule,

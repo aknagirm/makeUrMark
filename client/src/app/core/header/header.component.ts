@@ -27,8 +27,7 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
 
   headerMenuList= HeaderMenuList
   openLoginPopUp= {open: false, form: ""}
-  userName: string= null
-  userRole: string= null
+  userData: any= {}
   sideNavBarOpen=false
   classList=['VI','VII','VIII','IX','X','XI','XII']
   allBoards: GradeBoardSubDetails[] =[]
@@ -65,10 +64,11 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
     this.auth.loggedInUserObj
         .subscribe(data => {
           if(data instanceof HttpErrorResponse || data == null || data == undefined) {
-            this.userName=null
+            this.userData.userName=null
           } else {
-            this.userName=data['firstName']
-            this.userRole=data['userRole']
+            this.userData.userName=data['firstName']
+            this.userData.userRole=data['userRole']
+            this.userData.wallet=data['walletPoint']
           }
         })
         this.auth.getCurrentUser()
@@ -133,14 +133,14 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   editProfileCalled() {
-    if(this.userRole=='faculty'){
+    if(this.userData.userRole=='faculty'){
       this.editProfileRef =this.dialogService.open(FacultyProfileEditComponent, {
         header: 'Profile Update Portal',
         contentStyle: {"overflow": "auto","background-color": "aliceblue"},
         baseZIndex: 10000
       })
     }
-    if(this.userRole=='student'){
+    if(this.userData.userRole=='student'){
       this.editProfileRef =this.dialogService.open(StudentProfileEditComponent, {
         header: 'Profile Update Portal',
         contentStyle: {"overflow": "auto","background-color": "aliceblue"},

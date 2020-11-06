@@ -3,8 +3,16 @@
     </p-confirmDialog>
     <p-toast position="center" key="deleteToast"></p-toast>
     <div class="row px-0 mx-0">
-
-        <form #registerForTestForm="ngForm" ngNativeValidate class="col-12">
+        <div class="col-12">
+            <mat-form-field class="col-6 col-lg-3" style="float: right;">
+                <mat-label>Select Your Grade First </mat-label>
+                <mat-select name="grade" [(ngModel)]="selectedGradeSub.grade">
+                  <mat-option *ngFor="let grade of allGrades" (click)="dropdownSelected()"
+                    [value]="grade.label">{{grade.label}}</mat-option>
+                </mat-select>
+              </mat-form-field>
+        </div>
+       <!--  <form #registerForTestForm="ngForm" ngNativeValidate class="col-12">
             <div class="row col-12 justify-content-center mx-0">
                 <div class="col-lg-5 mt-4 each-form-field">
                     <mat-label class="my-2 mr-3"><strong>*Select Grade</strong></mat-label>
@@ -24,14 +32,14 @@
                 </div>
             </div>
         </form>
-
-        <div class="col-lg-10 mx-auto my-4" *ngIf="registerForTestForm.value.grade">
+ -->
+        <div class="col-lg-10 mx-auto my-4" *ngIf="selectedGradeSub.grade">
             <div class="col-12 my-3" style="text-align: center;color:#94cac5">
                 <h2 class="chapter-header">Live Tests</h2>
             </div>
             <p class="text-danger" style="text-align: center;"
-            *ngIf="registerForTestForm.value.grade && liveTests?.length==0">No Test is live now</p>
-            <ng-container *ngIf="registerForTestForm.value.grade && liveTests?.length>0">
+            *ngIf="selectedGradeSub.grade && liveTests?.length==0">No Test is live now</p>
+            <ng-container *ngIf="selectedGradeSub.grade && liveTests?.length>0">
             <div class="card mt-3" *ngFor="let test of liveTests">
                 <div class="card-header row justify-content-between mx-0">
                     <h5>{{test.subject}} <small>{{test.testId}}</small></h5>
@@ -57,14 +65,14 @@
             </ng-container>
         </div>
 
-        <hr class="col-12 mx-auto my-5" *ngIf="registerForTestForm.value.grade" style="border: #063247 solid 2px;">
+        <hr class="col-12 mx-auto my-5" *ngIf="selectedGradeSub.grade" style="border: #063247 solid 2px;">
 
-        <div class="col-lg-10 mx-auto my-4" *ngIf="registerForTestForm.value.grade">
+        <div class="col-lg-10 mx-auto my-4" *ngIf="selectedGradeSub.grade">
             <div class="col-12 my-3" style="text-align: center;color:#94cac5">
                 <h2 class="chapter-header">Resigter for New Test</h2>
             </div>
             <p class="text-danger" style="text-align: center;" 
-            *ngIf="registerForTestForm.value.grade && testList?.length==0">No test has been
+            *ngIf="selectedGradeSub.grade && testList?.length==0">No test has been
                 scheduled yet</p>
             <div class="card shadow" *ngIf="testList?.length>0">
                 <div class="card-header row justify-content-between mx-0" style="height: 60px;background: #94CAC5;">
@@ -153,12 +161,20 @@
                     <td>{{test.start | date:'short'}}</td>
                     <td>{{test.testFees}}</td>
                 </tr>
+                <tr>
+                    <td colspan="3"><strong>Total</strong></td>
+                    <td><strong>{{feesTotal}}</strong></td>
+                </tr>
+                <tr>
+                    <td colspan="3">Wallet Money</td>
+                    <td>-{{this.userData.walletDeduction}}</td>
+                </tr>
             </tbody>
             <tfoot>
                 <tr>
                     <td colspan="2"><strong style="font-size: 17px;">Total: {{feesTotal}}</strong></td>
                     <td colspan="2"><button style="float:right" class="btn-primary mx-auto rounded"
-                            (click)="securePay()" [disabled]="feesTotal=='0'">Pay & Enroll</button></td>
+                            (click)="securePay()" [disabled]="feesTotal==0">Pay & Enroll</button></td>
                 </tr>
             </tfoot>
         </table>
@@ -166,7 +182,7 @@
 </p-dialog>
 
 <p-dialog header="Time Remaining: {{testTimer}} hrs" (onHide)="testTimer$.unsubscribe()" [(visible)]="displayQPaper" 
-[style]="fullScreen?{width:'100%'}:{width:'fit-content'}" [baseZIndex]="10000" [modal]="true">
+[baseZIndex]="10000" [modal]="true">
     <div class="row">
         <div class="col-6 position-fixed" style="top: 40vh;">
             Time Remaining: 1hr 30min 00sec
