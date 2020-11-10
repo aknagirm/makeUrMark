@@ -8,13 +8,14 @@ import { GradeBoardSubDetails, TestTutionFeesDetails } from 'src/app/reusable/mo
 import { StructuralService } from '../../services/structural.service';
 import { viewClassName } from '@angular/compiler';
 import { PaymentService } from '../../services/payment.service';
-import { MessageService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-courses',
   templateUrl: './courses.component.html',
-  styleUrls: ['./courses.component.css']
+  styleUrls: ['./courses.component.css'],
+  providers: [ConfirmationService]
 })
 export class CoursesComponent implements OnInit {
 
@@ -48,6 +49,7 @@ export class CoursesComponent implements OnInit {
     private struct: StructuralService,
     private payment:PaymentService,
     private messageService: MessageService,
+    private confirmationService: ConfirmationService,
   ) {
      
   }
@@ -227,63 +229,89 @@ export class CoursesComponent implements OnInit {
  */
 
 async securePay(){
-  let arr=[]
-  for(let sub of this.itemSelected){
-      let courseObj={board:this.selectedBoard.label,grade:sub.feesSelected.grade,
-          subject:sub.feesSelected.subject, duration: this.totalMonths*30,
-          batchType:sub.feesSelected.batchType}
-      arr.push(courseObj)
-    }
-  this.payment.paymentDet={amount: this.totalDiscountedCost*100}
-  let res=await this.payment.purchaseCourse(arr,this.totalMonths,this.userData.walletDeduction)
-  console.log(res)
-  this.payment.response.subscribe(data => {
-    if(this.userData.referalChk){
-      let obj={currDuration:this.totalMonths*30*this.itemSelected.length}
-      this.http.post(this.module_endpoint.refer.referalCodeCheck,obj)
-      .subscribe(console.log)
-    }
-    this.display=false
-    this.router.navigate(['explore/student/viewRoster'])
-    }, error=> {
-      this.display=false
+  this.display=false
+  this.confirmationService.confirm({
+    key: 'coursePurchaseConfirm',
+    message: 'Are you sure to proceed?',
+    accept: async () => {
+      let arr=[]
+      for(let sub of this.itemSelected){
+          let courseObj={board:this.selectedBoard.label,grade:sub.feesSelected.grade,
+              subject:sub.feesSelected.subject, duration: this.totalMonths*30,
+              batchType:sub.feesSelected.batchType}
+          arr.push(courseObj)
+        }
+      this.payment.paymentDet={amount: this.totalDiscountedCost*100}
+      let res=await this.payment.purchaseCourse(arr,this.totalMonths,this.userData.walletDeduction)
+      console.log(res)
+      this.payment.response.subscribe(data => {
+        if(this.userData.referalChk){
+          let obj={currDuration:this.totalMonths*30*this.itemSelected.length}
+          this.http.post(this.module_endpoint.refer.referalCodeCheck,obj)
+          .subscribe(console.log)
+        }
+        this.messageService.add(
+          {
+            key: 'coursePurchaseSuccess', severity: 'success', summary: 'Successful', life: 6000,
+            detail: 'Purchase successful'
+          });
+      //this.display=false
+      //this.router.navigate(['explore/student/viewRoster'])
+      }, error=> {
+      //this.display=false
       console.log(error)
-      this.router.navigate(['explore/student/viewRoster'])
+      //this.router.navigate(['explore/student/viewRoster'])
       this.messageService.add(
-        {key: 'purchaseCourse', severity:'error', summary:'Failed', life:30000,
+        {key: 'purchaseCourseError', severity:'error', summary:'Failed', life:30000,
         detail:error['error']['msg']});
+      })
+      }
   })
 }
 
-  walletPay(){
-    console.log(this.itemSelected,this.totalMonths)
-    let paymentObj={
-      orderId: null,
-      paymentId: null,
-      paymentReason: 'Course purchase',
-      subjectList: this.itemSelected.map(course=>course.feesSelected),
-      totalDays: this.totalMonths*30,
-      paymentTo: 'Institute',
-      paymentIndicator: 'C',
-      amount: this.userData.walletDeduction
-    }
-    let arr=[]
-    for(let sub of this.itemSelected){
-        let courseObj={board:this.selectedBoard.label,grade:sub.feesSelected.grade,
-            subject:sub.feesSelected.subject, duration: this.totalMonths*30,
-            batchType:sub.feesSelected.batchType}
-        arr.push(courseObj)
-      }
-      if(this.userData.referalChk){
-        let obj={currDuration:this.totalMonths*30*this.itemSelected.length}
-        this.http.post(this.module_endpoint.refer.referalCodeCheck,obj)
-        .subscribe(console.log)
-      }
-     this.payment.purchaseCourseSuccess(arr,this.userData.walletDeduction)
-     this.payment.paymentCapture(paymentObj)
+  async walletPay(){
     this.display=false
-    this.auth.getCurrentUser()
-    this.router.navigate(['explore/student/viewRoster'])
+    this.confirmationService.confirm({
+      key: 'coursePurchaseConfirm',
+      message: 'Are you sure to proceed?',
+      accept: async () => {
+        console.log(this.itemSelected,this.totalMonths)
+        let paymentObj={
+          orderId: null,
+          paymentId: null,
+          paymentReason: 'Course purchase',
+          subjectList: this.itemSelected.map(course=>course.feesSelected),
+          totalDays: this.totalMonths*30,
+          paymentTo: 'Institute',
+          paymentIndicator: 'C',
+          amount: this.userData.walletDeduction
+        }
+        let arr=[]
+        for(let sub of this.itemSelected){
+            let courseObj={board:this.selectedBoard.label,grade:sub.feesSelected.grade,
+                subject:sub.feesSelected.subject, duration: this.totalMonths*30,
+                batchType:sub.feesSelected.batchType}
+            arr.push(courseObj)
+          }
+          if(this.userData.referalChk){
+            let obj={currDuration:this.totalMonths*30*this.itemSelected.length}
+            this.http.post(this.module_endpoint.refer.referalCodeCheck,obj)
+            .subscribe(console.log)
+          }
+          
+        this.payment.purchaseCourseSuccess(arr,this.userData.walletDeduction)
+        this.payment.paymentCapture(paymentObj)
+        this.auth.getCurrentUser()
+        this.messageService.add(
+          {
+            key: 'coursePurchaseSuccess', severity: 'success', summary: 'Successful', life: 6000,
+            detail: 'Purchase successful'
+          });
+       // this.router.navigate(['explore/student/viewRoster'])
+      }
+    })
+       
+     
   }
 
 

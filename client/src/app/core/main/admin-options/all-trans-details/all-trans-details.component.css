@@ -1,0 +1,39 @@
+.order-hist-container {
+    position: relative;
+    top:125px;
+    margin-bottom: 25vh;
+    padding: 0px;
+}
+
+:host ::ng-deep .ui-table, 
+:host ::ng-deep .ui-multiselect-panel .ui-widget, 
+:host ::ng-deep .ui-multiselect-label-container,
+:host ::ng-deep .ui-paginator {
+    font-size: 11px;
+}
+
+:host ::ng-deep .ui-button{
+    font-size: 12px;
+    color: black;
+    background-color: #f4f4f4;
+    border: 1px solid #c8c8c8;
+}
+
+:host ::ng-deep .ui-multiselect-item  {
+   display: inline-flex !important;
+}
+
+:host ::ng-deep .ui-table-scrollable-header {
+    overflow: visible;
+}
+
+:host ::ng-deep .ui-table-resizable .ui-table-thead>tr>th{
+    overflow: visible;
+}
+
+.all-payment-table-summary {
+    font-size: 14px; 
+    word-spacing: 2px;
+    font-family: sans-serif;
+    text-align: end;
+}

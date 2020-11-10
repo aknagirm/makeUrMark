@@ -3,6 +3,31 @@
     <div class="row" style="justify-content: center;">
   
       <div class="col-12 form-container px-0">
+        <!---------------------------------Form 0---------------------------------------------->
+
+        <div class="my-3 py-3 mx-3" *ngIf="formShow == 0">
+          <div class="row justify-content-between">
+            <h5 style="color: royalblue;font-style: italic; text-decoration: underline;">Terms & Conditions</h5>
+            <div style="color: royalblue;font-size: 15px; font-weight: 600;">
+              <input type="checkbox" id="accept" name="accept" (change)="termsConditions($event)">
+              <label for="accept" class="pl-1">I Accept</label>
+            </div>
+            
+          </div>
+          
+          <ul>
+            <li>Having a broadband connectivity and access to a smartphone / laptop / desktop is mandatory to avail the benefit of the online classes. It is the responsibility of the student to ensure that he/she has this facility at home</li>		
+            <li>If a student (let's assume his name is Ram) is referring another student (let's assume her name is Aditi), then Ram will have to first login to MakeUrFuture website and obtain a referral coupon code. And then if the referred student 
+              (i.e. Aditi) joins MakeUrFuture on her/his own then the student who has referred (i.e. Ram) the second student, will be get 2000 reward point, once the referred student (i.e. Aditi) completes 
+              4 months of study (one subject for four months or four subjects for one month) at MakeUrFuture and had paid her tuition fees in full.</li>
+            <li>No extra class will be arranged if a student misses a class. However, effort will be made by MakeUrFuture administration to make a recorded session of the class available to the student at no extra cost. Student can also join the doubt clearing session that will be arranged and announced beforehand based on faculty's schedule.</li>
+            <li>Student should not contact the faculty individually. For any doubt/question, they can write to contact-us@MakeUrFuture.com or give a missed call to MakeUrFuture customer support centre. Someone will certainly acknowledge the request within 10 min and will respond to the query within 4 business hours or less time (Business Hours - 9 AM - 6 PM IST; Monday - Friday)</li>									
+            <li>The classes will be of 1 hour duration. If the students have a question/doubt, he/she can raise it to the moderator of the class and not disturb the flow of the class. Or he/she can wait till the Q&A time when the faculty opens up the class for Q&A.</li>
+            <li>Student should keep his/her microphone in the mute state unless he/she needs to speak up, so that the class is not disturbed by the background noise from anyone</li>
+            <li>For any feedback (positive/negative), student can send mail to contact-us@MakeUrFuture.com mail id and it will be looked into by the management</li>											
+            <li>Goal of MakeUrFuture is to cover the board syllabus and there may be some topics that may be specific to a particular student's school. If a student faces any such scnario then he/she can write to MakeUrFuture and will look into it.</li>									
+          </ul>
+        </div>
   
   
         <!---------------------------------Form 1---------------------------------------------->
@@ -294,7 +319,7 @@
           </form>
         </div>
       </div>
-      <div class="col-12 text-bottom mx-auto mb-2" style="text-align: center;">
+      <div *ngIf="formShow!=0" class="col-12 text-bottom mx-auto mb-2" style="text-align: center;">
         <p>Already have an acount? <a (click)="toggleForm('login')">Login</a></p>
         <a (click)="toggleForm('faculty')">Join as a Faculty</a>
     </div>

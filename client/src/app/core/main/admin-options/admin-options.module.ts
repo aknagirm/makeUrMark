@@ -13,6 +13,8 @@ import { RosterHolidayComponent } from './roster-holiday/roster-holiday.componen
 import { ViewAllUsersComponent } from './view-all-users/view-all-users.component';
 import { ViewSpecificUserComponent } from './view-specific-user/view-specific-user.component';
 import { RouterModule } from '@angular/router';
+import { AllTransDetailsComponent } from './all-trans-details/all-trans-details.component';
+import { AssosiatesPaymentCaptureComponent } from './assosiates-payment-capture/assosiates-payment-capture.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +24,9 @@ import { RouterModule } from '@angular/router';
     SubMonDiscountComponent,
     RosterHolidayComponent,
     ViewAllUsersComponent,
-    ViewSpecificUserComponent
+    ViewSpecificUserComponent,
+    AllTransDetailsComponent,
+    AssosiatesPaymentCaptureComponent
   ],
   imports: [
     CommonModule,

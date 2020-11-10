@@ -152,7 +152,9 @@ export class PaymentService {
     }
 
   paymentCapture(details){
-    this.http.post(this.module_endpoint.orderPaymentAdd, details)
+    let arr=[]
+    arr.push(details)
+    this.http.post(this.module_endpoint.orderPaymentAdd, {paymentList: arr})
         .subscribe(console.log)
   }
 

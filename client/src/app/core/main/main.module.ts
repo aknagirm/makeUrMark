@@ -14,6 +14,7 @@ import { AllDirectivesModule } from '../directives/all-directives.module';
 import { StudentOptionsModule } from './student-options/student-options.module';
 import { AdminOptionsModule } from './admin-options/admin-options.module';
 import { ReferUserComponent } from './refer-user/refer-user.component';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { ReferUserComponent } from './refer-user/refer-user.component';
   ],
   imports: [
     CommonModule,
+    RouterModule,
     FacultyOptionsModule,
     LoginRegistrationModule,
     FormsModule,
@@ -42,7 +44,8 @@ import { ReferUserComponent } from './refer-user/refer-user.component';
     FormsModule,
     AllDirectivesModule,
     StudentOptionsModule,
-    AdminOptionsModule
+    AdminOptionsModule,
+    DummyComponent
   ]
 
 })

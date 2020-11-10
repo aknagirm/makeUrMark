@@ -4,6 +4,10 @@ import { EditCourseForm } from '../../../reusable/models/edit-courses';
 import { Form, NgForm } from '@angular/forms';
 import {SelectItem} from 'primeng/api';
 import { Router, ActivatedRoute } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
+import { Table } from 'primeng/table';
+import { environment } from 'src/environments/environment';
+import { AllPaymentTable } from 'src/app/reusable/models/all-payment';
 
 @Component({
   selector: 'app-dummy',
@@ -12,35 +16,82 @@ import { Router, ActivatedRoute } from '@angular/router';
 })
 export class DummyComponent implements OnInit {
   
-  openLoginPopUp= {open: false, form: ""}
-  isLoggedIn=false
-  sideNavBarOpen=false
-  classList=['VI','VII','VIII','IX','X','XI','XII']
+  startDate: Date
+  endDate: Date
+  allPaymentSchema=AllPaymentTable
+  allPaymentDetails: any
+  dummyVar={}
+  @ViewChild('txnTable',{static: true}) txnTable: Table;
+  module_endpoint= environment.server_endpoint
   constructor(
     private counter: CountdownTimerService,
-    private router: Router
+    private router: Router,
+    private http: HttpClient,
   ) { }
 
   ngOnInit() {
+    this.dummyVar={
+      transDate:[],
+      orderId:[],
+      paymentFrom:[]
+    }
   }
 
-  openSideNav(){
-    this.sideNavBarOpen= !this.sideNavBarOpen
-  }
+ getAllPaymentDetails(){
+    let durationObj={startDate: this.startDate, endDate: this.endDate}
+    this.http.post(this.module_endpoint.allPayments, durationObj)
+        .subscribe(data=>{
+          console.log(data)
+          this.allPaymentDetails=[]
+          this.allPaymentDetails=data['orderList']
+          for(let eachOrder of data['orderList']) {
 
-  loginPopUp() {
-    this.openLoginPopUp= {open: true, form: "login"}
-  }
+            let orderIdIdx=this.dummyVar['orderId'].findIndex(user=>user.name==eachOrder.orderId)
+           // console.log(this.allOrderIds,orderIdIdx)
+            if(orderIdIdx==-1){
+              let obj={'name':eachOrder.orderId}
+              this.dummyVar['orderId'].push(obj)
+            }
 
-  loginPopUpClose($event){
-    this.openLoginPopUp={open: false, form: ""}
-  }
+            let paymentFromIdx=this.dummyVar['paymentFrom'].findIndex(user=>user.name==eachOrder.paymentFrom)
+            if(paymentFromIdx==-1){
+              let obj={'name':eachOrder.paymentFrom}
+              this.dummyVar['paymentFrom'].push(obj)
+            }
 
-  navigateTo(option: string){
-      if(option === 'securePay'){
-        this.router.navigate(['./securePay'])
+           /*  let paymentToIdx=this.allToUsers.findIndex(user=>user.name==eachOrder.paymentTo)
+            if(paymentToIdx==-1){
+              let obj={'name':eachOrder.paymentTo}
+              this.allToUsers.push(obj)
+            }
+            console.log(this.allToUsers)
+ */
+          } 
+          console.log(this.dummyVar)
+        })
+  } 
+
+  onRepresentativeChange(event, type) {
+    switch(type) {
+      case 'paymentFrom': {
+        console.log(event,this.allPaymentDetails)
+        let arr=[]
+        event.value.forEach(eachValue=>{
+          arr.push(eachValue.name)
+        })
+        event.value=[...arr]
+        this.txnTable.filter(event.value, 'paymentFrom', 'in')
       }
-
-      this.sideNavBarOpen=false
+      case 'orderId': {
+        let arr=[]
+        event.value.forEach(eachValue=>{
+          arr.push(eachValue.name)
+        })
+        event.value=[...arr]
+        this.txnTable.filter(event.value, 'orderId', 'in')
+      }
+    }
+    
   }
+
 }

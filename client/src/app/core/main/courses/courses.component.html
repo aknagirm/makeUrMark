@@ -1,5 +1,19 @@
 <div class="container-fluid all-course-container">
-    <p-toast position="center" key="purchaseCourse"></p-toast>
+    <p-confirmDialog key="coursePurchaseConfirm" header="Purchase Test" icon="pi pi-exclamation-triangle">
+    </p-confirmDialog>
+    <p-toast position="center" key="purchaseCourseError"></p-toast>
+    <p-toast position="center" key="coursePurchaseSuccess">
+        <ng-template let-message pTemplate="message">
+            <div class="p-flex p-flex-column" style="flex: 1">
+                <div class="p-text-center">
+                    <i class="pi pi-exclamation-triangle" style="font-size: 3rem"></i>
+                    <p><strong>{{message.detail}}</strong></p>
+                    <p>You can check your current course status here:
+                         <a [routerLink]="['/explore/student/viewRoster']">view roster</a></p>
+                </div>
+            </div>
+        </ng-template>
+    </p-toast>
     <div class="upper-section col-md-11 mx-auto">
         <div class="row justify-content-around">
             <div class="col-md-7">

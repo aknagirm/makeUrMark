@@ -19,16 +19,17 @@ export class StudentRegistrationComponent implements OnInit {
 
   @Output() popUpClosed =new EventEmitter<any>()
   @Output() formViewRegister =new EventEmitter<any>()
-  formShow=1
+  formShow=0
   formValue: UserProfileForm
   studentUserProfile: UserProfileForm={}
   allLanguage: SelectItem[];
   contactNumber: string=''
-  hide1 = true
-  hide2 = true
-  captchaCompleted=false
-  verifyPhoneNumberOpen=false
-  verifyMailOpen=false
+  hide1: boolean = true
+  hide2: boolean = true
+  captchaCompleted: boolean=false
+  verifyPhoneNumberOpen: boolean=false
+  verifyMailOpen: boolean=false
+  acceptedStatus: boolean= false
   tempNumberOtp: any
   numberVerified: string=''
   tempMailOtp
@@ -64,6 +65,14 @@ export class StudentRegistrationComponent implements OnInit {
 
   toggleForm(option: string){
     this.formViewRegister.emit({"formView": option})
+  }
+
+  termsConditions(){
+    this.acceptedStatus=!this.acceptedStatus
+    setTimeout(()=>{
+      this.formShow= this.acceptedStatus? 1: 0
+    },300)
+    
   }
 
   mailOtpGenerate(){

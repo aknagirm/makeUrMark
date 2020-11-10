@@ -35,7 +35,9 @@ export const HeaderMenuList = {'menuList': [
                     {'menuName':"Structural Details", 'link': "explore/admin", 'fragment':"structural-view"},
                     {'menuName':"Fees Details", 'link': "explore/admin", 'fragment':"fees-view"},
                     {'menuName':"Discount Details", 'link': "explore/admin", 'fragment':"fixed-discount-view"},
-                    {'menuName':"Roster Details", 'link': "explore/admin", 'fragment':"roster-holiday-view"}
+                    {'menuName':"Roster Details", 'link': "explore/admin", 'fragment':"roster-holiday-view"},
+                    {'menuName':"Transaction Analysis", 'link': "allTransactionDetails"},
+                    {'menuName':"Payment Capture", 'link':"paymentCapture"}
                 ]
             }
         ]

@@ -1,1 +1,66 @@
-<p>view-order-hist works!</p>
+<div class="container order-hist-container">
+    <div class="row px-0 mx-0">
+        <div class="col-12">
+            <mat-form-field class="col-6 col-lg-3" style="float: right;">
+                <mat-label></mat-label>
+                <mat-select name="duration" [(value)]="durationSelected">
+                 <mat-option (click)="dropdownSelected()" value='6 months'>Last 6 Months</mat-option>
+                 <mat-option (click)="dropdownSelected()" value='1 year'>Last 1 Year</mat-option>
+                 <mat-option (click)="dropdownSelected()" value='all'>All Orders</mat-option>
+                </mat-select>
+              </mat-form-field>
+        </div>
+
+        <div class="col-lg-10 mx-auto my-2" >
+            <div class="col-12 my-1" style="text-align: center;color:#94cac5">
+                <h2 class="chapter-header">Purchase History</h2>
+            </div>
+
+            <ng-container *ngFor="let eachPurchase of orderHistoryList?.orderList">
+            <div class="card mx-auto my-4">
+                <div class="card-header row mx-0 justify-content-between">
+                    <span>Order: {{eachPurchase.orderId}}</span>
+                    <span>Date: {{eachPurchase.transDate | date:'short'}}</span>
+                </div>
+                <div class="card-body row mx-0">
+                    <span class="col-12 my-1"><strong>Purchase Type:</strong> {{eachPurchase.paymentReason}}</span>
+                    <span class="col-12 my-1"><strong>Amount Paid:</strong> Rs. {{eachPurchase.amount}}/-</span>
+                    <span class="col-12">
+                        <p-accordion class="col-12">
+                            <p-accordionTab header="Purchase Details">
+                                <ng-container *ngIf="eachPurchase.subjectList && eachPurchase.subjectList.length>0">
+                                        <table class="table table-sm" style="font-size: 12px;">
+                                            <tbody>
+                                                <tr *ngFor="let eachSubject of eachPurchase.subjectList">
+                                                    <td><strong>Grade:</strong> {{eachSubject.grade}}</td>
+                                                    <td><strong>Subject:</strong> {{eachSubject.subject}}</td>
+                                                    <td><strong>Batch Type:</strong> {{eachSubject.batchType}}</td>
+                                                    <td><strong>Duration:</strong> {{eachPurchase.totalDays}} Days</td>
+                                                    <td><strong>Fees:</strong> {{eachSubject.tutionFees}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table> 
+                                </ng-container>
+                                <ng-container *ngIf="eachPurchase.testList && eachPurchase.testList.length>0">
+                                    <table class="table table-sm" style="font-size: 12px;">
+                                        <tbody>
+                                            <tr *ngFor="let eachTest of eachPurchase.testList">
+                                                <td><strong>Id:</strong> {{eachTest.testId}}</td>
+                                                <td><strong>Grade:</strong> {{eachTest.grade}}</td>
+                                                <td><strong>Subject:</strong> {{eachTest.subject}}</td>
+                                                <td><strong>Timing:</strong> {{eachTest.testDateTime| date:'short'}}</td>
+                                                <td><strong>Faculty:</strong> {{eachTest.userName}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table> 
+                                </ng-container>
+                            </p-accordionTab>
+                        </p-accordion>
+                    </span>
+                </div>
+            </div>
+        </ng-container>
+        </div>
+        
+    </div>
+</div>

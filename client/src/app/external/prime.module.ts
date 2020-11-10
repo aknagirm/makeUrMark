@@ -21,6 +21,7 @@ import {TreeTableModule} from 'primeng/treetable';
 import {RadioButtonModule} from 'primeng/radiobutton';
 import {ButtonModule} from 'primeng/button';
 import {ChartModule} from 'primeng/chart';
+import {FieldsetModule} from 'primeng/fieldset';
 
 @NgModule({
   declarations: [],
@@ -46,7 +47,8 @@ import {ChartModule} from 'primeng/chart';
     TreeTableModule,
     RadioButtonModule,
     ButtonModule,
-    ChartModule
+    ChartModule,
+    FieldsetModule
   ],
   exports: [
     CarouselModule,
@@ -69,7 +71,8 @@ import {ChartModule} from 'primeng/chart';
     TreeTableModule,
     RadioButtonModule,
     ButtonModule,
-    ChartModule
+    ChartModule,
+    FieldsetModule
   ]
 })
 export class PrimeModule { }

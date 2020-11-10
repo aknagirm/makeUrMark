@@ -8,7 +8,7 @@ const orderPaymentHistory = new Schema({
     paymentId: String,
     subjectList: [{grade: String, subject: String, batchType: String, tutionFees: String}],
     totalDays: Number,
-    testList: [{testId: String, subject: String, testDateTime: Date, duration: String, userName: String}],
+    testList: [{testId: String, grade: String, subject: String, testDateTime: Date, duration: String, userName: String}],
     paymentReason: String,
     paymentFrom: String,
     paymentTo: String,

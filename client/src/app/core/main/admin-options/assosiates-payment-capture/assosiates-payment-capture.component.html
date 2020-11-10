@@ -1,0 +1,63 @@
+<p-toast position="center" key="associatePaymentSave"></p-toast>
+<p-confirmDialog key="associatePaymentConfirm" header="Payment Record Save" icon="pi pi-exclamation-triangle"></p-confirmDialog>
+<div class="container payment-capture-container">
+    <div class="row">
+        <div class="col-12" *ngIf="allFaculties">
+            <p-table #dt [value]="allFaculties" [columns]="paymentTableStruct" [paginator]="true" [rows]="20" 
+            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+            [showCurrentPageReport]="true" styleClass="p-datatable-customers" selectionMode="multiple" 
+            [(selection)]="selectedfees" dataKey="paymentTo" [resizableColumns]="true"
+            [filterDelay]="0" [globalFilterFields]="['paymentTo']">
+            <ng-template pTemplate="caption">
+                <div class="table-header" style="text-align: right;">
+                    <span class="p-input-icon-left">
+                        <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Name Search" />
+                    </span>
+                </div>
+            </ng-template>
+            <ng-template pTemplate="colgroup" let-columns >
+                <colgroup>
+                    <col style="width: 3rem">
+                    <col *ngFor="let col of columns" [style.width.px]="col.width">
+                </colgroup>
+            </ng-template>
+            <ng-template pTemplate="header" let-columns>
+                <tr>
+                    <th style="width: 3rem">
+                        <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                    </th>
+                    <th *ngFor="let col of columns" pResizableColumn>{{col.header}}</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-eachFees let-columns="columns" let-index="rowIndex" let-expanded="expanded">
+                <tr>
+                    <td>
+                        <p-tableCheckbox [value]="eachFees"></p-tableCheckbox>
+                    </td>
+                    <ng-container *ngFor="let col of columns">
+                        <td [style.width.px]="col.width" *ngIf="col.field!='currMonthFees'">
+                                {{ col.pipeChk == 'date'? (eachFees[col.field] | date: 'short') : eachFees[col.field] }}
+                        </td>
+                        <td [style.width.px]="col.width" *ngIf="col.field=='currMonthFees'" pEditableColumn>
+                            <p-cellEditor>
+                                <ng-template pTemplate="input">
+                                    <input pInputText type="text" [(ngModel)]="eachFees.currMonthFees" numberOnly>
+                                </ng-template>
+                                <ng-template pTemplate="output">
+                                    {{eachFees[col.field] }}
+                                </ng-template>
+                            </p-cellEditor>
+                        </td>
+                    </ng-container>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="summary">
+                <div class="">
+                    <button class="btn btn-success" (click)="associatePaymentSave()"
+                    [disabled]="selectedfees.length==0">Save</button>
+                </div>
+            </ng-template>
+        </p-table>
+        </div>
+    </div>
+</div>

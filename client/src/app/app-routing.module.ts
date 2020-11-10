@@ -16,6 +16,9 @@ import { StudentTestResultComponent } from './core/main/student-options/student-
 import { ViewAllUsersComponent } from './core/main/admin-options/view-all-users/view-all-users.component';
 import { ViewSpecificUserComponent } from './core/main/admin-options/view-specific-user/view-specific-user.component';
 import { ReferUserComponent } from './core/main/refer-user/refer-user.component';
+import { ViewOrderHistComponent } from './core/main/student-options/view-order-hist/view-order-hist.component';
+import { AllTransDetailsComponent } from './core/main/admin-options/all-trans-details/all-trans-details.component';
+import { AssosiatesPaymentCaptureComponent } from './core/main/admin-options/assosiates-payment-capture/assosiates-payment-capture.component';
 
 
 const routes: Routes = [
@@ -29,12 +32,15 @@ const routes: Routes = [
   {path: 'facultyView',component: ViewAllFacultyComponent, canActivate:[AuthGuard]},
   {path: 'allUserView',component: ViewAllUsersComponent, canActivate:[AuthGuard], data:{userRole:'owner'}},
   {path: 'viewSpecificUser/:uname',component: ViewSpecificUserComponent, canActivate:[AuthGuard], data:{userRole:'owner'}},
+  {path: 'paymentCapture',component: AssosiatesPaymentCaptureComponent, canActivate:[AuthGuard], data:{userRole:'owner'}},
   {path: 'explore/admin',component: AdminOptionsComponent, canActivate:[AuthGuard], data:{userRole:'owner'}},
   {path: 'explore/student',children:[
     {path: 'registerTest', component:TestRegisterComponent, canActivate:[AuthGuard], data:{userRole:'student'}},
     {path: 'viewRoster', component:ViewRosterComponent, canActivate:[AuthGuard], data:{userRole:'student'}},
     {path: 'viewResult', component: StudentTestResultComponent, canActivate:[AuthGuard], data:{userRole:'student'}}
   ]},
+  {path: 'orderHistory',component: ViewOrderHistComponent, canActivate:[AuthGuard], data:{userRole:'student'}},
+  {path: 'allTransactionDetails',component: AllTransDetailsComponent, canActivate:[AuthGuard], data:{userRole:'owner'}},
   {path: 'referUser',component: ReferUserComponent, canActivate:[AuthGuard]},
   {path: 'unauthorized',component: UnauthorizedPageComponent},
   {path: '**', redirectTo: '/home', pathMatch: 'full'}

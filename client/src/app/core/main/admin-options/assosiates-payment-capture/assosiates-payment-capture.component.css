@@ -1,0 +1,13 @@
+.payment-capture-container {
+    position: relative;
+    top:125px;
+    margin-bottom: 25vh;
+    padding: 0px;
+}
+
+:host ::ng-deep .ui-table, 
+:host ::ng-deep .ui-multiselect-panel .ui-widget, 
+:host ::ng-deep .ui-multiselect-label-container,
+:host ::ng-deep .ui-paginator {
+    font-size: 11px;
+}

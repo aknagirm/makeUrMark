@@ -64,13 +64,12 @@ export class TestRegisterComponent implements OnInit {
   
   constructor(
     private auth: AuthService,
-    private messageService: MessageService,
-    private confirmationService: ConfirmationService,
-    private router: Router,
     private http: HttpClient,
     private struct: StructuralService,
     private payment:PaymentService,
     private counter: CountdownTimerService,
+    private messageService: MessageService,
+    private confirmationService: ConfirmationService,
   ) { }
 
   ngOnInit() {
@@ -202,43 +201,60 @@ export class TestRegisterComponent implements OnInit {
   }
 
   async securePay(){
+    this.displayCart=false
     //this.displayCart=false
-    if(this.feesTotalWalletAdjust>0){
-      this.payment.paymentDet={amount: this.feesTotalWalletAdjust*100}
-      let obj=await this.payment.payForTest(this.testFeesCartList)
-       this.payment.response.subscribe(data => {
-        if(data){
-          console.log(data)
+    this.confirmationService.confirm({
+      key: 'testResisterConfirm',
+      message: 'Are you sure to proceed?',
+      accept: async () => {
+        if(this.feesTotalWalletAdjust>0){
+          this.payment.paymentDet={amount: this.feesTotalWalletAdjust*100}
+          let obj=await this.payment.payForTest(this.testFeesCartList)
+          this.payment.response.subscribe(data => {
+            if(data){
+              console.log(data)
+              let testRegisterObj={testList: this.testFeesCartList, deduction:this.userData.walletDeduction}
+              this.http.post(this.module_endpoint.studentOptions.registerForTest,testRegisterObj)
+                  .subscribe(data => {
+                    this.displayCart=false
+                    this.dropdownSelected()
+                    this.auth.getCurrentUser()
+                  })
+            }
+          })
+        } else {
+          let paymentObj={
+            orderId: null,
+            paymentId: null,
+            paymentReason: 'Test purchase',
+            testList: [...this.testFeesCartList],
+            paymentTo: 'Institute',
+            paymentIndicator: 'C',
+            amount: this.userData.walletDeduction
+          }
+          console.log("hi")
+          this.payment.paymentCapture(paymentObj)
           let testRegisterObj={testList: this.testFeesCartList, deduction:this.userData.walletDeduction}
           this.http.post(this.module_endpoint.studentOptions.registerForTest,testRegisterObj)
-              .subscribe(data => {
-                this.displayCart=false
-                this.dropdownSelected()
-                this.auth.getCurrentUser()
-              })
+                  .subscribe(data => {
+                    this.messageService.add(
+                      {
+                        key: 'testResisterSuccess', severity: 'success', summary: 'Successful', life: 1500,
+                        detail: 'Purchase successful'
+                      });
+                    this.displayCart=false
+                    this.dropdownSelected()
+                    this.auth.getCurrentUser()
+                },error=>{
+                  this.messageService.add(
+                    {
+                      key: 'testResisterSuccess', severity: 'error', summary: 'Failed', life: 1500,
+                      detail: error['error']['msg']
+                    });
+                })
         }
-      })
-    } else {
-      let paymentObj={
-        orderId: null,
-        paymentId: null,
-        paymentReason: 'Test purchase',
-        testList: [...this.testFeesCartList],
-        paymentTo: 'Institute',
-        paymentIndicator: 'C',
-        amount: this.userData.walletDeduction
       }
-      console.log("hi")
-      this.payment.paymentCapture(paymentObj)
-      let testRegisterObj={testList: this.testFeesCartList, deduction:this.userData.walletDeduction}
-      this.http.post(this.module_endpoint.studentOptions.registerForTest,testRegisterObj)
-              .subscribe(data => {
-                this.displayCart=false
-                this.dropdownSelected()
-                this.auth.getCurrentUser()
-            })
-    }
-     
+    })
   }
 
   openQPaper(test){

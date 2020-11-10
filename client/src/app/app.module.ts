@@ -23,6 +23,7 @@ import { LoaderService } from './core/services/loader.service';
 import { HeaderComponent } from './core/header/header.component';
 import { PaymentService } from './core/services/payment.service';
 import { UnauthorizedPageComponent } from './core/unauthorized-page/unauthorized-page.component';
+import { ExportFileService } from './core/services/export-file.service';
 
 
 @NgModule({
@@ -55,7 +56,8 @@ import { UnauthorizedPageComponent } from './core/unauthorized-page/unauthorized
     AuthService,
     StructuralService,
     interceptorProviders,
-    PaymentService
+    PaymentService,
+    ExportFileService
   ],
   bootstrap: [AppComponent]
 })

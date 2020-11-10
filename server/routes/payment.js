@@ -4,7 +4,10 @@ const shortId= require('shortid')
 require('dotenv').config()
 const router =express.Router()
 const PaymentDetails= require('../models/order-payment-history')
+const User= require('../models/user')
 const verifyRequest =require('../routes/verify-token')
+
+shortId.characters('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ$@');
 
 const razorpayInstance=new razorpay({
     key_id: process.env.RAZORPAY_KEY_ID,
@@ -34,8 +37,6 @@ const razorpayInstance=new razorpay({
     res.status(200).json({status: 'ok'})
   })
 
-  
-  
   router.post('/pay', async (req,res)=>{
     const currency='INR'
     const payment_capture=1
@@ -63,18 +64,78 @@ const razorpayInstance=new razorpay({
   router.post('/orderPaymentAdd',verifyRequest, async (req,res)=>{
     try{
       let user=req.userName
-      let orderDetails =req.body
-      orderDetails.orderId=orderDetails.orderId==null?`wallet_${shortId.generate()}`:orderDetails.orderId
-      orderDetails.paymentId=orderDetails.paymentId==null?`wallet_${shortId.generate()}`:orderDetails.paymentId
-      orderDetails.transDate=new Date()
-      orderDetails.paymentFrom=orderDetails.paymentFrom? orderDetails.paymentFrom: user
-      let payment =new PaymentDetails(orderDetails)
-    console.log("payment")
-      await payment.save()
+      let details =req.body
+      console.log(details)
+      for(let orderDetails of details.paymentList) {
+        orderDetails.orderId=orderDetails.orderId==null?`wallet_${shortId.generate()}`:orderDetails.orderId
+        orderDetails.paymentId=orderDetails.paymentId==null?`wallet_${shortId.generate()}`:orderDetails.paymentId
+        orderDetails.transDate=new Date()
+        orderDetails.paymentFrom=orderDetails.paymentFrom? orderDetails.paymentFrom: user
+        let payment =new PaymentDetails(orderDetails)
+        await payment.save()
+      }
       res.status(200).send({msg: 'Payment captured'})
     }catch(error){
       console.log(error)
       res.status(500).send({msg:'Something is wrong'})
     }
   })
+
+  router.post('/specificUsersOrder',verifyRequest,async (req,res)=>{
+    try{
+      let userName=req.body.userName?req.body.userName: req.userName
+      let details=req.body
+      console.log(details)
+      let orderList
+      if(details.startDate && details.endDate){
+          orderList= await PaymentDetails.find({paymentFrom: userName, 
+          transDate: {$gte:details.startDate, $lte:details.endDate}}).exec()
+      } else {
+          orderList= await PaymentDetails.find({paymentFrom: userName}).exec()
+      }
+      res.status(200).send({orderList})
+    } catch(err){
+      console.log(err)
+      res.status(500).send({msg:'Something is wrong'})
+    }
+  })
+
+  router.post('/allPayments',verifyRequest,async (req,res)=>{
+    try{
+      let details=req.body
+      console.log(details)
+      let orderList
+      orderList= await PaymentDetails.find({transDate: 
+        {$gte:details.startDate, $lte:details.endDate}}).exec()
+      res.status(200).send({orderList})
+    } catch(err){
+      console.log(err)
+      res.status(500).send({msg:'Something is wrong'})
+    }
+  })
+
+  router.get('/associatesFeesCapture', async (req,res)=>{
+    try {
+      currDate=new Date()
+      sDate=new Date(currDate.setMonth(currDate.getMonth()-2))
+      eDate=new Date()
+      let facultyList=await User.find({userRole:'faculty',status:'working'}).exec()
+      let paymentList=await PaymentDetails.find({transDate: 
+        {$gte:sDate, $lte:eDate}, paymentIndicator:'D'}).sort({transDate:'desc'}).exec()
+      list=[]
+      for(let faculty of facultyList){
+        previousPayments=[]
+        previousPayments=paymentList.filter(payment=>payment.paymentTo==faculty.userName)
+        let obj={'previousPayments':previousPayments,'userObj':faculty}
+        list.push(obj)
+      }
+     // let obj=[...facultyList]
+      res.status(200).send({list})
+
+    }catch(err){
+      console.log(err)
+      res.status(500).send({msg:"Something is wrong"})
+    }
+  })
+
 module.exports = router

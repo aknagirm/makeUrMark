@@ -9,6 +9,9 @@ export const environment = {
     baseUrl: 'http://localhost:3010',
     paymentURL: 'http://localhost:3010/payment/pay',
     orderPaymentAdd: 'http://localhost:3010/payment/orderPaymentAdd',
+    specificUsersOrder: 'http://localhost:3010/payment/specificUsersOrder',
+    associatesFeesCapture: 'http://localhost:3010/payment/associatesFeesCapture',
+    allPayments: 'http://localhost:3010/payment/allPayments',
     verification: {
       mailOtp: 'http://localhost:3010/verification/mailOtp',
       mobOtpSend: 'http://localhost:3010/verification/mobOtpSend',

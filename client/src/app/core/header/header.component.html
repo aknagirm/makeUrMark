@@ -60,11 +60,13 @@
         </button>
         <div class="dropdown-menu account-btn-menu" aria-labelledby="dropdownMenuButton">
           <a class="dropdown-item account-btn" (click)="editProfileCalled()">Edit Profile</a>
-          <hr class="my-2" style="width: 90%;">
+          <hr class="my-1" style="width: 90%;">
           <a class="dropdown-item account-btn" (click)="getHolidayList()">View Holidays</a>
-          <hr class="my-2" style="width: 90%;">
+          <hr class="my-1" style="width: 90%;">
+          <a class="dropdown-item account-btn" routerLink='orderHistory' *ngIf="userData.userRole=='student'">Order History</a>
+          <hr class="my-1" style="width: 90%;" *ngIf="userData.userRole=='student'">
           <a class="dropdown-item account-btn" style="color: aqua;"><strong>Wallet: {{userData.wallet}} pts</strong></a>
-          <hr class="my-2" style="width: 90%;">
+          <hr class="my-1" style="width: 90%;">
           <a class="dropdown-item account-btn" (click)="logoutCalled()">Logout</a>
         </div>
       </div>
