@@ -65,12 +65,18 @@ const razorpayInstance=new razorpay({
     try{
       let user=req.userName
       let details =req.body
-      console.log(details)
+      /* console.log(details, details.paymentList[0].transDate, "Hi")
+let someVar=details.paymentList[0].transDate?orderDetails.transDate: new Date()
+connsole.log(someVar) */
       for(let orderDetails of details.paymentList) {
         orderDetails.orderId=orderDetails.orderId==null?`wallet_${shortId.generate()}`:orderDetails.orderId
         orderDetails.paymentId=orderDetails.paymentId==null?`wallet_${shortId.generate()}`:orderDetails.paymentId
-        orderDetails.transDate=new Date()
+        orderDetails.transDate=orderDetails.transDate? orderDetails.transDate: new Date()
         orderDetails.paymentFrom=orderDetails.paymentFrom? orderDetails.paymentFrom: user
+        orderDetails.capturedBy=orderDetails.paymentFrom? user: 'system'
+        orderDetails.delBy=''
+        orderDetails.delFlag=false
+        orderDetails.delDate= undefined
         let payment =new PaymentDetails(orderDetails)
         await payment.save()
       }
@@ -106,7 +112,7 @@ const razorpayInstance=new razorpay({
       console.log(details)
       let orderList
       orderList= await PaymentDetails.find({transDate: 
-        {$gte:details.startDate, $lte:details.endDate}}).exec()
+        {$gte:details.startDate, $lte:details.endDate}}).sort([['transDate', 1]]).exec()
       res.status(200).send({orderList})
     } catch(err){
       console.log(err)
@@ -133,6 +139,23 @@ const razorpayInstance=new razorpay({
       res.status(200).send({list})
 
     }catch(err){
+      console.log(err)
+      res.status(500).send({msg:"Something is wrong"})
+    }
+  })
+
+  router.post('/deleteTrans', verifyRequest, async (req,res)=>{
+    try{
+      txnObjId=req.body._id
+      user=req.userName
+      console.log(txnObjId)
+      let txnObj=await PaymentDetails.findById(txnObjId).exec()
+      txnObj.delFlag=true
+      txnObj.delBy=user
+      txnObj.delDate=new Date()
+      await txnObj.save()
+      res.status(200).send({msg:"Record deleted"})
+    } catch(err){
       console.log(err)
       res.status(500).send({msg:"Something is wrong"})
     }

@@ -1,22 +1,27 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
+import { ConfirmationService } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { ExportFileService } from 'src/app/core/services/export-file.service';
-import { AllPaymentTable } from 'src/app/reusable/models/all-payment';
+import { AllDeletedPaymentTable, AllPaymentTable } from 'src/app/reusable/models/all-payment';
 import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-all-trans-details',
   templateUrl: './all-trans-details.component.html',
-  styleUrls: ['./all-trans-details.component.css']
+  styleUrls: ['./all-trans-details.component.css'],
+  providers: [ConfirmationService]
 })
 export class AllTransDetailsComponent implements OnInit {
 
   startDate: Date
   endDate: Date
   allPaymentSchema=AllPaymentTable
+  allDeletedPaymentSchema=AllDeletedPaymentTable
   allPaymentDetails: any
+  allDeletedPaymentDetails: any
+  viewDelete: boolean=false
   summary={allCredits:0, allDebits:0, allRefund:0, total:0}
   allTableFilters={
     transDate: [],
@@ -35,7 +40,8 @@ export class AllTransDetailsComponent implements OnInit {
   constructor(
     private http: HttpClient,
     private router: Router,
-    private exportFile: ExportFileService
+    private exportFile: ExportFileService,
+    private confirmationService: ConfirmationService
   ) { }
 
   ngOnInit() {
@@ -47,7 +53,9 @@ export class AllTransDetailsComponent implements OnInit {
     this.http.post(this.module_endpoint.allPayments, durationObj)
         .subscribe(data=>{
           this.allPaymentDetails=[]
-          this.allPaymentDetails=data['orderList']
+          this.allPaymentDetails=data['orderList'].filter(order=>!order.delFlag)
+          this.allDeletedPaymentDetails=data['orderList'].filter(order=>order.delFlag)
+          console.log(this.allDeletedPaymentDetails)
           Object.keys(this.allTableFilters).forEach(key=>{
               this.allTableFilters[key]=[]
               for(let eachOrder of data['orderList']) {
@@ -117,4 +125,20 @@ export class AllTransDetailsComponent implements OnInit {
     this.exportFile.exportAsXlsx(arr, `All_transaction_for_${sDate}_${eDate}`)
   }
 
+  deleteTrans(txn){
+    this.confirmationService.confirm({
+      key: 'deleteConfirm',
+      message: 'Are you sure that you want to perform this action?',
+      accept: () => {
+        console.log(txn)
+        this.http.post(this.module_endpoint.deleteTrans,txn)
+            .subscribe(data=>{
+              console.log(data)
+              this.getAllPaymentDetails()
+            }, error=>{
+              console.log(error)
+            })
+      }
+    })
+  }
 }

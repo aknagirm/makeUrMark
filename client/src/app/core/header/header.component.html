@@ -65,8 +65,8 @@
           <hr class="my-1" style="width: 90%;">
           <a class="dropdown-item account-btn" routerLink='orderHistory' *ngIf="userData.userRole=='student'">Order History</a>
           <hr class="my-1" style="width: 90%;" *ngIf="userData.userRole=='student'">
-          <a class="dropdown-item account-btn" style="color: aqua;"><strong>Wallet: {{userData.wallet}} pts</strong></a>
-          <hr class="my-1" style="width: 90%;">
+          <a class="dropdown-item account-btn" *ngIf="userData.userRole=='student'" style="color: aqua;"><strong>Wallet: {{userData.wallet}} pts</strong></a>
+          <hr class="my-1" style="width: 90%;" *ngIf="userData.userRole=='student'">
           <a class="dropdown-item account-btn" (click)="logoutCalled()">Logout</a>
         </div>
       </div>

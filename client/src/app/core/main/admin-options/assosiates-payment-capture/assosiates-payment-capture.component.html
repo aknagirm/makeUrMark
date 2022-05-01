@@ -2,7 +2,7 @@
 <p-confirmDialog key="associatePaymentConfirm" header="Payment Record Save" icon="pi pi-exclamation-triangle"></p-confirmDialog>
 <div class="container payment-capture-container">
     <div class="row">
-        <div class="col-12" *ngIf="allFaculties">
+        <div class="col-12 px-0" *ngIf="allFaculties">
             <p-table #dt [value]="allFaculties" [columns]="paymentTableStruct" [paginator]="true" [rows]="20" 
             currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
             [showCurrentPageReport]="true" styleClass="p-datatable-customers" selectionMode="multiple" 
@@ -15,12 +15,12 @@
                     </span>
                 </div>
             </ng-template>
-            <ng-template pTemplate="colgroup" let-columns >
+            <!-- <ng-template pTemplate="colgroup" let-columns >
                 <colgroup>
                     <col style="width: 3rem">
                     <col *ngFor="let col of columns" [style.width.px]="col.width">
                 </colgroup>
-            </ng-template>
+            </ng-template> -->
             <ng-template pTemplate="header" let-columns>
                 <tr>
                     <th style="width: 3rem">
@@ -35,13 +35,33 @@
                         <p-tableCheckbox [value]="eachFees"></p-tableCheckbox>
                     </td>
                     <ng-container *ngFor="let col of columns">
-                        <td [style.width.px]="col.width" *ngIf="col.field!='currMonthFees'">
+                        <td [style.width.px]="col.width" *ngIf="col.field!='currMonthFees' && col.field!=='paymentId' && col.field!=='currPaymentDate'">
                                 {{ col.pipeChk == 'date'? (eachFees[col.field] | date: 'short') : eachFees[col.field] }}
                         </td>
                         <td [style.width.px]="col.width" *ngIf="col.field=='currMonthFees'" pEditableColumn>
                             <p-cellEditor>
                                 <ng-template pTemplate="input">
                                     <input pInputText type="text" [(ngModel)]="eachFees.currMonthFees" numberOnly>
+                                </ng-template>
+                                <ng-template pTemplate="output">
+                                    {{eachFees[col.field] }}
+                                </ng-template>
+                            </p-cellEditor>
+                        </td>
+                        <td [style.width.px]="col.width" *ngIf="col.field=='currPaymentDate'" pEditableColumn>
+                            <p-cellEditor>
+                                <ng-template pTemplate="input">
+                                    <input pInputText type="date" [(ngModel)]="eachFees.currPaymentDate">
+                                </ng-template>
+                                <ng-template pTemplate="output">
+                                    {{eachFees[col.field] }}
+                                </ng-template>
+                            </p-cellEditor>
+                        </td>
+                        <td [style.width.px]="col.width" *ngIf="col.field=='paymentId'" pEditableColumn>
+                            <p-cellEditor>
+                                <ng-template pTemplate="input">
+                                    <input pInputText type="text" [(ngModel)]="eachFees.paymentId">
                                 </ng-template>
                                 <ng-template pTemplate="output">
                                     {{eachFees[col.field] }}
@@ -59,5 +79,51 @@
             </ng-template>
         </p-table>
         </div>
+
+        <hr class="col-11" style="border: #063247 solid 2px;">
+
+        <div class="card col-12">
+            <div class="card-body">
+        <form #paymentCaptureForm="ngForm" ngNativeValidate>
+            <div class="row my-2">
+                <mat-form-field class="col-4">
+                    <mat-label>Payment Date</mat-label>
+                    <input matInput [matDatepicker]="picker" required name="currPaymentDate" ngModel #currPaymentDate="ngModel">
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                  </mat-form-field>
+
+                <mat-form-field class="col-4">
+                    <mat-label>Payment/Bank Ref Id</mat-label>
+                    <input matInput required name="paymentId" ngModel #paymentId="ngModel">
+                  </mat-form-field>
+
+                <mat-form-field class="col-4">
+                  <mat-label>User Name</mat-label>
+                  <input matInput required name="paymentTo" ngModel #paymentTo="ngModel">
+                </mat-form-field>
+    
+                <mat-form-field class="col-4">
+                  <mat-label>User Role</mat-label>
+                  <input matInput required name="userRole" ngModel #userRole="ngModel">
+                </mat-form-field>
+    
+                <mat-form-field class="col-4">
+                  <mat-label>Amount Paid</mat-label>
+                  <input matInput name="amount" ngModel required #amount="ngModel" numberOnly>
+                </mat-form-field>
+
+                <mat-form-field class="col-4">
+                    <mat-label>Reason</mat-label>
+                    <input matInput name="paymentReason" ngModel required #paymentReason="ngModel">
+                  </mat-form-field>
+              </div>
+              <div class="col-12" style="text-align: center;">
+                <button class="btn btn-success" [disabled]="paymentCaptureForm.invalid"
+                (click)="saveOtherPayment(paymentCaptureForm)">Save</button>
+              </div>
+        </form>
+    </div>
+    </div>
     </div>
 </div>

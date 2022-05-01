@@ -1,5 +1,4 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FacultyRegistrationForm } from './facultyRegistration'
 import {FormControl, FormGroupDirective, NgForm, Validators, NgModel} from '@angular/forms';
 import { MatOption } from '@angular/material';
 import { globalAnimation } from 'src/app/reusable/animation/global-animation';

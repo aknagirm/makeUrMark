@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { map } from 'rxjs/operators';
 import { AuthService } from 'src/app/core/services/auth.service';
@@ -61,8 +62,9 @@ export class AssosiatesPaymentCaptureComponent implements OnInit {
       accept: () => {
     this.selectedfees.forEach(eachItem=>{
       let obj={
-        orderId: 'NA', paymentId: 'NA', paymentReason: 'Faculty Fees', paymentFrom: 'Institute',
-        paymentTo: eachItem.paymentTo, paymentIndicator: 'D', amount: +eachItem.currMonthFees
+        orderId: 'NA', paymentId: eachItem.paymentId, paymentReason: 'Faculty Fees', paymentFrom: 'Institute',
+        paymentTo: eachItem.paymentTo, paymentIndicator: 'D', amount: +eachItem.currMonthFees,
+        transDate: eachItem.currPaymentDate
       }
       arr.push(obj)
     })
@@ -76,6 +78,40 @@ export class AssosiatesPaymentCaptureComponent implements OnInit {
               });
             this.selectedfees=[]
             this.ngOnInit()
+          },error=>{
+            this.messageService.add(
+              {
+                key: 'associatePaymentSave', severity: 'error', summary: 'Failed', life: 1500,
+                detail: error['error']['msg']
+              });
+          })
+        }
+    })
+  }
+
+  saveOtherPayment(paymentCaptureForm: NgForm){
+    console.log(paymentCaptureForm.form.value)
+    let paymentFormData=paymentCaptureForm.form.value
+    let arr=[]
+    this.confirmationService.confirm({
+      key: 'associatePaymentConfirm',
+      message: `Are you sure that you want to perform this action`,
+      accept: () => {
+      let obj={
+        orderId: 'NA', paymentId: paymentFormData.paymentId, paymentReason: paymentFormData.paymentReason,
+         paymentFrom: 'Institute',paymentTo: paymentFormData.paymentTo, paymentIndicator: 'D', 
+         amount: +paymentFormData.amount, transDate: paymentFormData.currPaymentDate
+      }
+      arr.push(obj)
+    console.log(arr)
+    this.http.post(this.module_endpoint.orderPaymentAdd, {paymentList:arr})
+          .subscribe(data=>{
+            this.messageService.add(
+              {
+                key: 'associatePaymentSave', severity: 'success', summary: 'Successful', life: 1500,
+                detail: `Payments has been captured`
+              });
+              paymentCaptureForm.reset()
           },error=>{
             this.messageService.add(
               {

@@ -26,6 +26,7 @@
     "@fullcalendar/daygrid": "^5.2.0",
     "@fullcalendar/interaction": "^5.2.0",
     "@fullcalendar/timegrid": "^5.2.0",
+    "@ngrx/data": "^10.0.1",
     "bootstrap": "^4.5.0",
     "chart": "^0.1.2",
     "chart.js": "^2.9.3",

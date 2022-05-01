@@ -11,6 +11,7 @@ export const environment = {
     orderPaymentAdd: 'http://localhost:3010/payment/orderPaymentAdd',
     specificUsersOrder: 'http://localhost:3010/payment/specificUsersOrder',
     associatesFeesCapture: 'http://localhost:3010/payment/associatesFeesCapture',
+    deleteTrans: 'http://localhost:3010/payment/deleteTrans',
     allPayments: 'http://localhost:3010/payment/allPayments',
     verification: {
       mailOtp: 'http://localhost:3010/verification/mailOtp',

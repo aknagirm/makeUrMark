@@ -4,6 +4,7 @@ const Schema=mongoose.Schema
 
 const orderPaymentHistory = new Schema({
     transDate: Date,
+    capturedBy: String,
     orderId: String,
     paymentId: String,
     subjectList: [{grade: String, subject: String, batchType: String, tutionFees: String}],
@@ -14,7 +15,10 @@ const orderPaymentHistory = new Schema({
     paymentTo: String,
     paymentIndicator: String,
     amount: Number,
-    remarks: String
+    remarks: String,
+    delFlag: Boolean,
+    delBy: String,
+    delDate: Date,
 })
 
 module.exports = mongoose.model('order_payment_history', orderPaymentHistory, 'order_payment_history')

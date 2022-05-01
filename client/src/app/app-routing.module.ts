@@ -23,7 +23,7 @@ import { AssosiatesPaymentCaptureComponent } from './core/main/admin-options/ass
 
 const routes: Routes = [
   {path: '', redirectTo: '/home', pathMatch: 'full'},
-  {path: 'home', component: HomeComponent},
+  {path: 'home', component: HomeComponent },
   {path: 'courses', component: CoursesComponent, canActivate:[AuthGuard], data:{userRole:'student'}},
   {path: 'studyMaterial', component: ViewStudyMaterialComponent, canActivate:[AuthGuard], data:{userRole:'student'}},
   {path: 'career', component: FacultyRegistrationComponent},
